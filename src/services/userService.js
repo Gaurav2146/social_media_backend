@@ -20,7 +20,7 @@ class UserService {
         userObj.password = encrypt;
         const resp = await this.userRepository.saveUser(userObj);
         resolve(resp);
-      } catch (e) {
+      } catch (e) { 
         reject(e);
       }
     });
@@ -29,10 +29,10 @@ class UserService {
   login(obj)
   {
     return new Promise(async (resolve, reject) => {
-     try{
+     try{          
       const { email, password } = obj;
       const encrypt = crytojs.passencrypt(password.toString());
-      const userObj = {
+      const userObj = {    
         email: email,
         password: encrypt,
       };  

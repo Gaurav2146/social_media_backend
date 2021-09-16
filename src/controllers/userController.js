@@ -2,15 +2,14 @@
 const { BadRequest, InternalServerError } = require('http-errors');
 const isHttpError = require('http-errors');
 const UserService = require('../services/userService');
-
 const userService = new UserService();
 
 const uploadController = {
   // eslint-disable-next-line consistent-return
-  registration: async function (req, res, next) {
+  registration: async function (req, res, next) {                                         
     try {
       const { email, name, password, confirmPassword } = req.body;
-
+                      
       if (!email) {
         throw new BadRequest('Email is required');
       }
@@ -23,11 +22,9 @@ const uploadController = {
       if (!confirmPassword) {
         throw new BadRequest('Confirm Password is required');
       }
-
       if (password !== confirmPassword) {
         throw new InternalServerError('Password and Confirm Password not match');
       }
-
       const userObj = await userService.register({ email, name, password });
       res.status(200).json(userObj);
     } catch (e) {

@@ -8,7 +8,7 @@ const UserSchema = new mongoose.Schema({
     trim: true,
     unique: [true, 'this email is already taken'],
   },
-  name: {
+  name: {                                                                              
     type: String,
     trim: true,
   },
@@ -18,7 +18,7 @@ const UserSchema = new mongoose.Schema({
   },
   email_verified: {
     type: Boolean,
-    required: true,
+    required: true,                        
     default: false,
   },
   status: {
@@ -44,7 +44,7 @@ UserSchema.index(
   {
     background: true,
   },
-); // schema level
+); // schema level 
 
 UserSchema.index(
   { name: -1 },

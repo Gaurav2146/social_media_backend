@@ -7,9 +7,7 @@ cyptjs.encrypt = (text) => {
   const encryptIv = crypto.randomBytes(IV_LENGTH);
   const cipher = crypto.createCipheriv('aes-256-cbc', Buffer.from(ENCRYPTION_KEY), encryptIv);
   let encrypted = cipher.update(text);
-
   encrypted = Buffer.concat([encrypted, cipher.final()]);
-
   return `${encryptIv.toString('hex')}:${encrypted.toString('hex')}`;
 };
 
@@ -19,17 +17,15 @@ cyptjs.decrypt = function (text) {
   const encryptedText = Buffer.from(textParts.join(':'), 'hex');
   const decipher = crypto.createDecipheriv('aes-256-cbc', Buffer.from(ENCRYPTION_KEY), iv);
   let decrypted = decipher.update(encryptedText);
-
   decrypted = Buffer.concat([decrypted, decipher.final()]);
   return decrypted.toString();
 };
-
+                                                      
 cyptjs.passencrypt = function (data) {
   // eslint-disable-next-line node/no-deprecated-api
   const cipher = crypto.createCipher('aes-256-cbc', ENCRYPTION_KEY);
   let crypted = cipher.update(data, 'utf-8', 'hex');
   crypted += cipher.final('hex');
-
   return crypted;
 };
 
