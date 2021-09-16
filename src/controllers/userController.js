@@ -38,9 +38,11 @@ const uploadController = {
       }
     }                                   
   },                       
-  login: function (req, res, next) {     
+  login: async function (req, res, next) {     
     try {
-      return res.status(200).json('user login');
+      const { email, password } = req.body;
+      const userObj = await userService.login({ email, password });
+      return res.status(200).json({userObj : userObj});
     } catch (e) {
       if (isHttpError(e)) {
         next(e);

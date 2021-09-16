@@ -15,7 +15,7 @@ class UserService {
           email: email,
           name: name,
           password: password,
-        };
+        };      
         const encrypt = crytojs.passencrypt(password.toString());
         userObj.password = encrypt;
         const resp = await this.userRepository.saveUser(userObj);
@@ -24,6 +24,26 @@ class UserService {
         reject(e);
       }
     });
+  }
+
+  login(obj)
+  {
+    return new Promise(async (resolve, reject) => {
+     try{
+      const { email, password } = obj;
+      const encrypt = crytojs.passencrypt(password.toString());
+      const userObj = {
+        email: email,
+        password: encrypt,
+      };  
+      const data = await this.userRepository.login(userObj);
+      resolve(data);
+     }
+     catch(e)
+     {
+      reject(e);
+     }
+    })
   }
 
   getUsersList() {
