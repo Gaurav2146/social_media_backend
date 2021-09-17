@@ -1,7 +1,17 @@
 const express = require('express');
-
+var jwt = require('express-jwt');
 const router = express.Router();
 const adminCtl = require('../controllers/adminController');
+var app = express();
+
+
+
+let auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'] , userProperty: 'user'}),
+  async function(req, res,next) {
+    console.log(req.user , 'inside jwt');
+     next();
+  });
+  
 
 // Post route to sign up admin into admin panel
 
@@ -43,5 +53,15 @@ router.get('/list', adminCtl.getUsers);
  */
  router.get('/isAdminAvailable', adminCtl.isAdminAvailable);
 
+
+ /**
+ * login
+ * @route POST /adminLogin
+ * @group Upload API - Endpoints related to admin Login.
+ * @returns {object} 200 - On Successful Login
+ * @returns {Error}  default - Unexpected error
+ */
+ router.post('/adminLogin', auth , adminCtl.adminLogin);
+ 
 
 module.exports = router;
