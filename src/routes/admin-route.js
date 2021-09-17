@@ -61,7 +61,7 @@ router.get('/list', adminCtl.getUsers);
  * @returns {object} 200 - On Successful Login
  * @returns {Error}  default - Unexpected error
  */
- router.post('/adminLogin', auth , adminCtl.adminLogin);
+ router.post('/adminLogin', adminCtl.adminLogin);
  
 
 module.exports = router;
