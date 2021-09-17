@@ -94,6 +94,22 @@ const adminCtl = {
       res.status(400).json({ success: false, msg: 'Something went wrong!', type: 'main catch', error: error });
     }
   }
+  ,
+
+  sendPasswordResetLink :  async function (req, res, next) {
+    try {
+     
+      adminService.sendPasswordResetLink().then((data) => {
+        res.status(200).json({ success: true, msg: 'Link Sent Successfully' });
+      }).catch((error) => {
+        console.log(error);
+        res.status(400).json({ success: false, msg: error });
+      })
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ success: false, msg: 'Something went wrong!', type: 'main catch', error: error });
+    }
+  }
 
 };
 

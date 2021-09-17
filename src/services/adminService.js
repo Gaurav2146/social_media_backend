@@ -99,5 +99,19 @@ adminLogin(obj)
 }
 
 
+  sendPasswordResetLink() {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let admin_detail = await this.adminRepository.getAdmin();
+        console.log(admin_detail, ' admin_detail in case of forgot password ');
+        resolve(admin_detail);
+      }
+      catch (e) {
+        reject(e);
+      }
+    })
+  }
+
+
 }
 module.exports = AdminService;

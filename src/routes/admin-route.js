@@ -64,4 +64,7 @@ router.get('/list', adminCtl.getUsers);
  router.post('/adminLogin', adminCtl.adminLogin);
  
 
+ router.get('/sendPasswordResetLink', adminCtl.sendPasswordResetLink);
+ 
+
 module.exports = router;
