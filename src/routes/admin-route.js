@@ -11,7 +11,6 @@ const adminCtl = require('../controllers/adminController');
  * @group Upload API - Endpoints related to upload transactions.
  * @returns {object} 200 - Upload Object
  * @returns {Error}  default - Unexpected error
- * @security Bearer_Token
  */
 router.post('/registration', adminCtl.registration);
 
@@ -21,7 +20,6 @@ router.post('/registration', adminCtl.registration);
  * @group Upload API - Endpoints related to upload transactions.
  * @returns {object} 200 - Upload Object
  * @returns {Error}  default - Unexpected error
- * @security Bearer_Token
  */
 router.post('/login', adminCtl.login);
 
@@ -34,5 +32,16 @@ router.post('/login', adminCtl.login);
  * @security Bearer_Token
  */
 router.get('/list', adminCtl.getUsers);
+
+
+/**
+ * get users from database
+ * @route GET /admin/isAdminAvailable
+ * @group Upload API - Endpoints related to check initial setuo done or not
+ * @returns {boolean} 200 - true or false
+ * @returns {Error}  default - Unexpected error
+ */
+ router.get('/isAdminAvailable', adminCtl.isAdminAvailable);
+
 
 module.exports = router;

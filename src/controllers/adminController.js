@@ -48,6 +48,28 @@ const adminCtl = {
       }
     }
   },
+
+  isAdminAvailable:  async function (req, res, next) {     
+    try {
+      const isAvailable = await adminService.isAdminAvailable();
+      if(isAvailable.length > 0)
+      {
+        return res.status(200).json({ success : true , isAvailable : true});
+      }
+      else
+      {
+        return res.status(200).json({ success : true , isAvailable : false});
+      }
+      
+    } catch (e) {
+      if (isHttpError(e)) {
+        next(e);
+      } else {
+        return res.status(400).json({ message: 'something went wrong!' });
+      }
+    }
+  }
+  ,
   getUsers: async function (req, res) {
     try {
       const userList = await adminService.getUsersList();

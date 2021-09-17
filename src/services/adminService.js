@@ -46,6 +46,18 @@ class AdminService {
     })
   }
 
+  isAdminAvailable() {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const isAvailable = await this.adminRepository.isAdminAvailable();
+        resolve(isAvailable);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+
   getUsersList() {
     // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
