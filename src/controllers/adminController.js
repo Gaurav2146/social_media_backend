@@ -19,12 +19,12 @@ const adminCtl = {
       if (!password) {
         throw new BadRequest('Password is required');
       }
-      if (!confirmPassword) {
-        throw new BadRequest('Confirm Password is required');
-      }
-      if (password !== confirmPassword) {
-        throw new InternalServerError('Password and Confirm Password not match');
-      }
+      // if (!confirmPassword) {
+      //   throw new BadRequest('Confirm Password is required');
+      // }
+      // if (password !== confirmPassword) {
+      //   throw new InternalServerError('Password and Confirm Password not match');
+      // }
       const userObj = await adminService.register({ email, name, password });
       res.status(200).json(userObj);
     } catch (e) {
@@ -69,7 +69,7 @@ const adminCtl = {
       }
     }
   },
-  
+
   getUsers: async function (req, res) {
     try {
       const userList = await adminService.getUsersList();
