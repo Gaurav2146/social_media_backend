@@ -4,7 +4,8 @@ const adminRepository = {
   saveUser: (userObj) => Admin.create(userObj),
   getUsers: () => Admin.find(),
   login: (userObj)=> Admin.findOne(userObj,{password:0}),
-  isAdminAvailable: ()=> Admin.find()
+  isAdminAvailable: ()=> Admin.find(),
+  getAdminByEmail: (email)=> Admin.findOne({ email : email })
 };
 
 module.exports = adminRepository;

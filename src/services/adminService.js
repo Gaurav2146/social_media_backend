@@ -1,5 +1,6 @@
 const adminRepository = require('../repositories/admin.repository');
 const crytojs = require('../lib/crypto');
+const jwt = require('jsonwebtoken');
 
 class AdminService {
   constructor() {
@@ -69,6 +70,34 @@ class AdminService {
       }
     });
   }
+
+
+adminLogin(obj)
+{
+  return new Promise(async (resolve, reject) => {
+    try {
+      const { email, password } = obj;
+      const encrypt = crytojs.passencrypt(password.toString());
+      let user = await this.adminRepository.getAdminByEmail(email);
+      if (encrypt === user.password) {
+        jwt.sign({ user }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 24 }, async (err, token) => {
+          if (err) {
+            reject(err);
+          } else {
+            resolve(token);
+          }
+        })
+      }
+      else {
+        reject('Please Check Your email id or Password');
+      }
+    }
+    catch (e) {
+      reject('Please Check Your email id or Password');
+    }
+  })
 }
 
+
+}
 module.exports = AdminService;
