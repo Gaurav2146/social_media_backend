@@ -1,7 +1,7 @@
 const adminRepository = require('../repositories/admin.repository');
 const crytojs = require('../lib/crypto');
 const jwt = require('jsonwebtoken');
-
+const mailer = require('../helper_services/mail.service');
 class AdminService {
   constructor() {
     this.adminRepository = adminRepository;
@@ -104,6 +104,9 @@ adminLogin(obj)
       try {
         let admin_detail = await this.adminRepository.getAdmin();
         console.log(admin_detail, ' admin_detail in case of forgot password ');
+
+        mailer(admin_detail.email, 'Forgot Password Email', "views/emailTemplate/forgotPassword.ejs", {});
+
         resolve(admin_detail);
       }
       catch (e) {
