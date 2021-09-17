@@ -1,9 +1,9 @@
-const userRepository = require('../repositories/admin.repository');
+const adminRepository = require('../repositories/admin.repository');
 const crytojs = require('../lib/crypto');
 
-class UserService {
+class AdminService {
   constructor() {
-    this.userRepository = userRepository;
+    this.adminRepository = adminRepository;
   }
 
   register(obj) {
@@ -18,7 +18,7 @@ class UserService {
         };      
         const encrypt = crytojs.passencrypt(password.toString());
         userObj.password = encrypt;
-        const resp = await this.userRepository.saveUser(userObj);
+        const resp = await this.adminRepository.saveUser(userObj);
         resolve(resp);
       } catch (e) { 
         reject(e);
@@ -36,7 +36,7 @@ class UserService {
         email: email,
         password: encrypt,
       };  
-      const data = await this.userRepository.login(userObj);
+      const data = await this.adminRepository.login(userObj);
       resolve(data);
      }
      catch(e)
@@ -50,7 +50,7 @@ class UserService {
     // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
       try {
-        const list = await this.userRepository.getUsers();
+        const list = await this.adminRepository.getUsers();
         resolve(list);
       } catch (e) {
         reject(e);
@@ -59,4 +59,4 @@ class UserService {
   }
 }
 
-module.exports = UserService;
+module.exports = AdminService;

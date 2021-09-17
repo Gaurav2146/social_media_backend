@@ -1,10 +1,10 @@
 /* eslint-disable consistent-return */
 const { BadRequest, InternalServerError } = require('http-errors');
 const isHttpError = require('http-errors');
-const UserService = require('../services/userService');
-const userService = new UserService();
+const AdminService = require('../services/adminService');
+const adminService = new AdminService();
 
-const uploadController = {
+const adminCtl = {
   // eslint-disable-next-line consistent-return
   registration: async function (req, res, next) {                                         
     try {
@@ -25,7 +25,7 @@ const uploadController = {
       if (password !== confirmPassword) {
         throw new InternalServerError('Password and Confirm Password not match');
       }
-      const userObj = await userService.register({ email, name, password });
+      const userObj = await adminService.register({ email, name, password });
       res.status(200).json(userObj);
     } catch (e) {
       if (isHttpError(e)) {
@@ -38,7 +38,7 @@ const uploadController = {
   login: async function (req, res, next) {     
     try {
       const { email, password } = req.body;
-      const userObj = await userService.login({ email, password });
+      const userObj = await adminService.login({ email, password });
       return res.status(200).json({userObj : userObj});
     } catch (e) {
       if (isHttpError(e)) {
@@ -50,7 +50,7 @@ const uploadController = {
   },
   getUsers: async function (req, res) {
     try {
-      const userList = await userService.getUsersList();
+      const userList = await adminService.getUsersList();
       return res.status(200).json(userList);
     } catch (e) {
       return res.status(400).json({ message: 'something went wrong!' });
@@ -58,4 +58,4 @@ const uploadController = {
   },
 };
 
-module.exports = uploadController;
+module.exports = adminCtl;

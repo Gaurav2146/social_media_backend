@@ -1,4 +1,4 @@
-const Admin = require('../model/user');
+const Admin = require('../model/admin');
 
 const adminRepository = {
   saveUser: (userObj) => Admin.create(userObj),

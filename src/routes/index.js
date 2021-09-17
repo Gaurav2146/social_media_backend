@@ -1,5 +1,5 @@
-const user = require('./user-route');
+const admin = require('./admin-route');
 
 module.exports = {
-  user,
+  admin,
 };

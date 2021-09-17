@@ -1,7 +1,7 @@
 const express = require('express');
 
 const router = express.Router();
-const UserCtl = require('../controllers/userController');
+const adminCtl = require('../controllers/adminController');
 
 // Post route to sign up admin into admin panel
 
@@ -13,7 +13,7 @@ const UserCtl = require('../controllers/userController');
  * @returns {Error}  default - Unexpected error
  * @security Bearer_Token
  */
-router.post('/registration', UserCtl.registration);
+router.post('/registration', adminCtl.registration);
 
 /**
  * login
@@ -23,7 +23,7 @@ router.post('/registration', UserCtl.registration);
  * @returns {Error}  default - Unexpected error
  * @security Bearer_Token
  */
-router.post('/login', UserCtl.login);
+router.post('/login', adminCtl.login);
 
 /**
  * get users from database
@@ -33,6 +33,6 @@ router.post('/login', UserCtl.login);
  * @returns {Error}  default - Unexpected error
  * @security Bearer_Token
  */
-router.get('/list', UserCtl.getUsers);
+router.get('/list', adminCtl.getUsers);
 
 module.exports = router;
