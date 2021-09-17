@@ -1,12 +1,12 @@
 /* eslint-disable no-underscore-dangle */
 const mongoose = require('mongoose');
 
-const UserSchema = new mongoose.Schema({
+const AdminSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
     trim: true,
-    unique: [true, 'this email is already taken'],
+    unique: true
   },
   name: {                                                                              
     type: String,
@@ -32,33 +32,6 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
-UserSchema.index(
-  { status: -1 },
-  {
-    background: true,
-  },
-); // schema level
 
-UserSchema.index(
-  { email: -1, status: -1 },
-  {
-    background: true,
-  },
-); // schema level 
-
-UserSchema.index(
-  { name: -1 },
-  {
-    background: true,
-  },
-); // schema level
-
-UserSchema.index(
-  { createdAt: -1 },
-  {
-    background: true,
-  },
-); // schema level
-
-const Users = mongoose.model('Users', UserSchema);
-module.exports = Users;
+const Admin = mongoose.model('Admin', AdminSchema);
+module.exports = Admin;

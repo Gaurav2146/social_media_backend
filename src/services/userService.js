@@ -1,4 +1,4 @@
-const userRepository = require('../repositories/user.repository');
+const userRepository = require('../repositories/admin.repository');
 const crytojs = require('../lib/crypto');
 
 class UserService {
