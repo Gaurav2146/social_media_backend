@@ -20,6 +20,7 @@ const productAddSchema = new mongoose.Schema({
   },
   product_weightUnit: {
     type: String,
+    enum: ['grams', 'ounces', 'pounds'],
   },
   product_description: {
     type: String,

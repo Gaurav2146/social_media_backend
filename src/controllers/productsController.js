@@ -10,12 +10,12 @@ const productCtlr = {
     try {
       const { productObject } = req.body;
       const response = await productService.addNewProduct(productObject);
-      res.status(200).json(response);
+      return res.status(200).json({ success: true, data: response });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);
       } else {
-        return res.status(400).json({ message: 'something went wrong!' });
+        return res.status(400).json({ success: false, message: 'something went wrong!' });
       }
     }
   },
