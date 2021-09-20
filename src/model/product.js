@@ -7,9 +7,6 @@ const productAddSchema = new mongoose.Schema({
   product_brand: {
     type: String,
   },
-  product_tag: {
-    type: String,
-  },
   product_tokenType: {
     type: String,
   },
@@ -27,7 +24,7 @@ const productAddSchema = new mongoose.Schema({
   product_description: {
     type: String,
   },
-  product_sizeDetails: [
+  product_colorDetails: [
     {
       color: {
         type: String,
@@ -38,7 +35,10 @@ const productAddSchema = new mongoose.Schema({
       price: {
         type: Number,
       },
-      image: [
+      size: {
+        type: Number,
+      },
+      images: [
         {
           type: String,
         },
