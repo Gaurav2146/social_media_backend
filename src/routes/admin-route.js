@@ -1,17 +1,18 @@
+/* eslint-disable no-unused-vars */
 const express = require('express');
-var jwt = require('express-jwt');
+
+const jwt = require('express-jwt');
+
 const router = express.Router();
+
 const adminCtl = require('../controllers/adminController');
-var app = express();
 
+const app = express();
 
-
-let auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'] , userProperty: 'user'}),
-  async function(req, res,next) {
-    console.log(req.user , 'inside jwt');
-     next();
-  });
-  
+const auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'], userProperty: 'user' }), async (req, res, next) => {
+  console.log(req.user, 'inside jwt');
+  next();
+});
 
 // Post route to sign up admin into admin panel
 
@@ -43,7 +44,6 @@ router.post('/login', adminCtl.login);
  */
 router.get('/list', adminCtl.getUsers);
 
-
 /**
  * get users from database
  * @route GET /admin/isAdminAvailable
@@ -51,20 +51,17 @@ router.get('/list', adminCtl.getUsers);
  * @returns {boolean} 200 - true or false
  * @returns {Error}  default - Unexpected error
  */
- router.get('/isAdminAvailable', adminCtl.isAdminAvailable);
+router.get('/isAdminAvailable', adminCtl.isAdminAvailable);
 
-
- /**
+/**
  * login
  * @route POST /adminLogin
  * @group Upload API - Endpoints related to admin Login.
  * @returns {object} 200 - On Successful Login
  * @returns {Error}  default - Unexpected error
  */
- router.post('/adminLogin', adminCtl.adminLogin);
- 
+router.post('/adminLogin', adminCtl.adminLogin);
 
- router.get('/sendPasswordResetLink', adminCtl.sendPasswordResetLink);
- 
+router.get('/sendPasswordResetLink', adminCtl.sendPasswordResetLink);
 
 module.exports = router;

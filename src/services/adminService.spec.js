@@ -1,3 +1,6 @@
+/* eslint-disable import/extensions */
+/* eslint-disable import/no-unresolved */
+// eslint-disable-next-line node/no-missing-require
 const AdminService = require('./userService');
 
 jest.setTimeout(10000);

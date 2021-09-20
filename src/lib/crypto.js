@@ -20,7 +20,6 @@ cyptjs.decrypt = function (text) {
   decrypted = Buffer.concat([decrypted, decipher.final()]);
   return decrypted.toString();
 };
-                                                      
 cyptjs.passencrypt = function (data) {
   // eslint-disable-next-line node/no-deprecated-api
   const cipher = crypto.createCipher('aes-256-cbc', ENCRYPTION_KEY);
