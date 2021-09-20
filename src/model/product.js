@@ -24,12 +24,18 @@ const productAddSchema = new mongoose.Schema({
   product_weightUnit: {
     type: String,
   },
+  product_description: {
+    type: String,
+  },
   product_sizeDetails: [
     {
       color: {
         type: String,
       },
       qty: {
+        type: Number,
+      },
+      price: {
         type: Number,
       },
       image: [
