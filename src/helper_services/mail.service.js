@@ -7,32 +7,28 @@ const mailer = async function (email, subject, template, options) {
     return new Promise((resolve, reject) => {
       try {
         const transporter = nodemailer.createTransport({
-          host: process.env.MAIL_HOST,
-          port: process.env.MAIL_PORT,
+          service: 'gmail',
           auth: {
-            user: process.env.MAIL_USER,
-            pass: process.env.MAIL_PASS,
+            user: process.env.SMTP_EMAIL,
+            pass: process.env.SMTP_PASSWORD,
           },
-          logger: false, // log to console
+          logger: true, // log to console
           debug: true, // include SMTP traffic in the logs
         });
+
         ejs.renderFile(template, options, (error, result) => {
           if (error) {
             reject(error);
           } else {
             transporter
-              .sendMail({
-                to: email,
-                subject: subject,
-                from: `Fancy <${process.env.MAIL_SENDER}>`,
-                html: result,
-              })
+              .sendMail({ to: email, subject: subject, from: process.env.SMTP_EMAIL, html: result })
               .then((info) => {
                 console.log('message sent successfully ');
                 resolve(info);
               })
               // eslint-disable-next-line no-shadow
               .catch((error) => {
+                console.log(error);
                 reject(error);
               });
           }
