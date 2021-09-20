@@ -7,9 +7,9 @@ module.exports = (app, baseDir) => {
     route: {
       url: '/v2/api-docs',
       docs: '/v2/api-docs.json',
-    }, 
-    swaggerDefinition: {                                         
-      info: {                                                                                 
+    },
+    swaggerDefinition: {
+      info: {
         description: 'This is the API documentation for Vibravid Marketplace',
         title: 'Vibravid Marketplace API',
         version: '1.0.0',
