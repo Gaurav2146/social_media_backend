@@ -50,13 +50,13 @@ router.get('/getProducts', productCltr.getProducts);
 
 // Get route to get selected product details
 
-/**
- * get product Information
- * @route Get /product/getSelectedProductInformation
- * @group get API - Endpoints related to get selected product details.
- * @returns {object} 200 - Product Information Fetched
- * @returns {Error}  default - Unexpected error
- */
-router.get('/getSelectedProductInformation', productCltr.getSelectedProductInformation);
+// /**
+//  * get product Information
+//  * @route Get /product/getSelectedProductInformation
+//  * @group get API - Endpoints related to get selected product details.
+//  * @returns {object} 200 - Product Information Fetched
+//  * @returns {Error}  default - Unexpected error
+//  */
+// router.get('/getSelectedProductInformation', productCltr.getSelectedProductInformation);
 
 module.exports = router;
