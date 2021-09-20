@@ -35,6 +35,7 @@ const adminCtl = {
       }
     }                                   
   },                       
+  
   login: async function (req, res, next) {     
     try {
       const { email, password } = req.body;
