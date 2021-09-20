@@ -6,9 +6,9 @@ const AdminSchema = new mongoose.Schema({
     type: String,
     required: true,
     trim: true,
-    unique: true
+    unique: true,
   },
-  name: {                                                                              
+  name: {
     type: String,
     trim: true,
   },
@@ -18,7 +18,7 @@ const AdminSchema = new mongoose.Schema({
   },
   email_verified: {
     type: Boolean,
-    required: true,                        
+    required: true,
     default: false,
   },
   status: {
@@ -32,6 +32,6 @@ const AdminSchema = new mongoose.Schema({
   },
 });
 
-
 const Admin = mongoose.model('Admin', AdminSchema);
+
 module.exports = Admin;

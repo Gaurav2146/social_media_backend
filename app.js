@@ -6,17 +6,17 @@ const helmet = require('helmet');
 
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 
- const { cors, csrf , errorHandler} = require('./middleware');
+const { cors, errorHandler } = require('./middleware');
 
 // eslint-disable-next-line node/no-unpublished-require
 require('./src/db/connection');
+
 const indexRouter = require('./src/index');
-                 
+
 const app = express();
 
-// some middlewares for security concerns 
-
-app.use(helmet()); 
+// some middlewares for security concerns
+app.use(helmet());
 
 // middlewares
 
@@ -25,7 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-cors(app);     
+cors(app);
 
 // if (process.env.NODE_ENV !== 'dev') {
 //   csrf(app);
