@@ -16,7 +16,7 @@ const productCltr = require('../controllers/productsController');
 router.post('/addProduct', productCltr.addProduct);
 
 // Post route to edit product details
-
+                                                                             
 /**
  * edit product details
  * @route POST /product/updateProduct
