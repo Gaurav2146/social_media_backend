@@ -9,7 +9,6 @@ class AdminService {
   }
 
   register(obj) {
-    // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
       try {
         const { email, name, password } = obj;
@@ -29,7 +28,6 @@ class AdminService {
   }
 
   login(obj) {
-    // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
       try {
         const { email, password } = obj;
