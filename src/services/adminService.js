@@ -29,15 +29,17 @@ class AdminService {
   }
 
   login(obj) {
-    return new Promise((resolve, reject) => {
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async (resolve, reject) => {
       try {
         const { email, password } = obj;
         const encrypt = crytojs.passencrypt(password.toString());
+        console.log(encrypt);
         const userObj = {
           email: email,
           password: encrypt,
         };
-        const data = this.adminRepository.login(userObj);
+        const data = await this.adminRepository.login(userObj);
         resolve(data);
       } catch (e) {
         reject(e);
@@ -69,11 +71,12 @@ class AdminService {
   }
 
   adminLogin(obj) {
-    return new Promise((resolve, reject) => {
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async (resolve, reject) => {
       try {
         const { email, password } = obj;
         const encrypt = crytojs.passencrypt(password.toString());
-        const user = this.adminRepository.getAdminByEmail(email);
+        const user = await this.adminRepository.getAdminByEmail(email);
         if (encrypt === user.password) {
           jwt.sign({ user }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 24 }, async (err, token) => {
             if (err) {
@@ -94,10 +97,11 @@ class AdminService {
   }
 
   sendPasswordResetLink() {
-    return new Promise((resolve, reject) => {
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async (resolve, reject) => {
       try {
         // eslint-disable-next-line camelcase
-        const admin_detail = this.adminRepository.getAdmin();
+        const admin_detail = await this.adminRepository.getAdmin();
         console.log(admin_detail, ' admin_detail in case of forgot password ');
 
         mailer(admin_detail.email, 'Forgot Password Email', 'views/emailTemplate/forgotPassword.ejs', {});

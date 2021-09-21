@@ -5,5 +5,5 @@ const product = require('./products-route');
 module.exports = {
   admin,
   user,
- product
+  product,
 };

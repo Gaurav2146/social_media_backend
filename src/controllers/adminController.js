@@ -42,6 +42,7 @@ const adminCtl = {
   login: async function (req, res, next) {
     try {
       const { email, password } = req.body;
+      console.log(req.body);
       const userObj = await adminService.login({ email, password });
       return res.status(200).json({ userObj: userObj });
     } catch (e) {
