@@ -11,8 +11,12 @@ const userCtl = {
       const {  skip , limit } = req.query;
 
       console.log( skip , 'skip' , limit , 'limit');
+
+      let output_array = [];
+
+      let obj1 = { }
                       
-      res.status(200).json({ success : true , eligible_product : 9 });
+      res.status(200).json({ success : true , eligible_product : 6 });
 
     } catch (e) {
       if (isHttpError(e)) {
