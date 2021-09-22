@@ -10,7 +10,7 @@ const { cors, errorHandler } = require('./middleware');
 
 // eslint-disable-next-line node/no-unpublished-require
 require('./src/db/connection');
-
+                                  
 const indexRouter = require('./src/index');
 
 const app = express();
@@ -19,14 +19,12 @@ const app = express();
 app.use(helmet());
 
 // middlewares
-
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 cors(app);
-
 // if (process.env.NODE_ENV !== 'dev') {
 //   csrf(app);
 // }

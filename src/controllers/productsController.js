@@ -1,8 +1,6 @@
 /* eslint-disable consistent-return */
 const isHttpError = require('http-errors');
-
 const ProductsService = require('../services/productsService');
-
 const productService = new ProductsService();
 
 const productCtlr = {
