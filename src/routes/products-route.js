@@ -13,10 +13,9 @@ const productCltr = require('../controllers/productsController');
  * @returns {object} 200 - Product Added
  * @returns {Error}  default - Unexpected error
  */
-router.post('/addProduct', productCltr.addProduct);
+// router.post('/addProduct', productCltr.addProduct);
 
 // Post route to edit product details
-
 /**
  * edit product details
  * @route POST /product/updateProduct
@@ -48,15 +47,26 @@ router.post('/deleteProduct', productCltr.deleteProduct);
  */
 router.get('/getProducts', productCltr.getProducts);
 
-// Get route to get selected product details
+// Post route to get Create product Step 1
 
 // /**
-//  * get product Information
-//  * @route Get /product/getSelectedProductInformation
-//  * @group get API - Endpoints related to get selected product details.
+//  * Save product Information
+//  * @route Post /product/createProductStepOne
+//  * @group get API - Endpoints related to addproduct details.
 //  * @returns {object} 200 - Product Information Fetched
 //  * @returns {Error}  default - Unexpected error
 //  */
-// router.get('/getSelectedProductInformation', productCltr.getSelectedProductInformation);
+router.post('/addProductStepOne', productCltr.createProductStepOne);
+
+// Post route to get Create product Step 2
+
+// /**
+//  * Save product Information
+//  * @route Post /product/createProductStepTwo
+//  * @group get API - Endpoints related to addproduct details.
+//  * @returns {object} 200 - Product Information Fetched
+//  * @returns {Error}  default - Unexpected error
+//  */
+router.post('/addProductStepTwo', productCltr.createProductStepTwo);
 
 module.exports = router;

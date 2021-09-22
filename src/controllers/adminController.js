@@ -1,4 +1,3 @@
-/* eslint-disable consistent-return */
 const { BadRequest } = require('http-errors');
 
 const isHttpError = require('http-errors');
@@ -8,7 +7,6 @@ const AdminService = require('../services/adminService');
 const adminService = new AdminService();
 
 const adminCtl = {
-  // eslint-disable-next-line consistent-return
   registration: async function (req, res, next) {
     try {
       const { email, name, password } = req.body;
@@ -81,10 +79,8 @@ const adminCtl = {
 
   adminLogin: async function (req, res) {
     try {
-      // eslint-disable-next-line prefer-const
       let { email, password } = req.body;
       email = email.toLowerCase();
-      // eslint-disable-next-line prettier/prettier
       adminService.adminLogin({ email, password}).then((token) => {
           res.status(200).json({ token, success: true, msg: 'Login Successfully', type: 'login' });
         })

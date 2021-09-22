@@ -6,10 +6,24 @@ const ProductsService = require('../services/productsService');
 const productService = new ProductsService();
 
 const productCtlr = {
-  addProduct: async function (req, res, next) {
+  createProductStepOne: async function (req, res, next) {
     try {
-      const { productObject } = req.body;
-      const response = await productService.addNewProduct(productObject);
+      const productObject = req.body;
+      const response = await productService.addProductStepOne(productObject);
+      return res.status(200).json({ success: true, data: response });
+    } catch (e) {
+      if (isHttpError(e)) {
+        next(e);
+      } else {
+        return res.status(400).json({ success: false, message: 'something went wrong!' });
+      }
+    }
+  },
+  createProductStepTwo: async function (req, res, next) {
+    try {
+      console.log(req.body);
+      const { productID, data } = req.body;
+      const response = await productService.addProductStepTwo(productID, data);
       return res.status(200).json({ success: true, data: response });
     } catch (e) {
       if (isHttpError(e)) {

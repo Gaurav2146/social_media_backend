@@ -28,7 +28,7 @@ class AdminService {
   }
 
   login(obj) {
-    return new Promise(async (resolve, reject) => {
+    return new Promise( async (resolve, reject) => {
       try {
         const { email, password } = obj;
         const encrypt = crytojs.passencrypt(password.toString());
@@ -46,9 +46,9 @@ class AdminService {
   }
 
   isAdminAvailable() {
-    return new Promise((resolve, reject) => {
+    return new Promise( async(resolve, reject) => {
       try {
-        const isAvailable = this.adminRepository.isAdminAvailable();
+        const isAvailable = await this.adminRepository.isAdminAvailable();
         resolve(isAvailable);
       } catch (e) {
         reject(e);
@@ -57,7 +57,6 @@ class AdminService {
   }
 
   getUsersList() {
-    // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
       try {
         const list = await this.adminRepository.getUsers();
@@ -69,8 +68,7 @@ class AdminService {
   }
 
   adminLogin(obj) {
-    // eslint-disable-next-line no-async-promise-executor
-    return new Promise(async (resolve, reject) => {
+    return new Promise( async (resolve, reject) => {
       try {
         const { email, password } = obj;
         const encrypt = crytojs.passencrypt(password.toString());
@@ -84,21 +82,17 @@ class AdminService {
             }
           });
         } else {
-          // eslint-disable-next-line prefer-promise-reject-errors
           reject('Please Check Your email id or Password');
         }
       } catch (e) {
-        // eslint-disable-next-line prefer-promise-reject-errors
         reject('Please Check Your email id or Password');
       }
     });
   }
 
   sendPasswordResetLink() {
-    // eslint-disable-next-line no-async-promise-executor
-    return new Promise(async (resolve, reject) => {
+    return new Promise( async (resolve, reject) => {
       try {
-        // eslint-disable-next-line camelcase
         const admin_detail = await this.adminRepository.getAdmin();
         console.log(admin_detail, ' admin_detail in case of forgot password ');
 

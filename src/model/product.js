@@ -25,23 +25,41 @@ const productAddSchema = new mongoose.Schema({
   product_description: {
     type: String,
   },
-  product_colorDetails: [
+  product_createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  product_updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+  product_status: {
+    type: String,
+    enum: ['active', 'inactive'],
+  },
+  product_stepperStatus: {
+    type: Boolean,
+    default: false,
+  },
+  product_stepperLastStepVisited: {
+    type: Number,
+    default: 1,
+  },
+  product_colorAndSizeDetails: [
     {
-      color: {
-        type: String,
+      colorDetails: {
+        color: { type: String },
+        colorCode: { type: String },
       },
-      qty: {
-        type: Number,
-      },
-      price: {
-        type: Number,
-      },
-      size: {
-        type: Number,
-      },
-      images: [
+      sizeInfo: [
         {
-          type: String,
+          qty: { type: Number },
+          price: { type: Number },
+          images: [
+            {
+              type: String,
+            },
+          ],
         },
       ],
     },

@@ -6,7 +6,6 @@ class productsService {
   }
 
   addNewProduct(productObject) {
-    // eslint-disable-next-line no-async-promise-executor
     return new Promise((resolve, reject) => {
       try {
         const response = this.productRepository.saveProduct(productObject);
@@ -18,7 +17,6 @@ class productsService {
   }
 
   getAllProducts() {
-    // eslint-disable-next-line no-async-promise-executor
     return new Promise((resolve, reject) => {
       try {
         const response = this.productRepository.getProducts();
@@ -55,6 +53,35 @@ class productsService {
     return new Promise((resolve, reject) => {
       try {
         const response = this.productRepository.deleteProduct(productID);
+        resolve(response);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  addProductStepOne(productObject) {
+    console.log(productObject);
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await this.productRepository.createProductStepOne(productObject);
+        console.log(response);
+        resolve(response);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  addProductStepTwo(productID, productObject) {
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async (resolve, reject) => {
+      try {
+        productObject.updatedAt = Date.now();
+        productObject.product_stepperLastStepVisited = 2;
+        const response = await this.productRepository.createProductStepTwo(productID, productObject);
+        console.log(response);
         resolve(response);
       } catch (e) {
         reject(e);

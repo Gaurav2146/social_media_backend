@@ -10,6 +10,12 @@ const productsRepository = {
   editProductDetails: (productID, productObject) => Products.findByIdAndUpdate({ _id: productID }, productObject, { new: true }),
 
   deleteProduct: (productID) => Products.findByIdAndDelete({ _id: productID }),
+
+  createProductStepOne: (productObject) => Products.create(productObject),
+
+  createProductStepTwo: (productID, productObject) => Products.findByIdAndUpdate({ _id: productID }, { $set: productObject }, { new: true }),
+
+  createProductStepThree: (productID, productObject) => Products.findByIdAndUpdate({ _id: productID }, productObject, { new: true }),
 };
 
 module.exports = productsRepository;
