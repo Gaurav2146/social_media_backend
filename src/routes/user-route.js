@@ -18,7 +18,7 @@ let auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'] ,
 /**
  * get users from database
  * @route GET /user/getProducts
- * @group Upload API - Endpoints to get products
+ * @group API - Endpoints to get products
  * @returns {array of object} 200  
  * @returns {Error}  default - Unexpected error
  */
