@@ -18,6 +18,20 @@ const tokenCtl = {
         return res.status(400).json({ message: 'something went wrong!' });
       }
     }                                   
+  } ,
+
+  getAllTokens : async function (req, res, next) {                                         
+    try {
+        let { search , index , limit  } = req.body;
+        let token = await tokenService.getAllTokens( { search , index , limit } );
+        res.status(200).json({ success : true , alltoken : token });
+    } catch (e) {
+      if (isHttpError(e)) {
+        next(e);
+      } else {
+        return res.status(400).json({ message: 'something went wrong!' });
+      }
+    }                                   
   }
   
 }

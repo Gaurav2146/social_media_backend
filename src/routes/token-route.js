@@ -19,4 +19,16 @@ let auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'] ,
  */
  router.post('/saveToken', auth , tokenCtl.saveToken);
 
+
+ /**
+ * get token from database
+ * @route GET /token/getAllTokens
+ * @group API - Endpoints to get All Tokens
+ * @returns {confirmation message} 200
+ * @returns {Error}  default - Unexpected error
+ */
+  router.post('/getAllTokens', auth , tokenCtl.getAllTokens);
+
+ 
+
 module.exports = router;

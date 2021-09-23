@@ -16,7 +16,17 @@ const TokenRepository = {
       {
         return '';
       }
-    } 
+    } ,
+
+    getAllTokens : async ({ search , index , limit })=>{
+        let filter = {};
+        if(search)
+        {
+            filter =  { $or: [ { TokenType : { $regex : search , $options: "-i" } },{ TokenName : { $regex : search , $options: "-i" } }, { Symbol : { $regex : search , $options: "-i" } } ,{ ContractAddress : { $regex : search , $options: "-i" } } ] }
+        }
+        let tokens = await Token.find( filter , {ContractABI : 0} ).skip( Number(index) * Number(limit) ).limit( Number(limit) );
+        return tokens;
+    }
   };
   
   module.exports = TokenRepository;

@@ -16,6 +16,15 @@ class TokenService {
         }
     }
 
+    getAllTokens = async ({ search , index , limit }) => {
+        try {
+            const tokens = await this.tokenRepository.getAllTokens({ search , index , limit })
+            return tokens;
+        } catch (error) {
+            console.log('Error in Contract Fetching: ', error);
+            throw error;
+        }
+    } 
 }
 
 module.exports = TokenService;
