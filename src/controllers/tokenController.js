@@ -10,7 +10,7 @@ const tokenCtl = {
     try {
         let tokenObj = req.body;
         let token = await tokenService.saveToken(tokenObj);
-        res.status(200).json({ success : true , token : token });
+        res.status(200).json({ success : true , token_data : token });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);
