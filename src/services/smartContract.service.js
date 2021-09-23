@@ -16,7 +16,7 @@ class SmartContractService {
             console.log('Error in Contract Fetching: ', error);
             throw error;
         }
-    }
+    } 
 
 
     // To get address balance from blockchain

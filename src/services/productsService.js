@@ -15,7 +15,7 @@ class productsService {
         reject(e);
       }
     });
-  }
+  }            
 
   getAllProducts() {
     // eslint-disable-next-line no-async-promise-executor
@@ -35,7 +35,7 @@ class productsService {
         const response = this.productRepository.editProductDetails(productID, updatedObj);
         resolve(response);
       } catch (e) {
-        reject(e);
+        reject(e);                 
       }
     });
   }

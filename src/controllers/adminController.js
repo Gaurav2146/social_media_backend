@@ -1,10 +1,7 @@
 /* eslint-disable consistent-return */
 const { BadRequest } = require('http-errors');
-
 const isHttpError = require('http-errors');
-
 const AdminService = require('../services/adminService');
-
 const adminService = new AdminService();
 
 const adminCtl = {
@@ -52,7 +49,6 @@ const adminCtl = {
       }
     }
   },
-
   isAdminAvailable: async function (req, res, next) {
     try {
       const isAvailable = await adminService.isAdminAvailable();
