@@ -8,8 +8,14 @@ const TokenRepository = {
 
       let token = await  Token.findOne({ Symbol : Symbol } , { ContractABI : 1 , _id : 0 })
 
-      return JSON.parse( token.ContractABI );
-
+      if(token)
+      {
+        return JSON.parse( token.ContractABI );
+      }
+      else
+      {
+        return '';
+      }
     } 
   };
   
