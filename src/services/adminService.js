@@ -27,6 +27,7 @@ class AdminService {
     });
   }
 
+<<<<<<< HEAD
   login(obj) {
     return new Promise( async (resolve, reject) => {
       try {
@@ -45,6 +46,8 @@ class AdminService {
     });
   }
 
+=======
+>>>>>>> b39b19c25dcd106547fc1f988de9eeeb856529ec
   isAdminAvailable() {
     return new Promise( async(resolve, reject) => {
       try {
@@ -56,6 +59,7 @@ class AdminService {
     });
   }
 
+<<<<<<< HEAD
   getUsersList() {
     return new Promise(async (resolve, reject) => {
       try {
@@ -67,6 +71,8 @@ class AdminService {
     });
   }
 
+=======
+>>>>>>> b39b19c25dcd106547fc1f988de9eeeb856529ec
   adminLogin(obj) {
     return new Promise( async (resolve, reject) => {
       try {

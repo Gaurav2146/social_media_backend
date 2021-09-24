@@ -15,7 +15,7 @@ class productsService {
         reject(e);
       }
     });
-  }
+  }            
 
   getAllProducts() {
     return new Promise((resolve, reject) => {
@@ -34,7 +34,7 @@ class productsService {
         const response = this.productRepository.editProductDetails(productID, updatedObj);
         resolve(response);
       } catch (e) {
-        reject(e);
+        reject(e);                 
       }
     });
   }

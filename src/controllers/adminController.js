@@ -1,9 +1,6 @@
 const { BadRequest } = require('http-errors');
-
 const isHttpError = require('http-errors');
-
 const AdminService = require('../services/adminService');
-
 const adminService = new AdminService();
 
 const adminCtl = {
@@ -20,29 +17,8 @@ const adminCtl = {
       if (!password) {
         throw new BadRequest('Password is required');
       }
-      // if (!confirmPassword) {
-      //   throw new BadRequest('Confirm Password is required');
-      // }
-      // if (password !== confirmPassword) {
-      //   throw new InternalServerError('Password and Confirm Password not match');
-      // }
       const userObj = await adminService.register({ email, name, password });
       res.status(200).json(userObj);
-    } catch (e) {
-      if (isHttpError(e)) {
-        next(e);
-      } else {
-        return res.status(400).json({ message: 'something went wrong!' });
-      }
-    }
-  },
-
-  login: async function (req, res, next) {
-    try {
-      const { email, password } = req.body;
-      console.log(req.body);
-      const userObj = await adminService.login({ email, password });
-      return res.status(200).json({ userObj: userObj });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);
@@ -68,15 +44,6 @@ const adminCtl = {
     }
   },
 
-  getUsers: async function (req, res) {
-    try {
-      const userList = await adminService.getUsersList();
-      return res.status(200).json(userList);
-    } catch (e) {
-      return res.status(400).json({ message: 'something went wrong!' });
-    }
-  },
-
   adminLogin: async function (req, res) {
     try {
       let { email, password } = req.body;
@@ -93,6 +60,7 @@ const adminCtl = {
       res.status(400).json({ success: false, msg: 'Something went wrong!', type: 'main catch', error: error });
     }
   },
+  
   sendPasswordResetLink: async function (req, res) {
     try {
       adminService

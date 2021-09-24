@@ -1,12 +1,8 @@
 /* eslint-disable no-unused-vars */
 const express = require('express');
-
 const jwt = require('express-jwt');
-
 const router = express.Router();
-
 const adminCtl = require('../controllers/adminController');
-
 const app = express();
 
 const auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'], userProperty: 'user' }), async (req, res, next) => {
@@ -14,35 +10,15 @@ const auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256']
   next();
 });
 
-// Post route to sign up admin into admin panel
 
 /**
- * upload video to s3 bucket
- * @route POST /user/videoupload
- * @group Upload API - Endpoints related to upload transactions.
- * @returns {object} 200 - Upload Object
+ * admin registration
+ * @route POST /admin/registration
+ * @group Upload API - Endpoints for registration
+ * @returns {object} 200 - on successful registration
  * @returns {Error}  default - Unexpected error
  */
 router.post('/registration', adminCtl.registration);
-
-/**
- * login
- * @route POST /user/createbundle
- * @group Upload API - Endpoints related to upload transactions.
- * @returns {object} 200 - Upload Object
- * @returns {Error}  default - Unexpected error
- */
-router.post('/login', adminCtl.login);
-
-/**
- * get users from database
- * @route POST /user/createbundle
- * @group Upload API - Endpoints related to upload transactions.
- * @returns {array} 200 - User Array
- * @returns {Error}  default - Unexpected error
- * @security Bearer_Token
- */
-router.get('/list', adminCtl.getUsers);
 
 /**
  * get users from database
@@ -55,13 +31,20 @@ router.get('/isAdminAvailable', adminCtl.isAdminAvailable);
 
 /**
  * login
- * @route POST /adminLogin
+ * @route POST /admin/adminLogin
  * @group Upload API - Endpoints related to admin Login.
  * @returns {object} 200 - On Successful Login
  * @returns {Error}  default - Unexpected error
  */
 router.post('/adminLogin', adminCtl.adminLogin);
 
+/**
+ * sendPasswordResetLink
+ * @route GET  /admin/sendPasswordResetLink
+ * @group Upload API - Endpoint to send Password ResetLink.
+ * @returns {object} 200 - On Success
+ * @returns {Error}  default - Unexpected error
+ */
 router.get('/sendPasswordResetLink', adminCtl.sendPasswordResetLink);
 
 module.exports = router;
