@@ -51,15 +51,18 @@ const productAddSchema = new mongoose.Schema({
         color: { type: String },
         colorCode: { type: String },
       },
+      images: [
+        {
+          file: { type: String },
+          key: { type: String },
+          contentType: { type: String },
+        },
+      ],
       sizeInfo: [
         {
           qty: { type: Number },
           price: { type: Number },
-          images: [
-            {
-              type: String,
-            },
-          ],
+          size: { type: String },
         },
       ],
     },

@@ -13,9 +13,22 @@ const productsRepository = {
 
   createProductStepOne: (productObject) => Products.create(productObject),
 
-  createProductStepTwo: (productID, productObject) => Products.findByIdAndUpdate({ _id: productID }, { $set: productObject }, { new: true }),
+  createProductStepTwo: (productID, productObject) =>
+    Products.findByIdAndUpdate({ _id: productID }, { $set: productObject }, { new: true }),
 
-  createProductStepThree: (productID, productObject) => Products.findByIdAndUpdate({ _id: productID }, productObject, { new: true }),
+  createProductStepThree: (productID, color, imagesArray, index) =>
+    Products.findByIdAndUpdate(
+      {
+        _id: productID,
+        product_colorAndSizeDetails: {
+          $elemMatch: {
+            'colorDetails.color': color,
+          },
+        },
+      },
+      { $push: { 'product_colorAndSizeDetails.$[].images': imagesArray } },
+      { upsert: true },
+    ),
 };
 
 module.exports = productsRepository;

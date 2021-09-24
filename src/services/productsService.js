@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 const productRepository = require('../repositories/product.repositoy');
 
 class productsService {
@@ -81,6 +82,30 @@ class productsService {
         productObject.updatedAt = Date.now();
         productObject.product_stepperLastStepVisited = 2;
         const response = await this.productRepository.createProductStepTwo(productID, productObject);
+        console.log(response);
+        resolve(response);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  addProductStepThree(productID, color, files, index) {
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async (resolve, reject) => {
+      try {
+        const colorImages = [];
+        if (files.length > 0 && files) {
+          for (let i = 0; i < files.length; i++) {
+            colorImages.push({
+              file: files[i].location,
+              key: files[i].key,
+              contentType: files[i].contentType,
+            });
+          }
+          console.log(colorImages);
+        }
+        const response = await this.productRepository.createProductStepThree(productID, color, colorImages, index);
         console.log(response);
         resolve(response);
       } catch (e) {

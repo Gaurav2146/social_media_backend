@@ -7,5 +7,5 @@ module.exports = {
   admin,
   user,
   product,
-  smartContract
+  smartContract,
 };

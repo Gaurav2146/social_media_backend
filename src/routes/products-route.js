@@ -4,6 +4,8 @@ const router = express.Router();
 
 const productCltr = require('../controllers/productsController');
 
+const uploadImages = require('../route_middleware/uploadImages');
+
 // Post route to add product to database
 
 /**
@@ -68,5 +70,6 @@ router.post('/addProductStepOne', productCltr.createProductStepOne);
 //  * @returns {Error}  default - Unexpected error
 //  */
 router.post('/addProductStepTwo', productCltr.createProductStepTwo);
+router.post('/addProductStepThree', uploadImages.fileUploader, productCltr.createProductStepThree);
 
 module.exports = router;
