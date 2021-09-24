@@ -30,7 +30,14 @@ const TokenRepository = {
         let tokens = await Token.find( filter , {ContractABI : 0} ).skip( Number(index - 1) * Number(limit) ).limit( Number(limit) );
         
         return {tokens , total_data};
-    }
+    },
+
+  getToken: async ({ Tokensymbol }) => {
+
+    let token_data = await Token.findOne({ Symbol: Tokensymbol });
+
+    return token_data;
+  }
   };
   
   module.exports = TokenRepository;

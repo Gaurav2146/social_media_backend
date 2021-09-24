@@ -33,6 +33,20 @@ const tokenCtl = {
         return res.status(400).json({ message: 'something went wrong!' });
       }
     }                                   
+  },
+
+  getTokenDetail : async function (req, res, next) {                                         
+    try {
+        let { Tokensymbol } = req.body;
+        let token = await tokenService.getToken( { Tokensymbol } );
+        res.status(200).json({ success : true , token_detail : token });
+    } catch (e) {
+      if (isHttpError(e)) {
+        next(e);
+      } else {
+        return res.status(400).json({ message: 'something went wrong!' });
+      }
+    }                                   
   }
   
 }
