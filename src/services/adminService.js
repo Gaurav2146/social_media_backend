@@ -27,27 +27,6 @@ class AdminService {
     });
   }
 
-<<<<<<< HEAD
-  login(obj) {
-    return new Promise( async (resolve, reject) => {
-      try {
-        const { email, password } = obj;
-        const encrypt = crytojs.passencrypt(password.toString());
-        console.log(encrypt);
-        const userObj = {
-          email: email,
-          password: encrypt,
-        };
-        const data = await this.adminRepository.login(userObj);
-        resolve(data);
-      } catch (e) {
-        reject(e);
-      }
-    });
-  }
-
-=======
->>>>>>> b39b19c25dcd106547fc1f988de9eeeb856529ec
   isAdminAvailable() {
     return new Promise( async(resolve, reject) => {
       try {
@@ -59,20 +38,6 @@ class AdminService {
     });
   }
 
-<<<<<<< HEAD
-  getUsersList() {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const list = await this.adminRepository.getUsers();
-        resolve(list);
-      } catch (e) {
-        reject(e);
-      }
-    });
-  }
-
-=======
->>>>>>> b39b19c25dcd106547fc1f988de9eeeb856529ec
   adminLogin(obj) {
     return new Promise( async (resolve, reject) => {
       try {
