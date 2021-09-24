@@ -19,12 +19,6 @@ const adminCtl = {
       if (!password) {
         throw new BadRequest('Password is required');
       }
-      // if (!confirmPassword) {
-      //   throw new BadRequest('Confirm Password is required');
-      // }
-      // if (password !== confirmPassword) {
-      //   throw new InternalServerError('Password and Confirm Password not match');
-      // }
       const userObj = await adminService.register({ email, name, password });
       res.status(200).json(userObj);
     } catch (e) {
@@ -36,19 +30,6 @@ const adminCtl = {
     }
   },
 
-  login: async function (req, res, next) {
-    try {
-      const { email, password } = req.body;
-      const userObj = await adminService.login({ email, password });
-      return res.status(200).json({ userObj: userObj });
-    } catch (e) {
-      if (isHttpError(e)) {
-        next(e);
-      } else {
-        return res.status(400).json({ message: 'something went wrong!' });
-      }
-    }
-  },
   isAdminAvailable: async function (req, res, next) {
     try {
       const isAvailable = await adminService.isAdminAvailable();
@@ -62,15 +43,6 @@ const adminCtl = {
       } else {
         return res.status(400).json({ message: 'something went wrong!' });
       }
-    }
-  },
-
-  getUsers: async function (req, res) {
-    try {
-      const userList = await adminService.getUsersList();
-      return res.status(200).json(userList);
-    } catch (e) {
-      return res.status(400).json({ message: 'something went wrong!' });
     }
   },
 
@@ -92,6 +64,7 @@ const adminCtl = {
       res.status(400).json({ success: false, msg: 'Something went wrong!', type: 'main catch', error: error });
     }
   },
+  
   sendPasswordResetLink: async function (req, res) {
     try {
       adminService

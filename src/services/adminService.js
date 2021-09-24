@@ -28,40 +28,11 @@ class AdminService {
     });
   }
 
-  login(obj) {
-    return new Promise( async (resolve, reject) => {
-      try {
-        const { email, password } = obj;
-        const encrypt = crytojs.passencrypt(password.toString());
-        const userObj = {
-          email: email,
-          password: encrypt,
-        };
-        const data = await this.adminRepository.login(userObj);
-        resolve(data);
-      } catch (e) {
-        reject(e);
-      }
-    });
-  }
-
   isAdminAvailable() {
     return new Promise( async(resolve, reject) => {
       try {
         const isAvailable = await this.adminRepository.isAdminAvailable();
         resolve(isAvailable);
-      } catch (e) {
-        reject(e);
-      }
-    });
-  }
-
-  getUsersList() {
-    // eslint-disable-next-line no-async-promise-executor
-    return new Promise(async (resolve, reject) => {
-      try {
-        const list = await this.adminRepository.getUsers();
-        resolve(list);
       } catch (e) {
         reject(e);
       }
@@ -96,7 +67,6 @@ class AdminService {
   sendPasswordResetLink() {
     return new Promise( async (resolve, reject) => {
       try {
-        // eslint-disable-next-line camelcase
         const admin_detail = await this.adminRepository.getAdmin();
         console.log(admin_detail, ' admin_detail in case of forgot password ');
 

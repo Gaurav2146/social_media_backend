@@ -1,7 +1,5 @@
 const express = require('express');
-
 const router = express.Router();
-
 const productCltr = require('../controllers/productsController');
 
 // Post route to add product to database

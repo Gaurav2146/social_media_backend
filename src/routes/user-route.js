@@ -4,17 +4,12 @@ const router = express.Router();
 const userCtl = require('../controllers/userController');
 var app = express();
 
-
-
 let auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'] , userProperty: 'user'}),
   async function(req, res,next) {
     console.log(req.user , 'inside jwt');
      next();
   });
   
-
-
-
 /**
  * get users from database
  * @route GET /user/getProducts
