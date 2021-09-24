@@ -24,7 +24,8 @@ const tokenCtl = {
     try {
         let { search , index , limit  } = req.body;
         let token = await tokenService.getAllTokens( { search , index , limit } );
-        res.status(200).json({ success : true , alltoken : token });
+        let { tokens , total_data } = token;
+        res.status(200).json({ success : true , alltoken : tokens , total_data : total_data });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);

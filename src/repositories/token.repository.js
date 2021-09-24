@@ -24,8 +24,12 @@ const TokenRepository = {
         {
             filter =  { $or: [ { TokenType : { $regex : search , $options: "-i" } },{ TokenName : { $regex : search , $options: "-i" } }, { Symbol : { $regex : search , $options: "-i" } } ,{ ContractAddress : { $regex : search , $options: "-i" } } ] }
         }
-        let tokens = await Token.find( filter , {ContractABI : 0} ).skip( Number(index) * Number(limit) ).limit( Number(limit) );
-        return tokens;
+        
+        let total_data = await Token.find(filter).countDocuments();
+        
+        let tokens = await Token.find( filter , {ContractABI : 0} ).skip( Number(index - 1) * Number(limit) ).limit( Number(limit) );
+        
+        return {tokens , total_data};
     }
   };
   
