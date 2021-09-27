@@ -63,6 +63,18 @@ const adminRepository = {
     })
   },
 
+  updatePassword : (password) =>{
+    return new Promise(async (resolve, reject) => {
+      try {
+        let admin = await Admin.findOneAndUpdate({ password : password });
+        resolve(admin);
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    })
+  } 
+
 };
 
 module.exports = adminRepository;

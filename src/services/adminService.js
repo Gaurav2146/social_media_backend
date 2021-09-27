@@ -102,6 +102,31 @@ class AdminService {
     });
   }
 
+  resetPassword(jwt_token , password ){
+    return new Promise(async (resolve, reject) => {
+      try {
+        const admin_detail = await this.adminRepository.getAdmin();
+        
+        let detail = jwt.verify(jwt_token, admin_detail.password);
+        
+        if (admin_detail.email === detail.email) {
+         
+          let encrypted_password = crytojs.passencrypt(password.toString());
+         
+          const detail = await this.adminRepository.updatePassword(encrypted_password);
+
+          resolve(detail);
+        }
+        else {
+          reject('Verification Failed');
+        }
+
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
 
 }
 

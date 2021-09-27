@@ -58,5 +58,15 @@ router.get('/verifyPasswordResetLink', adminCtl.verifyPasswordResetLink);
 
 
 
+/**
+ * resetPassword
+ * @route POST  /admin/resetPassword
+ * @group Upload API - Endpoint to reset Password
+ * @returns {object} 200 - On Success
+ * @returns {Error}  default - Unexpected error
+ */
+ router.post('/resetPassword', adminCtl.resetPassword);
+
+
 
 module.exports = router;
