@@ -26,9 +26,9 @@ class TokenService {
         }
     } 
 
-    getToken = async ({ Tokensymbol }) => {
+    getToken = async ({ Tokensymbol , TokenType }) => {
         try {
-            const token = await this.tokenRepository.getToken({ Tokensymbol })
+            const token = await this.tokenRepository.getToken({ Tokensymbol , TokenType })
             return token;
         } catch (error) {
             console.log('Error in Contract Fetching: ', error);
