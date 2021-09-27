@@ -16,7 +16,7 @@ const productsRepository = {
   createProductStepTwo: (productID, productObject) =>
     Products.findByIdAndUpdate({ _id: productID }, { $set: productObject }, { new: true }),
 
-  createProductStepThree: (productID, color, imagesArray, index) =>
+  createProductStepThree: (productID, color, imagesArray) =>
     Products.findByIdAndUpdate(
       {
         _id: productID,
@@ -26,8 +26,21 @@ const productsRepository = {
           },
         },
       },
-      { $push: { 'product_colorAndSizeDetails.$[].images': imagesArray } },
-      { upsert: true },
+      {
+        $set: {
+          'product_colorAndSizeDetails.$[outer].images': imagesArray,
+        },
+      },
+      {
+        arrayFilters: [{ 'outer.colorDetails.color': color }],
+      },
+      (err, result) => {
+        if (err) {
+          console.log(`Error updating service: ${err}`);
+        } else {
+          console.log(`${result} document(s) updated`);
+        }
+      },
     ),
 };
 

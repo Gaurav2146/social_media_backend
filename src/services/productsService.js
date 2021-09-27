@@ -15,7 +15,7 @@ class productsService {
         reject(e);
       }
     });
-  }            
+  }
 
   getAllProducts() {
     return new Promise((resolve, reject) => {
@@ -34,7 +34,7 @@ class productsService {
         const response = this.productRepository.editProductDetails(productID, updatedObj);
         resolve(response);
       } catch (e) {
-        reject(e);                 
+        reject(e);
       }
     });
   }
@@ -90,7 +90,7 @@ class productsService {
     });
   }
 
-  addProductStepThree(productID, color, files, index) {
+  addProductStepThree(productID, color, files) {
     // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
       try {
@@ -105,7 +105,7 @@ class productsService {
           }
           console.log(colorImages);
         }
-        const response = await this.productRepository.createProductStepThree(productID, color, colorImages, index);
+        const response = await this.productRepository.createProductStepThree(productID, color, colorImages);
         console.log(response);
         resolve(response);
       } catch (e) {

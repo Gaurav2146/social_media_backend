@@ -34,13 +34,10 @@ const productCtlr = {
   },
   createProductStepThree: async function (req, res, next) {
     try {
-      const { productID, color, index } = req.body;
+      const { productID, color } = req.body;
       const productVariantImages = req.files;
-      const response = await productService.addProductStepThree(productID, color, productVariantImages, index);
+      const response = await productService.addProductStepThree(productID, color, productVariantImages);
       return res.status(200).json({ success: true, data: response });
-      // const { productID, data } = req.body;
-      // const response = await productService.addProductStepTwo(productID, data);
-      // return res.status(200).json({ success: true, data: response });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);
