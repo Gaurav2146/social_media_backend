@@ -1,7 +1,6 @@
 const nodemailer = require('nodemailer');
 const ejs = require('ejs');
 
-// eslint-disable-next-line consistent-return
 const mailer = async function (email, subject, template, options) {
   try {
     return new Promise((resolve, reject) => {
@@ -26,7 +25,6 @@ const mailer = async function (email, subject, template, options) {
                 console.log('message sent successfully');
                 resolve('Password Reset Link Sent To Your Email');
               })
-              // eslint-disable-next-line no-shadow
               .catch((error) => {
                 console.log(error);
                 reject(error);

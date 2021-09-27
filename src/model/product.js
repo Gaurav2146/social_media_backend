@@ -7,10 +7,7 @@ const productAddSchema = new mongoose.Schema({
   product_brand: {
     type: String,
   },
-  product_tag: {
-    type: String,
-  },
-  product_tokenType: {
+  product_collectionName: {
     type: String,
   },
   product_tags: [
@@ -23,41 +20,74 @@ const productAddSchema = new mongoose.Schema({
   },
   product_weightUnit: {
     type: String,
+    enum: ['grams', 'ounces', 'pounds'],
   },
   product_description: {
     type: String,
   },
-  product_sizeDetails: [
+  product_createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  product_updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
+  product_status: {
+    type: String,
+    enum: ['active', 'inactive'],
+  },
+  product_stepper: {
+    type: String,
+    enum: ['incomplete', 'completed'],
+  },
+  product_stepperStatus: {
+    type: Boolean,
+    default: false,
+  },
+  product_stepperLastStepVisited: {
+    type: Number,
+    default: 1,
+  },
+  nft_image: {
+    file: { type: String },
+    key: { type: String },
+    contentType: { type: String },
+  },
+  product_colorAndSizeDetails: [
     {
-      color: {
-        type: String,
+      colorDetails: {
+        color: { type: String },
+        colorCode: { type: String },
       },
-      qty: {
-        type: Number,
-      },
-      price: {
-        type: Number,
-      },
-      image: [
+      images: [
         {
-          type: String,
+          file: { type: String },
+          key: { type: String },
+          contentType: { type: String },
+        },
+      ],
+      sizeInfo: [
+        {
+          qty: { type: Number },
+          price: { type: Number },
+          size: { type: String },
         },
       ],
     },
   ],
   product_tokenDetails: [
     {
-      token_type: {
-        type: String,
-      },
-      token_name: {
-        type: String,
-      },
-      contact_address: {
-        type: String,
-      },
       token_id: {
-        type: String,
+        type: mongoose.Schema.ObjectId,
+        trim: true,
+        ref: 'Token',
+      },
+      min_amt: {
+        type: Number,
+      },
+      past_trx: {
+        type: Boolean,
       },
     },
   ],

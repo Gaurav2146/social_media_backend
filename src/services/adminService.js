@@ -9,7 +9,6 @@ class AdminService {
   }
 
   register(obj) {
-    // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
       try {
         const { email, name, password } = obj;
@@ -54,11 +53,9 @@ class AdminService {
             }
           });
         } else {
-          // eslint-disable-next-line prefer-promise-reject-errors
           reject('Please Check Your email id or Password');
         }
       } catch (e) {
-        // eslint-disable-next-line prefer-promise-reject-errors
         reject('Please Check Your email id or Password');
       }
     });
