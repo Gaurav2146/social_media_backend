@@ -37,6 +37,10 @@ const productAddSchema = new mongoose.Schema({
     type: String,
     enum: ['active', 'inactive'],
   },
+  product_stepper: {
+    type: String,
+    enum: ['incomplete', 'completed'],
+  },
   product_stepperStatus: {
     type: Boolean,
     default: false,
