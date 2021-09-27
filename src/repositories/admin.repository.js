@@ -3,44 +3,64 @@ const Admin = require('../model/admin');
 const adminRepository = {
 
   saveUser: (userObj) => {
-    try {
-      return Admin.create(userObj)
-    } catch (error) {
-      console.log(error);
-    }
+    return new Promise(async (resolve, reject) => {
+      try {
+        let admin = await Admin.create(userObj)
+        resolve(admin);
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    })
   },
 
   login: (userObj) => {
-    try {
-      return Admin.findOne(userObj, { password: 0 });
-    } catch (error) {
-      console.log(error);
-    }
+    return new Promise(async (resolve, reject) => {
+      try {
+        let admin = await Admin.findOne(userObj, { password: 0 });
+        resolve(admin);
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    })
   },
 
 
   isAdminAvailable: () => {
-    try {
-      return Admin.find();
-    } catch (error) {
-      console.log(error);
-    }
+    return new Promise(async (resolve, reject) => {
+      try {
+        let admin = await Admin.find();
+        resolve(admin);
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    })
   },
 
   getAdminByEmail: (email) => {
-    try {
-      return Admin.findOne({ email: email })
-    } catch (error) {
-      console.log(error);
-    }
+    return new Promise(async (resolve, reject) => {
+      try {
+        let admin = await Admin.findOne({ email: email })
+        resolve(admin);
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    })
   },
 
   getAdmin: () => {
-    try {
-      return Admin.findOne({})
-    } catch (error) {
-      console.log(error);
-    }
+    return new Promise(async (resolve, reject) => {
+      try {
+        let admin = await Admin.findOne({});
+        resolve(admin);
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    })
   },
 
 };
