@@ -74,17 +74,10 @@ const productAddSchema = new mongoose.Schema({
   ],
   product_tokenDetails: [
     {
-      token_type: {
-        type: String,
-      },
-      token_name: {
-        type: String,
-      },
-      contact_address: {
-        type: String,
-      },
       token_id: {
-        type: String,
+        type: mongoose.Schema.ObjectId,
+        trim: true,
+        ref: 'Token',
       },
       min_amt: {
         type: Number,
