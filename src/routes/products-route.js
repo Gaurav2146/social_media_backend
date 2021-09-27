@@ -1,5 +1,7 @@
 const express = require('express');
+
 const router = express.Router();
+
 const productCltr = require('../controllers/productsController');
 
 const uploadImages = require('../route_middleware/uploadImages');

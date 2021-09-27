@@ -45,6 +45,11 @@ const productAddSchema = new mongoose.Schema({
     type: Number,
     default: 1,
   },
+  nft_image: {
+    file: { type: String },
+    key: { type: String },
+    contentType: { type: String },
+  },
   product_colorAndSizeDetails: [
     {
       colorDetails: {
@@ -80,6 +85,12 @@ const productAddSchema = new mongoose.Schema({
       },
       token_id: {
         type: String,
+      },
+      min_amt: {
+        type: Number,
+      },
+      past_trx: {
+        type: Boolean,
       },
     },
   ],
