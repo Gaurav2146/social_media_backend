@@ -7,7 +7,7 @@ const productAddSchema = new mongoose.Schema({
   product_brand: {
     type: String,
   },
-  product_tokenType: {
+  product_collectionName: {
     type: String,
   },
   product_tags: [
