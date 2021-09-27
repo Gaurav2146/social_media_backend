@@ -53,7 +53,7 @@ const TokenRepository = {
       try {                                                                                                                   
         let filter = {};
         if (Tokensymbol) {
-          filter['Tokensymbol'] = Tokensymbol;
+          filter['Symbol'] = Tokensymbol;
         }
         if (TokenType) {
           filter['TokenType'] = TokenType;
