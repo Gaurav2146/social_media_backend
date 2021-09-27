@@ -58,7 +58,7 @@ const TokenRepository = {
         if (TokenType) {
           filter['TokenType'] = TokenType;
         }
-        let token_data = await Token.findOne(filter);
+        let token_data = await Token.find(filter);
         resolve(token_data);
       } catch (error) {
         console.log(error);
