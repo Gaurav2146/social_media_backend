@@ -9,5 +9,5 @@ module.exports = {
   user,
   product,
   smartContract,
-  token
+  token,
 };
