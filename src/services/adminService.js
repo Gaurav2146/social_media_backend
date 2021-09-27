@@ -67,9 +67,9 @@ class AdminService {
       
         const admin_detail = await this.adminRepository.getAdmin();
       
-        console.log(admin_detail, ' admin_detail in case of forgot password ');
+        console.log( admin_detail.email , ' admin_detail in case of forgot password ');
       
-        let admin_jwt =  jwt.sign({ admin_detail }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 24 } );
+        let admin_jwt =  jwt.sign({ email : admin_detail.email }, admin_detail.password , { expiresIn: 60 * 60 * 24 } );
       
         let mail_res = await mailer(admin_detail.email, 'Forgot Password Email', 'views/emailTemplate/forgotPassword.ejs', { admin_jwt : admin_jwt });
       
@@ -79,6 +79,55 @@ class AdminService {
       }
     });
   }
+
+
+  verifyPasswordResetLink(token) {
+    return new Promise(async (resolve, reject) => {
+      try {
+
+        const admin_detail = await this.adminRepository.getAdmin();
+
+        let detail = jwt.verify(token, admin_detail.password);
+
+        if (admin_detail.email === detail.email) {
+          resolve('Verified Successfully');
+        }
+        else {
+          reject('Verification Failed');
+        }
+
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  resetPassword(jwt_token , password ){
+    return new Promise(async (resolve, reject) => {
+      try {
+        const admin_detail = await this.adminRepository.getAdmin();
+        
+        let detail = jwt.verify(jwt_token, admin_detail.password);
+        
+        if (admin_detail.email === detail.email) {
+         
+          let encrypted_password = crytojs.passencrypt(password.toString());
+         
+          const detail = await this.adminRepository.updatePassword(encrypted_password);
+
+          resolve(detail);
+        }
+        else {
+          reject('Verification Failed');
+        }
+
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+
 }
 
 module.exports = AdminService;
