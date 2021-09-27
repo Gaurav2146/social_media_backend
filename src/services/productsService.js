@@ -103,10 +103,8 @@ class productsService {
               contentType: files[i].contentType,
             });
           }
-          console.log(colorImages);
         }
         const response = await this.productRepository.createProductStepThree(productID, color, colorImages);
-        console.log(response);
         resolve(response);
       } catch (e) {
         reject(e);
