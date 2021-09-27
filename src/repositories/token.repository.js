@@ -45,15 +45,15 @@ const TokenRepository = {
         console.log(error);
         reject(error);
       }
-    })
+    }) 
   },
 
   getToken: ({ Tokensymbol, TokenType }) => {
     return new Promise(async (resolve, reject) => {
-      try {
+      try {                                                                                                                   
         let filter = {};
         if (Tokensymbol) {
-          filter['Tokensymbol'] = Tokensymbol;
+          filter['Symbol'] = Tokensymbol;
         }
         if (TokenType) {
           filter['TokenType'] = TokenType;
