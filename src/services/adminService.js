@@ -64,10 +64,16 @@ class AdminService {
   sendPasswordResetLink() {
     return new Promise(async (resolve, reject) => {
       try {
+      
         const admin_detail = await this.adminRepository.getAdmin();
+      
         console.log(admin_detail, ' admin_detail in case of forgot password ');
-        mailer(admin_detail.email, 'Forgot Password Email', 'views/emailTemplate/forgotPassword.ejs', {});
-        resolve(admin_detail);
+      
+        let admin_jwt =  jwt.sign({ admin_detail }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 24 } );
+      
+        let mail_res = await mailer(admin_detail.email, 'Forgot Password Email', 'views/emailTemplate/forgotPassword.ejs', { admin_jwt : admin_jwt });
+      
+        resolve(mail_res);
       } catch (e) {
         reject(e);
       }

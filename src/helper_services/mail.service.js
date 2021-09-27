@@ -22,8 +22,8 @@ const mailer = async function (email, subject, template, options) {
             transporter
               .sendMail({ to: email, subject: subject, from: process.env.SMTP_EMAIL, html: result })
               .then((info) => {
-                console.log('message sent successfully ');
-                resolve(info);
+                console.log('message sent successfully');
+                resolve('Password Reset Link Sent To Your Email');
               })
               .catch((error) => {
                 console.log(error);

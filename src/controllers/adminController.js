@@ -26,7 +26,7 @@ const adminCtl = {
         return res.status(400).json({ message: 'something went wrong!' });
       }
     }
-  },
+  }, 
 
   isAdminAvailable: async function (req, res, next) {
     try {
@@ -35,14 +35,14 @@ const adminCtl = {
         return res.status(200).json({ success: true, isAvailable: true });
       }
       return res.status(200).json({ success: true, isAvailable: false });
-    } catch (e) {
+    } catch (e) {           
       if (isHttpError(e)) {
         next(e);
       } else {
         return res.status(400).json({ message: 'something went wrong!' });
       }
     }
-  },
+  },                
 
   adminLogin: async function (req, res) {
     try {
@@ -65,8 +65,8 @@ const adminCtl = {
     try {
       adminService
         .sendPasswordResetLink()
-        .then(() => {
-          res.status(200).json({ success: true, msg: 'Link Sent Successfully' });
+        .then((data) => {
+          res.status(200).json({ success: true, msg: data });
         })
         .catch((error) => {
           console.log(error);
@@ -77,6 +77,7 @@ const adminCtl = {
       res.status(400).json({ success: false, msg: 'Something went wrong!', type: 'main catch', error: error });
     }
   },
+  
 };
 
 module.exports = adminCtl;
