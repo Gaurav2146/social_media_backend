@@ -111,5 +111,17 @@ class productsService {
       }
     });
   }
+
+  getAllFilteredProducts(searchString) {
+    // eslint-disable-next-line no-async-promise-executor
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await this.productRepository.filterProductData(searchString);
+        resolve(response);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
 }
 module.exports = productsService;
