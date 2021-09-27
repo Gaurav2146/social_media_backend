@@ -4,7 +4,7 @@ const TokenRepository = {
 
   saveToken: (tokenObj) => {
     try {
-      Token.create(tokenObj)
+      return Token.create(tokenObj)
     } catch (error) {
       console.log(error);
     }
