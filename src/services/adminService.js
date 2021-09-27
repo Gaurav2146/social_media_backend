@@ -29,7 +29,7 @@ class AdminService {
   }
 
   isAdminAvailable() {
-    return new Promise( async(resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       try {
         const isAvailable = await this.adminRepository.isAdminAvailable();
         resolve(isAvailable);
@@ -40,7 +40,7 @@ class AdminService {
   }
 
   adminLogin(obj) {
-    return new Promise( async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       try {
         const { email, password } = obj;
         const encrypt = crytojs.passencrypt(password.toString());
@@ -65,13 +65,11 @@ class AdminService {
   }
 
   sendPasswordResetLink() {
-    return new Promise( async (resolve, reject) => {
+    return new Promise(async (resolve, reject) => {
       try {
         const admin_detail = await this.adminRepository.getAdmin();
         console.log(admin_detail, ' admin_detail in case of forgot password ');
-
         mailer(admin_detail.email, 'Forgot Password Email', 'views/emailTemplate/forgotPassword.ejs', {});
-
         resolve(admin_detail);
       } catch (e) {
         reject(e);
@@ -79,4 +77,5 @@ class AdminService {
     });
   }
 }
+
 module.exports = AdminService;
