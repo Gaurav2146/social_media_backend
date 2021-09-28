@@ -62,13 +62,16 @@ const productsRepository = {
   filterProductData: (searchvalue) =>
     new Promise(async (resolve, reject) => {
       try {
+        const query = {
+          $or: [{ product_name: { $regex: searchvalue, $options: 'i' } }, { product_brand: { $regex: searchvalue, $options: 'i' } }],
+        };
         const productDetail = await Products.aggregate([
           {
-            $match: { product_name: { $regex: searchvalue, $options: 'i' } },
+            $match: query,
           },
           { $sort: { product_updatedAt: -1 } },
           {
-            $project: returnDataService.returnDataProductListPage(),
+            $project: returnDataService.returnDataProductList(),
           },
         ]);
         resolve(productDetail);
@@ -80,7 +83,7 @@ const productsRepository = {
   editProductDetails: (productID, productObject) =>
     new Promise(async (resolve, reject) => {
       try {
-        const productDetail = await Products.findByIdAndUpdate({ _id: productID }, productObject, { new: true });
+        const productDetail = await Products.findByIdAndUpdate({ _id: productID }, { $set: productObject }, { new: true });
         resolve(productDetail);
       } catch (error) {
         reject(error);

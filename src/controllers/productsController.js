@@ -46,11 +46,26 @@ const productCtlr = {
       }
     }
   },
+  addNFTImage: async function (req, res, next) {
+    try {
+      const { productID } = req.body;
+      const productVariantImages = req.file;
+      console.log(productID, productVariantImages);
+      const response = await productService.addNFTImage(productID, productVariantImages);
+      return res.status(200).json({ success: true, data: response });
+    } catch (e) {
+      if (isHttpError(e)) {
+        next(e);
+      } else {
+        return res.status(400).json({ success: false, message: 'something went wrong!' });
+      }
+    }
+  },
   updateProduct: async function (req, res, next) {
     try {
       const { productID, productObject } = req.body;
       const response = await productService.updateProduct(productID, productObject);
-      res.status(200).json(response);
+      res.status(200).json({ success: true, data: response });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);
@@ -103,7 +118,7 @@ const productCtlr = {
     try {
       const { productID } = req.body;
       const response = await productService.removeProduct(productID);
-      res.status(200).json(response);
+      res.status(200).json({ success: true, data: response });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);

@@ -27,6 +27,7 @@ exports.returnDataProductDetail = () => {
     product_stepperLastStepVisited: '$data.product_stepperLastStepVisited',
     nft_image: '$data.nft_image',
     product_colorAndSizeDetails: '$data.product_colorAndSizeDetails',
+    product_tokenDetails: '$data.product_tokenDetails',
     tokenDetails: '$tokenDetails',
   };
 };

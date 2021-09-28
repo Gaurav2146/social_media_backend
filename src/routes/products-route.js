@@ -81,6 +81,15 @@ router.post('/addProductStepTwo', productCltr.createProductStepTwo);
 router.post('/addProductStepThree', uploadImages.fileUploader, productCltr.createProductStepThree);
 
 // /**
+//  * Save product Information
+//  * @route Post /product/createProductStepThree
+//  * @group get API - Endpoints related to addproduct details.
+//  * @returns {object} 200 - Product Information Fetched
+//  * @returns {Error}  default - Unexpected error
+//  */
+router.post('/addNFTImage', uploadImages.NFTfileUploader, productCltr.addNFTImage);
+
+// /**
 //  * Get Filtered Products
 //  * @route Post /product/getFilteredProducts
 //  * @group get API - Endpoints related to filtered product details.

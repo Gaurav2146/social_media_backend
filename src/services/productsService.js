@@ -1,3 +1,4 @@
+/* eslint-disable no-async-promise-executor */
 /* eslint-disable no-param-reassign */
 const productRepository = require('../repositories/product.repositoy');
 
@@ -62,8 +63,6 @@ class productsService {
   }
 
   addProductStepOne(productObject) {
-    console.log(productObject);
-    // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
       try {
         const response = await this.productRepository.createProductStepOne(productObject);
@@ -76,7 +75,6 @@ class productsService {
   }
 
   addProductStepTwo(productID, productObject) {
-    // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
       try {
         productObject.updatedAt = Date.now();
@@ -91,7 +89,6 @@ class productsService {
   }
 
   addProductStepThree(productID, color, files) {
-    // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
       try {
         const colorImages = [];
@@ -112,8 +109,25 @@ class productsService {
     });
   }
 
+  addNFTImage(productID, image) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const updatedObject = {
+          nft_image: {
+            file: image.location,
+            key: image.key,
+            contentType: image.contentType,
+          },
+        };
+        const response = await this.productRepository.editProductDetails(productID, updatedObject);
+        resolve(response);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
   getAllFilteredProducts(searchString) {
-    // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
       try {
         const response = await this.productRepository.filterProductData(searchString);
