@@ -62,7 +62,22 @@ const productCtlr = {
   getProducts: async function (req, res, next) {
     try {
       const response = await productService.getAllProducts();
-      res.status(200).json(response);
+      return res.status(200).json({ success: true, data: response, msg: 'All Products Fetched' });
+    } catch (e) {
+      if (isHttpError(e)) {
+        next(e);
+      } else {
+        return res.status(400).json({ message: 'something went wrong!' });
+      }
+    }
+  },
+  getFilteredProducts: async function (req, res, next) {
+    try {
+      const { productSearchValue } = req.body;
+      if (productSearchValue) {
+        const response = await productService.getAllFilteredProducts(productSearchValue);
+        return res.status(200).json({ success: true, data: response, msg: 'All Products Fetched' });
+      }
     } catch (e) {
       if (isHttpError(e)) {
         next(e);
@@ -75,7 +90,7 @@ const productCtlr = {
     try {
       const { productID } = req.body;
       const response = await productService.getProductInfo(productID);
-      res.status(200).json(response);
+      return res.status(200).json({ success: true, data: response[0], msg: 'Selected Product Info Fetched' });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);
