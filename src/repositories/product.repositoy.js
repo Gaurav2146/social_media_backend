@@ -37,22 +37,20 @@ const productsRepository = {
           {
             $lookup: {
               from: 'tokens',
-              let: { res_tokenDetails: '$product_tokenDetails.token_id' },
-              pipeline: [{ $match: { $expr: { $eq: ['$$res_tokenDetails', '$_id'] } } }],
+              let: { res_tokenID: '$product_tokenDetails.token_id' },
+              pipeline: [{ $match: { $expr: { $eq: ['$$res_tokenID', '$_id'] } } }],
               as: 'tokenDetails',
             },
           },
-          { $unwind: { path: '$tokenDetails', preserveNullAndEmptyArrays: true } },
           {
             $group: {
-              _id: '$product_tokenDetails.token_id',
-              tokenDetails: { $push: '$tokenDetails' },
+              _id: '$_id',
+              data: { $first: '$$ROOT' },
+              tokenDetails: { $push: { $mergeObjects: ['$product_tokenDetails', { $arrayElemAt: ['$tokenDetails', 0] }] } },
             },
           },
           {
-            $project: {
-              tokenDetails: '$tokenDetails',
-            },
+            $project: returnDataService.returnDataProductDetail(),
           },
         ]);
         resolve(productDetail);
@@ -134,6 +132,10 @@ const productsRepository = {
           {
             $set: {
               'product_colorAndSizeDetails.$[outer].images': imagesArray,
+              product_stepper: 'completed',
+              product_stepperStatus: true,
+              product_stepperLastStepVisited: 3,
+              product_updatedAt: Date.now(),
             },
           },
           {
