@@ -1,5 +1,10 @@
+/* eslint-disable no-param-reassign */
 /* eslint-disable no-async-promise-executor */
+const mongoose = require('mongoose');
+
 const Products = require('../model/product');
+
+const returnDataService = require('../services/returnDataService');
 
 const productsRepository = {
   saveProduct: (productObject) =>
@@ -25,7 +30,47 @@ const productsRepository = {
   getProductDetails: (productID) =>
     new Promise(async (resolve, reject) => {
       try {
-        const productDetail = await Products.find({ _id: productID });
+        productID = mongoose.Types.ObjectId(productID);
+        const productDetail = await Products.aggregate([
+          { $match: { _id: productID } },
+          { $unwind: { path: '$product_tokenDetails', preserveNullAndEmptyArrays: true } },
+          {
+            $lookup: {
+              from: 'tokens',
+              let: { res_tokenID: '$product_tokenDetails.token_id' },
+              pipeline: [{ $match: { $expr: { $eq: ['$$res_tokenID', '$_id'] } } }],
+              as: 'tokenDetails',
+            },
+          },
+          {
+            $group: {
+              _id: '$_id',
+              data: { $first: '$$ROOT' },
+              tokenDetails: { $push: { $mergeObjects: ['$product_tokenDetails', { $arrayElemAt: ['$tokenDetails', 0] }] } },
+            },
+          },
+          {
+            $project: returnDataService.returnDataProductDetail(),
+          },
+        ]);
+        resolve(productDetail);
+      } catch (error) {
+        reject(error);
+      }
+    }),
+
+  filterProductData: (searchvalue) =>
+    new Promise(async (resolve, reject) => {
+      try {
+        const productDetail = await Products.aggregate([
+          {
+            $match: { product_name: { $regex: searchvalue, $options: 'i' } },
+          },
+          { $sort: { product_updatedAt: -1 } },
+          {
+            $project: returnDataService.returnDataProductListPage(),
+          },
+        ]);
         resolve(productDetail);
       } catch (error) {
         reject(error);
@@ -87,6 +132,10 @@ const productsRepository = {
           {
             $set: {
               'product_colorAndSizeDetails.$[outer].images': imagesArray,
+              product_stepper: 'completed',
+              product_stepperStatus: true,
+              product_stepperLastStepVisited: 3,
+              product_updatedAt: Date.now(),
             },
           },
           {

@@ -39,6 +39,7 @@ const productAddSchema = new mongoose.Schema({
   },
   product_stepper: {
     type: String,
+    default: 'incomplete',
     enum: ['incomplete', 'completed'],
   },
   product_stepperStatus: {
