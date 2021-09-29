@@ -17,10 +17,10 @@ const productsRepository = {
       }
     }),
 
-  getProducts: () =>
+  getProducts: (skip , limit) =>
     new Promise(async (resolve, reject) => {
       try {
-        const productDetail = await Products.find();
+        const productDetail = await Products.find().skip( Number(skip) ).limit( Number(limit) )
         resolve(productDetail);
       } catch (error) {
         reject(error);

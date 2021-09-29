@@ -59,9 +59,10 @@ const productCtlr = {
       }
     }
   },
-  getProducts: async function (req, res, next) {
+  getProducts: async function (req, res, next) {           
     try {
-      const response = await productService.getAllProducts();
+      const {  skip , limit } = req.query;
+      const response = await productService.getAllProducts(skip , limit);
       return res.status(200).json({ success: true, data: response, msg: 'All Products Fetched' });
     } catch (e) {
       if (isHttpError(e)) {
