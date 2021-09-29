@@ -31,4 +31,8 @@ let auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'] ,
 
   router.post('/getTokenDetail',  tokenCtl.getTokenDetail);
 
+  router.get('/getTokenById',  tokenCtl.getTokenById);
+
+  
+
 module.exports = router;

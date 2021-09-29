@@ -65,6 +65,18 @@ const TokenRepository = {
         reject(error);
       }
     })
+  },
+
+  getTokenById : (id) => {
+    return new Promise(async (resolve, reject) => {
+      try {                                                                                                                   
+        let token_data = await Token.findById({ _id : id });
+        resolve(token_data);
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    })
   }
 };
 
