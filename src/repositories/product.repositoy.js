@@ -99,9 +99,7 @@ const productsRepository = {
               tokenDetails: { $push: { $mergeObjects: ['$product_tokenDetails', { $arrayElemAt: ['$tokenDetails', 0] }] } },
             },
           },
-          {
-            $project: returnDataService.returnDataProductDetail(),
-          },
+          { $project: returnDataService.returnDataProductDetail() },
         ]);
         resolve(productDetail);
       } catch (error) {
@@ -112,16 +110,54 @@ const productsRepository = {
   filterProductData: (searchvalue) =>
     new Promise(async (resolve, reject) => {
       try {
+        const query = {
+          $or: [{ product_name: { $regex: searchvalue, $options: 'i' } }, { product_brand: { $regex: searchvalue, $options: 'i' } }],
+        };
         const productDetail = await Products.aggregate([
-          {
-            $match: { product_name: { $regex: searchvalue, $options: 'i' } },
-          },
+          { $match: query },
           { $sort: { product_updatedAt: -1 } },
-          {
-            $project: returnDataService.returnDataProductListPage(),
-          },
+          { $project: returnDataService.returnDataProductList() },
         ]);
         resolve(productDetail);
+      } catch (error) {
+        reject(error);
+      }
+    }),
+
+  filterTags: (searchvalue) =>
+    new Promise(async (resolve, reject) => {
+      try {
+        const tagsDetail = await Products.aggregate([
+          { $unwind: '$product_tags' },
+          { $match: { product_tags: { $regex: searchvalue, $options: 'i' } } },
+          { $group: { _id: '$product_tags' } },
+          {
+            $project: {
+              _id: 0,
+              product_tags: '$_id',
+            },
+          },
+        ]);
+        resolve(tagsDetail);
+      } catch (error) {
+        reject(error);
+      }
+    }),
+
+  filterBrands: (searchvalue) =>
+    new Promise(async (resolve, reject) => {
+      try {
+        const tagsDetail = await Products.aggregate([
+          { $match: { product_brand: { $regex: searchvalue, $options: 'i' } } },
+          { $group: { _id: '$product_brand' } },
+          {
+            $project: {
+              _id: 0,
+              product_brand: '$_id',
+            },
+          },
+        ]);
+        resolve(tagsDetail);
       } catch (error) {
         reject(error);
       }
@@ -130,7 +166,7 @@ const productsRepository = {
   editProductDetails: (productID, productObject) =>
     new Promise(async (resolve, reject) => {
       try {
-        const productDetail = await Products.findByIdAndUpdate({ _id: productID }, productObject, { new: true });
+        const productDetail = await Products.findByIdAndUpdate({ _id: productID }, { $set: productObject }, { new: true });
         resolve(productDetail);
       } catch (error) {
         reject(error);

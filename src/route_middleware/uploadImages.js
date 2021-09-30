@@ -40,3 +40,17 @@ exports.fileUploader = async (req, res, next) => {
     next();
   });
 };
+
+exports.NFTfileUploader = async (req, res, next) => {
+  const uploadImage = await upload.single('nft_image');
+  // eslint-disable-next-line consistent-return
+  uploadImage(req, res, (err) => {
+    if (err instanceof multer.MulterError) {
+      return res.status(400).json({ success: false, msg: err.message, type: 'multer error' });
+    }
+    if (err) {
+      return res.status(400).json({ success: false, msg: err.message, type: 'multer error' });
+    }
+    next();
+  });
+};

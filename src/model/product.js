@@ -5,18 +5,20 @@ const productAddSchema = new mongoose.Schema({
     type: String,
   },
   product_brand: {
-    type: String,
+    type: mongoose.Schema.ObjectId,
+    trim: true,
+    ref: 'Brands',
   },
-  product_collectionName: {
-    type: String,
-  },
-  product_tags: [
+  product_collectionName: [
     {
-      type: String,
+      type: mongoose.Schema.ObjectId,
+      trim: true,
+      ref: 'Collections',
     },
   ],
+  product_tags: [{ type: String }],
   product_weight: {
-    type: String,
+    type: Number,
   },
   product_weightUnit: {
     type: String,
