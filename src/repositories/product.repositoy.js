@@ -17,11 +17,17 @@ const productsRepository = {
       }
     }),
 
-  getProducts: () =>
+  getProducts: (skip , limit , search) =>
     new Promise(async (resolve, reject) => {
       try {
-        const productDetail = await Products.find();
-        resolve(productDetail);
+        let filter = {};
+        if(search)
+        {
+          filter = {  product_description : { $regex : search , $options : '-i' } };
+        }
+        const totalProducts = await Products.find(filter).countDocuments();
+        const productDetail = await Products.find(filter).skip( Number(skip) ).limit( Number(limit) )
+        resolve({ productDetail , totalProducts });
       } catch (error) {
         reject(error);
       }

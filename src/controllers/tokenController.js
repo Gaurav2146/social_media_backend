@@ -47,6 +47,20 @@ const tokenCtl = {
         return res.status(400).json({ message: 'something went wrong!' });
       }
     }                                   
+  },
+
+  getTokenById : async function (req, res, next) {                                         
+    try {
+        let { id } = req.query;
+        let token = await tokenService.getTokenById( id );
+        res.status(200).json({ success : true , token_detail : token });
+    } catch (e) {
+      if (isHttpError(e)) {
+        next(e);
+      } else {
+        return res.status(400).json({ message: 'something went wrong!' });
+      }
+    }                                   
   }
   
 }

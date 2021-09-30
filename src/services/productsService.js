@@ -18,10 +18,10 @@ class productsService {
     });
   }
 
-  getAllProducts() {
+  getAllProducts(skip , limit , search) {
     return new Promise((resolve, reject) => {
       try {
-        const response = this.productRepository.getProducts();
+        const response = this.productRepository.getProducts(skip , limit , search);
         resolve(response);
       } catch (e) {
         reject(e);

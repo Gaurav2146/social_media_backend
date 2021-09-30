@@ -35,6 +35,15 @@ class TokenService {
             throw error;
         }
     } 
+    getTokenById = async (id) => {
+        try {
+            const token = await this.tokenRepository.getTokenById(id)
+            return token;
+        } catch (error) {
+            console.log('Error in Contract Fetching: ', error);
+            throw error;
+        }
+    } 
 }
 
 module.exports = TokenService;
