@@ -63,7 +63,8 @@ const productCtlr = {
     try {
       const {  skip , limit } = req.query;
       const response = await productService.getAllProducts(skip , limit);
-      return res.status(200).json({ success: true, data: response, msg: 'All Products Fetched' });
+      let { productDetail , totalProducts } = response;
+      return res.status(200).json({ success: true, data: productDetail, totalProducts : totalProducts , msg: 'All Products Fetched' });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);

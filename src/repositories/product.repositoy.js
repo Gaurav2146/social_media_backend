@@ -20,8 +20,9 @@ const productsRepository = {
   getProducts: (skip , limit) =>
     new Promise(async (resolve, reject) => {
       try {
+        const totalProducts = await Products.find().countDocuments();
         const productDetail = await Products.find().skip( Number(skip) ).limit( Number(limit) )
-        resolve(productDetail);
+        resolve({ productDetail , totalProducts });
       } catch (error) {
         reject(error);
       }
