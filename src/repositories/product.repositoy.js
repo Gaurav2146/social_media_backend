@@ -30,11 +30,12 @@ const productsRepository = {
               }
             },
             { $unwind: "$sizeInfo" },
-            { $sort: { "sizeInfo.price": 1 } },
+            { $sort: { "sizeInfo.price": -1 } },
             { $project: { _id : 1 } }
           ]
 
           // { $project: { sizeInfo: 1 } }
+           // {  $group : { _id : "$_id"    }  }
 
           if(search)
           {
@@ -46,8 +47,12 @@ const productsRepository = {
           if (search) {
             filter_for_document_count = { product_description: { $regex: search, $options: '-i' } };
           }
-          const totalProducts = await Products.find(filter_for_document_count).countDocuments();          
-          const productDetail = await Products.aggregate(filter).skip(Number(skip)).limit(Number(limit));
+          let totalProducts = await Products.find(filter_for_document_count).countDocuments();          
+          let productDetail = await Products.aggregate(filter).skip(Number(skip)).limit(Number(limit));
+
+          console.log(productDetail , 'productDetail');
+
+          productDetail =  productsRepository.Filter(productDetail);
 
           let product = [];
           for(let i=0;i< productDetail.length;i++)
@@ -67,6 +72,7 @@ const productsRepository = {
           resolve({ productDetail, totalProducts });
         }
       } catch (error) {
+        console.log(error);
         reject(error);
       }
     }),
@@ -198,6 +204,22 @@ const productsRepository = {
         reject(error);
       }
     }),
+
+    Filter: (array)=> {
+      let map = new Map();
+      let res = [];
+      for (let i = 0; i < array.length; i++) {
+        if ( map.has( array[i]._id.toString() )) {
+          continue;
+        }
+        else {
+          res.push(array[i]);
+          map.set( array[i]._id.toString() , true );
+        }
+      }
+      return res;
+    }
+
 };
 
 module.exports = productsRepository;
