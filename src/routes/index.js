@@ -3,6 +3,7 @@ const user = require('./user-route');
 const product = require('./products-route');
 const brand = require('./brand-route');
 const tags = require('./tags-route');
+const collections = require('./collection-route');
 const smartContract = require('./smart-contract-route');
 const token = require('./token-route');
 
@@ -12,6 +13,7 @@ module.exports = {
   product,
   brand,
   tags,
+  collections,
   smartContract,
   token,
 };

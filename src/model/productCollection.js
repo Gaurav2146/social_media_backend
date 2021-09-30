@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 
 const collectionAddSchema = new mongoose.Schema({
-  collection_name: [{ type: String }],
+  collection_name: { type: String },
   collection_createdAt: {
     type: Date,
     default: Date.now,
