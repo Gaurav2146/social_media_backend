@@ -107,4 +107,22 @@ router.post('/getFilteredProducts', productCltr.getFilteredProducts);
 //  */
 router.post('/getSelectedProductDetails', productCltr.getSelectedProductInfo);
 
+// /**
+//  * Get Selected Product Info
+//  * @route Post /product/getSelectedProductDetails
+//  * @group get API - Endpoints related to selected product details.
+//  * @returns {object} 200 - Product Information Fetched
+//  * @returns {Error}  default - Unexpected error
+//  */
+router.post('/getFilteredTags', productCltr.getFilteredTags);
+
+// /**
+//  * Get Selected Product Info
+//  * @route Post /product/getSelectedProductDetails
+//  * @group get API - Endpoints related to selected product details.
+//  * @returns {object} 200 - Product Information Fetched
+//  * @returns {Error}  default - Unexpected error
+//  */
+router.post('/getFilteredBrands', productCltr.getFilteredBrands);
+
 module.exports = router;

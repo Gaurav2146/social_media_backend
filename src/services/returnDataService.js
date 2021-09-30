@@ -2,6 +2,7 @@
 exports.returnDataProductList = () => {
   return {
     product_name: 1,
+    product_brand: 1,
     product_weight: 1,
     product_weightUnit: 1,
     product_updatedAt: 1,

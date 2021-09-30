@@ -137,5 +137,27 @@ class productsService {
       }
     });
   }
+
+  filterTags(searchString) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await this.productRepository.filterTags(searchString);
+        resolve(response);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  filterBrands(searchString) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await this.productRepository.filterBrands(searchString);
+        resolve(response);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
 }
 module.exports = productsService;
