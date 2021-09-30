@@ -17,17 +17,55 @@ const productsRepository = {
       }
     }),
 
-  getProducts: (skip , limit , search) =>
+  getProducts: (skip, limit, search, filterType = "Demo") =>
     new Promise(async (resolve, reject) => {
       try {
-        let filter = {};
-        if(search)
-        {
-          filter = {  product_description : { $regex : search , $options : '-i' } };
+        if (filterType) {
+          
+          let filter = [
+            { $unwind: "$product_colorAndSizeDetails" },
+            {
+              $addFields: {
+                "sizeInfo": "$product_colorAndSizeDetails.sizeInfo"
+              }
+            },
+            { $unwind: "$sizeInfo" },
+            { $sort: { "sizeInfo.price": 1 } },
+            { $project: { _id : 1 } }
+          ]
+
+          // { $project: { sizeInfo: 1 } }
+
+          if(search)
+          {
+            filter.unshift( { $match : { product_description: { $regex: search, $options: '-i' } } } );
+          }
+
+          let filter_for_document_count = {};
+
+          if (search) {
+            filter_for_document_count = { product_description: { $regex: search, $options: '-i' } };
+          }
+          const totalProducts = await Products.find(filter_for_document_count).countDocuments();          
+          const productDetail = await Products.aggregate(filter).skip(Number(skip)).limit(Number(limit));
+
+          let product = [];
+          for(let i=0;i< productDetail.length;i++)
+          {
+             let prd_data = await Products.findById({ _id : productDetail[i]._id });
+             product.push(prd_data);
+          }
+          resolve({ productDetail : product , totalProducts : totalProducts });
         }
-        const totalProducts = await Products.find(filter).countDocuments();
-        const productDetail = await Products.find(filter).skip( Number(skip) ).limit( Number(limit) )
-        resolve({ productDetail , totalProducts });
+        else {
+          let filter = {};
+          if (search) {
+            filter = { product_description: { $regex: search, $options: '-i' } };
+          }
+          const totalProducts = await Products.find(filter).countDocuments();
+          const productDetail = await Products.find(filter).skip(Number(skip)).limit(Number(limit))
+          resolve({ productDetail, totalProducts });
+        }
       } catch (error) {
         reject(error);
       }
