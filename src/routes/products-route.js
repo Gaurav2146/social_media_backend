@@ -81,6 +81,15 @@ router.post('/addProductStepTwo', productCltr.createProductStepTwo);
 router.post('/addProductStepThree', uploadImages.fileUploader, productCltr.createProductStepThree);
 
 // /**
+//  * Save product Information
+//  * @route Post /product/createProductStepThree
+//  * @group get API - Endpoints related to addproduct details.
+//  * @returns {object} 200 - Product Information Fetched
+//  * @returns {Error}  default - Unexpected error
+//  */
+router.post('/addNFTImage', uploadImages.NFTfileUploader, productCltr.addNFTImage);
+
+// /**
 //  * Get Filtered Products
 //  * @route Post /product/getFilteredProducts
 //  * @group get API - Endpoints related to filtered product details.
@@ -97,5 +106,23 @@ router.post('/getFilteredProducts', productCltr.getFilteredProducts);
 //  * @returns {Error}  default - Unexpected error
 //  */
 router.post('/getSelectedProductDetails', productCltr.getSelectedProductInfo);
+
+// /**
+//  * Get Selected Product Info
+//  * @route Post /product/getSelectedProductDetails
+//  * @group get API - Endpoints related to selected product details.
+//  * @returns {object} 200 - Product Information Fetched
+//  * @returns {Error}  default - Unexpected error
+//  */
+router.post('/getFilteredTags', productCltr.getFilteredTags);
+
+// /**
+//  * Get Selected Product Info
+//  * @route Post /product/getSelectedProductDetails
+//  * @group get API - Endpoints related to selected product details.
+//  * @returns {object} 200 - Product Information Fetched
+//  * @returns {Error}  default - Unexpected error
+//  */
+router.post('/getFilteredBrands', productCltr.getFilteredBrands);
 
 module.exports = router;

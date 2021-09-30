@@ -10,7 +10,7 @@ const { cors, errorHandler } = require('./middleware');
 
 // eslint-disable-next-line node/no-unpublished-require
 require('./src/db/connection');
-                                  
+
 const indexRouter = require('./src/index');
 
 const app = express();
