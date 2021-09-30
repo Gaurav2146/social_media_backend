@@ -61,8 +61,8 @@ const productCtlr = {
   },
   getProducts: async function (req, res, next) {           
     try {
-      const {  skip , limit } = req.query;
-      const response = await productService.getAllProducts(skip , limit);
+      const {  skip , limit , search } = req.query;
+      const response = await productService.getAllProducts(skip , limit , search);
       let { productDetail , totalProducts } = response;
       return res.status(200).json({ success: true, data: productDetail, totalProducts : totalProducts , msg: 'All Products Fetched' });
     } catch (e) {
