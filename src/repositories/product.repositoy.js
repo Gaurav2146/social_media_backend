@@ -15,7 +15,7 @@ const productsRepository = {
       }
     }),
 
-  getProducts: (skip = 0, limit = 10, search = '', filterType = "Demo") =>
+  getProducts: (skip = 0, limit = 10, search = '', filterType = '') =>
     new Promise(async (resolve, reject) => {
       try {
         if (filterType) {
