@@ -12,6 +12,19 @@ exports.returnDataProductList = () => {
     product_colorAndSizeDetails: 1,
   };
 };
+exports.returnDataProductListForAdmin = () => {
+  return {
+    product_name: '$data.product_name',
+    _id: '$data._id',
+    product_weight: '$data.product_weight',
+    product_weightUnit: '$data.product_weightUnit',
+    product_updatedAt: '$data.product_updatedAt',
+    product_createdAt: '$data.product_createdAt',
+    product_colorAndSizeDetails: '$data.product_colorAndSizeDetails',
+    collectionDetails: '$collectionDetails',
+    brandDetails: '$brandDetails',
+  };
+};
 exports.returnDataProductDetail = () => {
   return {
     product_name: '$data.product_name',

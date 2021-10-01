@@ -125,4 +125,13 @@ router.post('/getFilteredTags', productCltr.getFilteredTags);
 //  */
 router.post('/getFilteredBrands', productCltr.getFilteredBrands);
 
+// /**
+//  * Get Selected Product Info
+//  * @route Post /product/getSelectedProductDetails
+//  * @group get API - Endpoints related to selected product details.
+//  * @returns {object} 200 - Product Information Fetched
+//  * @returns {Error}  default - Unexpected error
+//  */
+router.get('/getProductsForAdmin', productCltr.getProductsForAdmin);
+
 module.exports = router;
