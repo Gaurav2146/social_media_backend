@@ -20,20 +20,19 @@ const productsRepository = {
       try {
         if (filterType) {
           let filter = [
-            { $unwind: "$product_colorAndSizeDetails" },
+            { $unwind: '$product_colorAndSizeDetails' },
             {
               $addFields: {
-                "sizeInfo": "$product_colorAndSizeDetails.sizeInfo"
-              }
+                sizeInfo: '$product_colorAndSizeDetails.sizeInfo',
+              },
             },
-            { $unwind: "$sizeInfo" },
-            { $group: { _id: "$_id", maxPrice: { $max: "$sizeInfo.price" } } },
-          ]
-          if (filterType === "HighToLow") {
-            filter.push({ $sort: { "maxPrice": -1 } });
-          }
-          else {
-            filter.push({ $sort: { "maxPrice": 1 } });
+            { $unwind: '$sizeInfo' },
+            { $group: { _id: '$_id', maxPrice: { $max: '$sizeInfo.price' } } },
+          ];
+          if (filterType === 'HighToLow') {
+            filter.push({ $sort: { maxPrice: -1 } });
+          } else {
+            filter.push({ $sort: { maxPrice: 1 } });
           }
           if (search) {
             filter.unshift({ $match: { product_description: { $regex: search, $options: '-i' } } });
@@ -51,8 +50,7 @@ const productsRepository = {
             product.push(prd_data);
           }
           resolve({ productDetail: product, totalProducts: totalProducts });
-        }
-        else {
+        } else {
           let filter = {};
           if (search) {
             filter = { product_description: { $regex: search, $options: '-i' } };
@@ -74,6 +72,8 @@ const productsRepository = {
         const productDetail = await Products.aggregate([
           { $match: { _id: productID } },
           { $unwind: { path: '$product_tokenDetails', preserveNullAndEmptyArrays: true } },
+          { $unwind: { path: '$product_collectionName', preserveNullAndEmptyArrays: true } },
+          { $unwind: { path: '$product_tags', preserveNullAndEmptyArrays: true } },
           {
             $lookup: {
               from: 'tokens',
@@ -83,10 +83,37 @@ const productsRepository = {
             },
           },
           {
+            $lookup: {
+              from: 'collections',
+              let: { res_collectionID: '$product_collectionName' },
+              pipeline: [{ $match: { $expr: { $eq: ['$$res_collectionID', '$_id'] } } }],
+              as: 'collectionDetails',
+            },
+          },
+          {
+            $lookup: {
+              from: 'tags',
+              let: { res_tagID: '$product_tags' },
+              pipeline: [{ $match: { $expr: { $eq: ['$$res_tagID', '$_id'] } } }],
+              as: 'tagDetails',
+            },
+          },
+          {
+            $lookup: {
+              from: 'brands',
+              let: { brand_ID: '$product_brand' },
+              pipeline: [{ $match: { $expr: { $eq: ['$$brand_ID', '$_id'] } } }],
+              as: 'brandDetails',
+            },
+          },
+          {
             $group: {
               _id: '$_id',
               data: { $first: '$$ROOT' },
-              tokenDetails: { $push: { $mergeObjects: ['$product_tokenDetails', { $arrayElemAt: ['$tokenDetails', 0] }] } },
+              tokenDetails: { $addToSet: { $mergeObjects: ['$product_tokenDetails', { $arrayElemAt: ['$tokenDetails', 0] }] } },
+              collectionDetails: { $addToSet: { $arrayElemAt: ['$collectionDetails', 0] } },
+              tagDetails: { $addToSet: { $arrayElemAt: ['$tagDetails', 0] } },
+              brandInfo: { $first: { $arrayElemAt: ['$brandDetails', 0] } },
             },
           },
           { $project: returnDataService.returnDataProductDetail() },
@@ -231,20 +258,20 @@ const productsRepository = {
       }
     }),
 
-    Filter: (array)=> {
-      let map = new Map();
-      let res = [];
-      for (let i = 0; i < array.length; i++) {
-        if ( map.has( array[i]._id.toString() )) {
-          continue;
-        }
-        else {
-          res.push(array[i]);
-          map.set( array[i]._id.toString() , true );
-        }
+  Filter: (array) => {
+    let map = new Map();
+    let res = [];
+    for (let i = 0; i < array.length; i++) {
+      if (map.has(array[i]._id.toString())) {
+        continue;
       }
-      return res;
+      else {
+        res.push(array[i]);
+        map.set(array[i]._id.toString(), true);
+      }
     }
+    return res;
+  }
 
 };
 
