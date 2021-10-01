@@ -1,9 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-async-promise-executor */
 const mongoose = require('mongoose');
-
 const Products = require('../model/product');
-
 const returnDataService = require('../services/returnDataService');
 
 const productsRepository = {
@@ -17,11 +15,11 @@ const productsRepository = {
       }
     }),
 
-  getProducts: (skip, limit, search, filterType = "Demo") =>
+  getProducts: (skip = 0, limit = 10, search = '', filterType = "Demo") =>
     new Promise(async (resolve, reject) => {
       try {
         if (filterType) {
-          
+
           let filter = [
             { $unwind: "$product_colorAndSizeDetails" },
             {
@@ -30,37 +28,25 @@ const productsRepository = {
               }
             },
             { $unwind: "$sizeInfo" },
-            { $sort: { "sizeInfo.price": -1 } },
-            { $project: { _id : 1 } }
+            { $group: { _id: "$_id", maxPrice: { $max: "$sizeInfo.price" } } },
+            { $sort: { "maxPrice": -1 } },
           ]
-
-          // { $project: { sizeInfo: 1 } }
-           // {  $group : { _id : "$_id"    }  }
-
-          if(search)
-          {
-            filter.unshift( { $match : { product_description: { $regex: search, $options: '-i' } } } );
+          if (search) {
+            filter.unshift({ $match: { product_description: { $regex: search, $options: '-i' } } });
           }
-
           let filter_for_document_count = {};
-
           if (search) {
             filter_for_document_count = { product_description: { $regex: search, $options: '-i' } };
           }
-          let totalProducts = await Products.find(filter_for_document_count).countDocuments();          
+          let totalProducts = await Products.find(filter_for_document_count).countDocuments();
           let productDetail = await Products.aggregate(filter).skip(Number(skip)).limit(Number(limit));
-
-          console.log(productDetail , 'productDetail');
-
-          productDetail =  productsRepository.Filter(productDetail);
-
+          console.log(productDetail, 'productDetail');
           let product = [];
-          for(let i=0;i< productDetail.length;i++)
-          {
-             let prd_data = await Products.findById({ _id : productDetail[i]._id });
-             product.push(prd_data);
+          for (let i = 0; i < productDetail.length; i++) {
+            let prd_data = await Products.findById({ _id: productDetail[i]._id });
+            product.push(prd_data);
           }
-          resolve({ productDetail : product , totalProducts : totalProducts });
+          resolve({ productDetail: product, totalProducts: totalProducts });
         }
         else {
           let filter = {};
