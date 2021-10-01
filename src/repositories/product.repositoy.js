@@ -15,7 +15,7 @@ const productsRepository = {
       }
     }),
 
-  getProducts: (skip = 0, limit = 10, search = '', filterType = '') =>
+  getProducts: (skip = 0, limit = 10, search = '', filterType = 'HighToLow') =>
     new Promise(async (resolve, reject) => {
       try {
         if (filterType) {
@@ -29,8 +29,17 @@ const productsRepository = {
             },
             { $unwind: "$sizeInfo" },
             { $group: { _id: "$_id", maxPrice: { $max: "$sizeInfo.price" } } },
-            { $sort: { "maxPrice": -1 } },
           ]
+
+          if(filterType === "HighToLow")
+          {
+            filter.push({ $sort: { "maxPrice": -1 } });
+          }
+          else
+          {
+            filter.push({ $sort: { "maxPrice": 1 } });
+          }
+
           if (search) {
             filter.unshift({ $match: { product_description: { $regex: search, $options: '-i' } } });
           }
