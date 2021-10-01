@@ -11,9 +11,9 @@ class SmartContractService {
     }
 
     // To get a new Contract Instance from Contract ABI & Contract Address
-    getContractInstance = async (contract_address) => {
+    getContractInstance = async (contract_address , Tokensymbol) => {
         try {
-            let Contract_ABI = await this.tokenRepository.getToken({ Tokensymbol: 'BAYC' });
+            let Contract_ABI = await this.tokenRepository.getToken({ Tokensymbol: Tokensymbol });
                 const contract = await new web3http.eth.Contract(JSON.parse(JSON.parse(Contract_ABI[0].ContractABI)), contract_address);
                 return contract;
         } catch (error) {
@@ -24,9 +24,9 @@ class SmartContractService {
 
 
     // To get address balance from blockchain
-    getAddressBalance = async (address, contract_address) => {
+    getAddressBalance = async (address, contract_address , Tokensymbol) => {
         try {
-            const contract = await this.getContractInstance(contract_address);
+            const contract = await this.getContractInstance(contract_address , Tokensymbol);
             let balance = await contract.methods.balanceOf(address).call();
             return balance;
         } catch (error) {
