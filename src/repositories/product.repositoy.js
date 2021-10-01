@@ -35,11 +35,11 @@ const productsRepository = {
             filter.push({ $sort: { maxPrice: 1 } });
           }
           if (search) {
-            filter.unshift({ $match: { product_description: { $regex: search, $options: '-i' } } });
+            filter.unshift({ $match: { product_name: { $regex: search, $options: '-i' } } });
           }
           let filter_for_document_count = {};
           if (search) {
-            filter_for_document_count = { product_description: { $regex: search, $options: '-i' } };
+            filter_for_document_count = { product_name: { $regex: search, $options: '-i' } };
           }
           let totalProducts = await Products.find(filter_for_document_count).countDocuments();
           let productDetail = await Products.aggregate(filter).skip(Number(skip)).limit(Number(limit));
@@ -53,7 +53,7 @@ const productsRepository = {
         } else {
           let filter = {};
           if (search) {
-            filter = { product_description: { $regex: search, $options: '-i' } };
+            filter = { product_name: { $regex: search, $options: '-i' } };
           }
           const totalProducts = await Products.find(filter).countDocuments();
           const productDetail = await Products.find(filter).skip(Number(skip)).limit(Number(limit))
