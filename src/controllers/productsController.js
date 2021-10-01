@@ -73,12 +73,12 @@ const productCtlr = {
       }
     }
   },
-  getProducts: async function (req, res, next) {           
+  getProducts: async function (req, res, next) {
     try {
-      const {  skip , limit , search } = req.query;
-      const response = await productService.getAllProducts(skip , limit , search);
-      let { productDetail , totalProducts } = response;
-      return res.status(200).json({ success: true, data: productDetail, totalProducts : totalProducts , msg: 'All Products Fetched' });
+      const { skip, limit, search } = req.query;
+      const response = await productService.getAllProducts(skip, limit, search);
+      let { productDetail, totalProducts } = response;
+      return res.status(200).json({ success: true, data: productDetail, totalProducts: totalProducts, msg: 'All Products Fetched' });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);
