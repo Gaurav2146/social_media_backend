@@ -8,8 +8,8 @@ const smartContractCtl = {
 
     getBalance: async function (req, res, next) {
         try {
-            const { address, contract_address } = req.query;
-            let balance = await smartContractService.getAddressBalance(address, contract_address);
+            const { address, contract_address , Tokensymbol } = req.query;
+            let balance = await smartContractService.getAddressBalance(address, contract_address , Tokensymbol);
             res.status(200).json({ success: true, balance: balance });
         } catch (e) {
             if (isHttpError(e)) {

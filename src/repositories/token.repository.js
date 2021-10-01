@@ -48,7 +48,7 @@ const TokenRepository = {
     }) 
   },
 
-  getToken: ({ Tokensymbol, TokenType }) => {
+  getToken: ({ Tokensymbol , TokenType }) => {
     return new Promise(async (resolve, reject) => {
       try {                                                                                                                   
         let filter = {};
