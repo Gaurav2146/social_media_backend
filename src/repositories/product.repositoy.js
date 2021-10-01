@@ -19,7 +19,6 @@ const productsRepository = {
     new Promise(async (resolve, reject) => {
       try {
         if (filterType) {
-
           let filter = [
             { $unwind: "$product_colorAndSizeDetails" },
             {
@@ -30,16 +29,12 @@ const productsRepository = {
             { $unwind: "$sizeInfo" },
             { $group: { _id: "$_id", maxPrice: { $max: "$sizeInfo.price" } } },
           ]
-
-          if(filterType === "HighToLow")
-          {
+          if (filterType === "HighToLow") {
             filter.push({ $sort: { "maxPrice": -1 } });
           }
-          else
-          {
+          else {
             filter.push({ $sort: { "maxPrice": 1 } });
           }
-
           if (search) {
             filter.unshift({ $match: { product_description: { $regex: search, $options: '-i' } } });
           }
