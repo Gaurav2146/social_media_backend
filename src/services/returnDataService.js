@@ -15,9 +15,6 @@ exports.returnDataProductList = () => {
 exports.returnDataProductDetail = () => {
   return {
     product_name: '$data.product_name',
-    product_brand: '$data.product_brand',
-    product_collectionName: '$data.product_collectionName',
-    product_tags: '$data.product_tags',
     product_weight: '$data.product_weight',
     product_weightUnit: '$data.product_weightUnit',
     product_description: '$data.product_description',
@@ -28,7 +25,9 @@ exports.returnDataProductDetail = () => {
     product_stepperLastStepVisited: '$data.product_stepperLastStepVisited',
     nft_image: '$data.nft_image',
     product_colorAndSizeDetails: '$data.product_colorAndSizeDetails',
-    product_tokenDetails: '$data.product_tokenDetails',
     tokenDetails: '$tokenDetails',
+    collectionDetails: '$collectionDetails',
+    brandInfo: '$brandInfo',
+    tagDetails: '$tagDetails',
   };
 };

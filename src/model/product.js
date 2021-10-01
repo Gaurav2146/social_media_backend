@@ -16,7 +16,13 @@ const productAddSchema = new mongoose.Schema({
       ref: 'Collections',
     },
   ],
-  product_tags: [{ type: String }],
+  product_tags: [
+    {
+      type: mongoose.Schema.ObjectId,
+      trim: true,
+      ref: 'Tags',
+    },
+  ],
   product_weight: {
     type: Number,
   },
