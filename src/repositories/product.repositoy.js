@@ -56,7 +56,7 @@ const productsRepository = {
             filter = { product_name: { $regex: search, $options: '-i' } };
           }
           const totalProducts = await Products.find(filter).countDocuments();
-          const productDetail = await Products.find(filter).skip(Number(skip)).limit(Number(limit))
+          const productDetail = await Products.find(filter).skip(Number(skip)).limit(Number(limit));
           resolve({ productDetail, totalProducts });
         }
       } catch (error) {
@@ -128,12 +128,40 @@ const productsRepository = {
     new Promise(async (resolve, reject) => {
       try {
         const query = {
-          $or: [{ product_name: { $regex: searchvalue, $options: 'i' } }, { product_brand: { $regex: searchvalue, $options: 'i' } }],
+          $or: [
+            { product_name: { $regex: searchvalue, $options: 'i' } },
+            { 'brandDetails.brand_name': { $regex: searchvalue, $options: 'i' } },
+          ],
         };
         const productDetail = await Products.aggregate([
+          { $unwind: { path: '$product_collectionName', preserveNullAndEmptyArrays: true } },
+          {
+            $lookup: {
+              from: 'collections',
+              let: { res_collectionID: '$product_collectionName' },
+              pipeline: [{ $match: { $expr: { $eq: ['$$res_collectionID', '$_id'] } } }],
+              as: 'collectionDetails',
+            },
+          },
+          {
+            $lookup: {
+              from: 'brands',
+              let: { brand_ID: '$product_brand' },
+              pipeline: [{ $match: { $expr: { $eq: ['$$brand_ID', '$_id'] } } }],
+              as: 'brandDetails',
+            },
+          },
           { $match: query },
+          {
+            $group: {
+              _id: '$_id',
+              data: { $first: '$$ROOT' },
+              collectionDetails: { $addToSet: { $arrayElemAt: ['$collectionDetails', 0] } },
+              brandDetails: { $first: { $arrayElemAt: ['$brandDetails', 0] } },
+            },
+          },
           { $sort: { product_updatedAt: -1 } },
-          { $project: returnDataService.returnDataProductList() },
+          { $project: returnDataService.returnDataProductListForAdmin() },
         ]);
         resolve(productDetail);
       } catch (error) {
@@ -264,15 +292,50 @@ const productsRepository = {
     for (let i = 0; i < array.length; i++) {
       if (map.has(array[i]._id.toString())) {
         continue;
-      }
-      else {
+      } else {
         res.push(array[i]);
         map.set(array[i]._id.toString(), true);
       }
     }
     return res;
-  }
-
+  },
+  getProductsAdmin: () =>
+    new Promise(async (resolve, reject) => {
+      try {
+        const productDetail = await Products.aggregate([
+          { $unwind: { path: '$product_collectionName', preserveNullAndEmptyArrays: true } },
+          {
+            $lookup: {
+              from: 'collections',
+              let: { res_collectionID: '$product_collectionName' },
+              pipeline: [{ $match: { $expr: { $eq: ['$$res_collectionID', '$_id'] } } }],
+              as: 'collectionDetails',
+            },
+          },
+          {
+            $lookup: {
+              from: 'brands',
+              let: { brand_ID: '$product_brand' },
+              pipeline: [{ $match: { $expr: { $eq: ['$$brand_ID', '$_id'] } } }],
+              as: 'brandDetails',
+            },
+          },
+          {
+            $group: {
+              _id: '$_id',
+              data: { $first: '$$ROOT' },
+              collectionDetails: { $addToSet: { $arrayElemAt: ['$collectionDetails', 0] } },
+              brandDetails: { $first: { $arrayElemAt: ['$brandDetails', 0] } },
+            },
+          },
+          { $sort: { product_updatedAt: -1 } },
+          { $project: returnDataService.returnDataProductListForAdmin() },
+        ]);
+        resolve(productDetail);
+      } catch (error) {
+        reject(error);
+      }
+    }),
 };
 
 module.exports = productsRepository;
