@@ -1,9 +1,7 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-async-promise-executor */
 const mongoose = require('mongoose');
-
 const Products = require('../model/product');
-
 const returnDataService = require('../services/returnDataService');
 
 const productsRepository = {
@@ -17,17 +15,52 @@ const productsRepository = {
       }
     }),
 
-  getProducts: (skip, limit, search) =>
+  getProducts: (skip = 0, limit = 10, search = '', filterType = '') =>
     new Promise(async (resolve, reject) => {
       try {
-        let filter = {};
-        if (search) {
-          filter = { product_description: { $regex: search, $options: '-i' } };
+        if (filterType) {
+          let filter = [
+            { $unwind: '$product_colorAndSizeDetails' },
+            {
+              $addFields: {
+                sizeInfo: '$product_colorAndSizeDetails.sizeInfo',
+              },
+            },
+            { $unwind: '$sizeInfo' },
+            { $group: { _id: '$_id', maxPrice: { $max: '$sizeInfo.price' } } },
+          ];
+          if (filterType === 'HighToLow') {
+            filter.push({ $sort: { maxPrice: -1 } });
+          } else {
+            filter.push({ $sort: { maxPrice: 1 } });
+          }
+          if (search) {
+            filter.unshift({ $match: { product_description: { $regex: search, $options: '-i' } } });
+          }
+          let filter_for_document_count = {};
+          if (search) {
+            filter_for_document_count = { product_description: { $regex: search, $options: '-i' } };
+          }
+          let totalProducts = await Products.find(filter_for_document_count).countDocuments();
+          let productDetail = await Products.aggregate(filter).skip(Number(skip)).limit(Number(limit));
+          console.log(productDetail, 'productDetail');
+          let product = [];
+          for (let i = 0; i < productDetail.length; i++) {
+            let prd_data = await Products.findById({ _id: productDetail[i]._id });
+            product.push(prd_data);
+          }
+          resolve({ productDetail: product, totalProducts: totalProducts });
+        } else {
+          let filter = {};
+          if (search) {
+            filter = { product_description: { $regex: search, $options: '-i' } };
+          }
+          const totalProducts = await Products.find(filter).countDocuments();
+          const productDetail = await Products.find(filter).skip(Number(skip)).limit(Number(limit))
+          resolve({ productDetail, totalProducts });
         }
-        const totalProducts = await Products.find(filter).countDocuments();
-        const productDetail = await Products.find(filter).skip(Number(skip)).limit(Number(limit));
-        resolve({ productDetail, totalProducts });
       } catch (error) {
+        console.log(error);
         reject(error);
       }
     }),
@@ -224,6 +257,22 @@ const productsRepository = {
         reject(error);
       }
     }),
+
+  Filter: (array) => {
+    let map = new Map();
+    let res = [];
+    for (let i = 0; i < array.length; i++) {
+      if (map.has(array[i]._id.toString())) {
+        continue;
+      }
+      else {
+        res.push(array[i]);
+        map.set(array[i]._id.toString(), true);
+      }
+    }
+    return res;
+  }
+
 };
 
 module.exports = productsRepository;
