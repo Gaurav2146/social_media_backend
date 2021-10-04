@@ -32,6 +32,7 @@ class productsService {
   updateProduct(productID, updatedObj) {
     return new Promise((resolve, reject) => {
       try {
+        updatedObj.product_updatedAt = Date.now();
         const response = this.productRepository.editProductDetails(productID, updatedObj);
         resolve(response);
       } catch (e) {
@@ -118,6 +119,7 @@ class productsService {
             key: image.key,
             contentType: image.contentType,
           },
+          updatedAt: Date.now(),
         };
         const response = await this.productRepository.editProductDetails(productID, updatedObject);
         resolve(response);
