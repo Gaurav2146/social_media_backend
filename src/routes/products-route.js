@@ -87,7 +87,7 @@ router.post('/addProductStepThree', uploadImages.fileUploader, productCltr.creat
 //  * @returns {object} 200 - Product Information Fetched
 //  * @returns {Error}  default - Unexpected error
 //  */
-router.post('/addNFTImage', uploadImages.NFTfileUploader, productCltr.addNFTImage);
+router.post('/addNFTImage', uploadImages.nftFileUploader, productCltr.addNFTImage);
 
 // /**
 //  * Get Filtered Products
@@ -108,27 +108,9 @@ router.post('/getFilteredProducts', productCltr.getFilteredProducts);
 router.post('/getSelectedProductDetails', productCltr.getSelectedProductInfo);
 
 // /**
-//  * Get Selected Product Info
-//  * @route Post /product/getSelectedProductDetails
-//  * @group get API - Endpoints related to selected product details.
-//  * @returns {object} 200 - Product Information Fetched
-//  * @returns {Error}  default - Unexpected error
-//  */
-router.post('/getFilteredTags', productCltr.getFilteredTags);
-
-// /**
-//  * Get Selected Product Info
-//  * @route Post /product/getSelectedProductDetails
-//  * @group get API - Endpoints related to selected product details.
-//  * @returns {object} 200 - Product Information Fetched
-//  * @returns {Error}  default - Unexpected error
-//  */
-router.post('/getFilteredBrands', productCltr.getFilteredBrands);
-
-// /**
-//  * Get Selected Product Info
-//  * @route Post /product/getSelectedProductDetails
-//  * @group get API - Endpoints related to selected product details.
+//  * Get Products For Admin
+//  * @route Post /product/getProductsForAdmin
+//  * @group get API - Endpoints related to all products.
 //  * @returns {object} 200 - Product Information Fetched
 //  * @returns {Error}  default - Unexpected error
 //  */

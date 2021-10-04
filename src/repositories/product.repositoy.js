@@ -169,45 +169,6 @@ const productsRepository = {
       }
     }),
 
-  filterTags: (searchvalue) =>
-    new Promise(async (resolve, reject) => {
-      try {
-        const tagsDetail = await Products.aggregate([
-          { $unwind: '$product_tags' },
-          { $match: { product_tags: { $regex: searchvalue, $options: 'i' } } },
-          { $group: { _id: '$product_tags' } },
-          {
-            $project: {
-              _id: 0,
-              product_tags: '$_id',
-            },
-          },
-        ]);
-        resolve(tagsDetail);
-      } catch (error) {
-        reject(error);
-      }
-    }),
-
-  filterBrands: (searchvalue) =>
-    new Promise(async (resolve, reject) => {
-      try {
-        const tagsDetail = await Products.aggregate([
-          { $match: { product_brand: { $regex: searchvalue, $options: 'i' } } },
-          { $group: { _id: '$product_brand' } },
-          {
-            $project: {
-              _id: 0,
-              product_brand: '$_id',
-            },
-          },
-        ]);
-        resolve(tagsDetail);
-      } catch (error) {
-        reject(error);
-      }
-    }),
-
   editProductDetails: (productID, productObject) =>
     new Promise(async (resolve, reject) => {
       try {
