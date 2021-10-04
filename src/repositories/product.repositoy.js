@@ -15,7 +15,7 @@ const productsRepository = {
       }
     }),
 
-  getProducts: (skip = 0, limit = 10, search = '', filterType = '') =>
+  getProducts: (skip = 0, limit = 10, search = '', filterType = '', collection) =>
     new Promise(async (resolve, reject) => {
       try {
         if (filterType) {
@@ -29,6 +29,11 @@ const productsRepository = {
             { $unwind: '$sizeInfo' },
             { $group: { _id: '$_id', maxPrice: { $max: '$sizeInfo.price' } } },
           ];
+
+          // if (collection) {
+          //   filter.unshift( { $in: [ collection , "$product_collectionName"] } );
+          // }
+
           if (filterType === 'HighToLow') {
             filter.push({ $sort: { maxPrice: -1 } });
           } else {
@@ -54,16 +59,19 @@ const productsRepository = {
           let filter = {};
           if (search) {
             filter = { product_name: { $regex: search, $options: '-i' } };
-          }
-          const totalProducts = await Products.find(filter).countDocuments();
-          const productDetail = await Products.find(filter).skip(Number(skip)).limit(Number(limit));
-          resolve({ productDetail, totalProducts });
         }
-      } catch (error) {
-        console.log(error);
-        reject(error);
+        if (collection) {
+          filter = { product_name: { $regex: search, $options: '-i' }, product_collectionName: { $in: [collection] } };
+        }
+        const totalProducts = await Products.find(filter).countDocuments();
+        const productDetail = await Products.find(filter).skip(Number(skip)).limit(Number(limit));
+        resolve({ productDetail, totalProducts });
       }
-    }),
+      }catch(error) {
+    console.log(error);
+    reject(error);
+  }
+}),
 
   getProductDetails: (productID) =>
     new Promise(async (resolve, reject) => {
