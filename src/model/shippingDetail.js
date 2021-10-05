@@ -18,7 +18,7 @@ const shippingDetailSchema = new mongoose.Schema({
     trim: true,
   },
   State: {
-    type: Boolean,
+    type: String,
     required: true,
     trim: true,
   },
