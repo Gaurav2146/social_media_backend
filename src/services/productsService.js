@@ -18,10 +18,10 @@ class productsService {
     });
   }
 
-  getAllProducts(skip, limit, search, filterType , collection) {
+  getAllProducts(skip, limit, search, filterType, collection) {
     return new Promise((resolve, reject) => {
       try {
-        const response = this.productRepository.getProducts(skip, limit, search, filterType , collection);
+        const response = this.productRepository.getProducts(skip, limit, search, filterType, collection);
         resolve(response);
       } catch (e) {
         reject(e);
@@ -67,7 +67,6 @@ class productsService {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await this.productRepository.createProductStepOne(productObject);
-        console.log(response);
         resolve(response);
       } catch (e) {
         reject(e);
@@ -81,7 +80,6 @@ class productsService {
         productObject.updatedAt = Date.now();
         productObject.product_stepperLastStepVisited = 2;
         const response = await this.productRepository.createProductStepTwo(productID, productObject);
-        console.log(response);
         resolve(response);
       } catch (e) {
         reject(e);
@@ -133,28 +131,6 @@ class productsService {
     return new Promise(async (resolve, reject) => {
       try {
         const response = await this.productRepository.filterProductData(searchString);
-        resolve(response);
-      } catch (e) {
-        reject(e);
-      }
-    });
-  }
-
-  filterTags(searchString) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const response = await this.productRepository.filterTags(searchString);
-        resolve(response);
-      } catch (e) {
-        reject(e);
-      }
-    });
-  }
-
-  filterBrands(searchString) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const response = await this.productRepository.filterBrands(searchString);
         resolve(response);
       } catch (e) {
         reject(e);

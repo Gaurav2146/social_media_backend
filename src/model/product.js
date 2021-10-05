@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
 
 const productAddSchema = new mongoose.Schema({
-  product_name: {
-    type: String,
-  },
+  product_name: { type: String },
   product_brand: {
     type: mongoose.Schema.ObjectId,
     trim: true,
@@ -44,11 +42,6 @@ const productAddSchema = new mongoose.Schema({
   product_status: {
     type: String,
     enum: ['active', 'inactive'],
-  },
-  product_stepper: {
-    type: String,
-    default: 'incomplete',
-    enum: ['incomplete', 'completed'],
   },
   product_stepperStatus: {
     type: Boolean,

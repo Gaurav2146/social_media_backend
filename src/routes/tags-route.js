@@ -4,54 +4,56 @@ const router = express.Router();
 
 const tagsCltr = require('../controllers/tagsController');
 
-// Post route to add product to database
+// Post route to add tags to database
 
 /**
- * add product details
- * @route POST /product/addProduct
- * @group add API - Endpoints related to add product.
- * @returns {object} 200 - Product Added
+ * add product tags details
+ * @route POST /tags/addTag
+ * @group add API - Endpoints related to add product tags.
+ * @returns {object} 200 - Product Tag Added
  * @returns {Error}  default - Unexpected error
  */
 router.post('/addTag', tagsCltr.addTag);
 
-// Post route to edit product details
+// Post route to edit product tags details
 /**
- * edit product details
- * @route POST /product/updateProduct
- * @group edit API - Endpoints related to edit product.
- * @returns {object} 200 - Product Updated
+ * edit product tags details
+ * @route POST /tags/updateTag
+ * @group edit API - Endpoints related to edit product tag.
+ * @returns {object} 200 - Product Tag Updated
  * @returns {Error}  default - Unexpected error
  */
 router.post('/updateTag', tagsCltr.updateTag);
 
-// Post route to edit product details
+// Post route to edit product tag details
 
 /**
- * delete product
- * @route POST /product/updateProduct
- * @group delete API - Endpoints related to delete product.
- * @returns {object} 200 - Product Deleted
+ * delete product tag
+ * @route POST /tags/deleteTag
+ * @group delete API - Endpoints related to delete product tag.
+ * @returns {object} 200 - Product Tag Deleted
  * @returns {Error}  default - Unexpected error
  */
 router.post('/deleteTag', tagsCltr.deleteTag);
 
-// Get route to get all products
+// Get route to get all products tags
 
 /**
- * delete product
- * @route Get /product/getProducts
- * @group get API - Endpoints related to get all products.
- * @returns {object} 200 - All Products Fetched
+ * get tags
+ * @route Get /tags/getTags
+ * @group get API - Endpoints related to get all products tags.
+ * @returns {object} 200 - All Products tags Fetched
  * @returns {Error}  default - Unexpected error
  */
 router.get('/getTags', tagsCltr.getTags);
 
+// Post route to get all filtered products tags
+
 // /**
-//  * Get Selected Product Info
-//  * @route Post /product/getSelectedProductDetails
-//  * @group get API - Endpoints related to selected product details.
-//  * @returns {object} 200 - Product Information Fetched
+//  * Get Filtered Product Tags
+//  * @route Post /tags/getFilteredTags
+//  * @group get API - Endpoints related to filtered product tags.
+//  * @returns {object} 200 - Product Tags Information Fetched
 //  * @returns {Error}  default - Unexpected error
 //  */
 router.post('/getFilteredTags', tagsCltr.getFilteredTags);
