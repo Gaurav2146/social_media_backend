@@ -11,10 +11,10 @@ const contractMetadataController = {
       res.status(200).json({ 
 
         
-            "name": "OpenSea Creatures",
-            "description": "OpenSea Creatures are adorable aquatic beings primarily for demonstrating what can be done using the OpenSea platform. Adopt one today to try out all the OpenSea buying, selling, and bidding feature set.",
-            "image": "https://openseacreatures.io/image.png",
-            "external_link": "https://openseacreatures.io",
+            "name": "FANCY",
+            "description": "Fancy is a NFT Platform",
+            "image": "https://fancy.s3.us-east-2.amazonaws.com/assets/fancy_logo.png",
+            "external_link": "http://fancy.lapits.com",
         
 
        });
