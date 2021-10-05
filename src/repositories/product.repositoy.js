@@ -59,19 +59,19 @@ const productsRepository = {
           let filter = {};
           if (search) {
             filter = { product_name: { $regex: search, $options: '-i' } };
+          }
+          if (collection) {
+            filter = { product_name: { $regex: search, $options: '-i' }, product_collectionName: { $in: [collection] } };
+          }
+          const totalProducts = await Products.find(filter).countDocuments();
+          const productDetail = await Products.find(filter).skip(Number(skip)).limit(Number(limit));
+          resolve({ productDetail, totalProducts });
         }
-        if (collection) {
-          filter = { product_name: { $regex: search, $options: '-i' }, product_collectionName: { $in: [collection] } };
-        }
-        const totalProducts = await Products.find(filter).countDocuments();
-        const productDetail = await Products.find(filter).skip(Number(skip)).limit(Number(limit));
-        resolve({ productDetail, totalProducts });
+      } catch (error) {
+        console.log(error);
+        reject(error);
       }
-      }catch(error) {
-    console.log(error);
-    reject(error);
-  }
-}),
+    }),
 
   getProductDetails: (productID) =>
     new Promise(async (resolve, reject) => {
@@ -232,7 +232,6 @@ const productsRepository = {
           {
             $set: {
               'product_colorAndSizeDetails.$[outer].images': imagesArray,
-              product_stepper: 'completed',
               product_stepperStatus: true,
               product_stepperLastStepVisited: 3,
               product_updatedAt: Date.now(),

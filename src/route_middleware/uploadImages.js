@@ -29,6 +29,7 @@ const storage = multerS3({
   },
   key: function (req, file, cb) {
     const fileExtension = file.originalname.split('.')[1];
+    console.log(fileExtension);
     const filePath = `${process.env.AWS_FOLDER + Math.floor(Date.now().toString() * Math.random())}.${fileExtension}`;
     cb(null, filePath);
   },
