@@ -7,6 +7,8 @@ const collections = require('./collection-route');
 const smartContract = require('./smart-contract-route');
 const token = require('./token-route');
 const shipping = require('./shippingDetail-route');
+const contract = require('./contract-route');
+
 
 module.exports = {
   admin,
@@ -17,5 +19,6 @@ module.exports = {
   collections,
   smartContract,
   token,
-  shipping
+  shipping,
+  contract
 };
