@@ -48,7 +48,7 @@ const brandCtlr = {
       const { brandSearchValue } = req.body;
       if (brandSearchValue) {
         const response = await brandService.getAllFilteredBrands(brandSearchValue);
-        return res.status(200).json({ success: true, data: response, msg: 'All Products Fetched' });
+        return res.status(200).json({ success: true, data: response, msg: 'All Brands Fetched' });
       }
     } catch (e) {
       if (isHttpError(e)) {
