@@ -34,12 +34,9 @@ const productsRepository = {
             filter.unshift({
               $match: {
                 $expr: {
-                  $in: [
-                    mongoose.Types.ObjectId( collection ) ,
-                    "$product_collectionName"
-                  ]
-                }
-              }
+                  $in: [mongoose.Types.ObjectId(collection), '$product_collectionName'],
+                },
+              },
             });
           }
 
@@ -151,15 +148,6 @@ const productsRepository = {
           ],
         };
         const productDetail = await Products.aggregate([
-          { $unwind: { path: '$product_collectionName', preserveNullAndEmptyArrays: true } },
-          {
-            $lookup: {
-              from: 'collections',
-              let: { res_collectionID: '$product_collectionName' },
-              pipeline: [{ $match: { $expr: { $eq: ['$$res_collectionID', '$_id'] } } }],
-              as: 'collectionDetails',
-            },
-          },
           {
             $lookup: {
               from: 'brands',
@@ -169,6 +157,15 @@ const productsRepository = {
             },
           },
           { $match: query },
+          { $unwind: { path: '$product_collectionName', preserveNullAndEmptyArrays: true } },
+          {
+            $lookup: {
+              from: 'collections',
+              let: { res_collectionID: '$product_collectionName' },
+              pipeline: [{ $match: { $expr: { $eq: ['$$res_collectionID', '$_id'] } } }],
+              as: 'collectionDetails',
+            },
+          },
           {
             $group: {
               _id: '$_id',
