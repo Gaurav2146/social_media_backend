@@ -28,8 +28,7 @@ const storage = multerS3({
     cb(null, { files: file.fieldname });
   },
   key: function (req, file, cb) {
-    const fileExtension = file.originalname.split('.')[1];
-    console.log(fileExtension);
+    const fileExtension = file.originalname.substring(file.originalname.lastIndexOf('.') + 1);
     const filePath = `${process.env.AWS_FOLDER + Math.floor(Date.now().toString() * Math.random())}.${fileExtension}`;
     cb(null, filePath);
   },
@@ -45,8 +44,7 @@ const nftStorage = multerS3({
     cb(null, { files: file.fieldname });
   },
   key: function (req, file, cb) {
-    const fileExtension = file.originalname.split('.')[1];
-    console.log(fileExtension);
+    const fileExtension = file.originalname.substring(file.originalname.lastIndexOf('.') + 1);
     const filePath = `${process.env.AWS_FOLDER_NFT_IMAGE + Math.floor(Date.now().toString() * Math.random())}.${fileExtension}`;
     cb(null, filePath);
   },
