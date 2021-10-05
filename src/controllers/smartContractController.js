@@ -4,6 +4,8 @@ const isHttpError = require('http-errors');
 const SmartContractService = require('../services/smartContract.service');
 const smartContractService = new SmartContractService();
 
+//https://mainnet.infura.io/v3/fb6818b1126040b1a9b6fdfea0ac8577
+
 const smartContractCtl = {
 
     getBalance: async function (req, res, next) {

@@ -30,9 +30,18 @@ const productsRepository = {
             { $group: { _id: '$_id', maxPrice: { $max: '$sizeInfo.price' } } },
           ];
 
-          // if (collection) {
-          //   filter.unshift( { $in: [ collection , "$product_collectionName"] } );
-          // }
+          if (collection) {
+            filter.unshift({
+              $match: {
+                $expr: {
+                  $in: [
+                    mongoose.Types.ObjectId( collection ) ,
+                    "$product_collectionName"
+                  ]
+                }
+              }
+            });
+          }
 
           if (filterType === 'HighToLow') {
             filter.push({ $sort: { maxPrice: -1 } });
