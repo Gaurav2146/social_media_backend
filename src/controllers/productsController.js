@@ -1,6 +1,8 @@
 /* eslint-disable consistent-return */
 const isHttpError = require('http-errors');
+
 const ProductsService = require('../services/productsService');
+
 const productService = new ProductsService();
 
 const productCtlr = {
@@ -15,7 +17,7 @@ const productCtlr = {
       } else {
         return res.status(400).json({ success: false, message: 'something went wrong!' });
       }
-    }    
+    }
   },
   createProductStepTwo: async function (req, res, next) {
     try {
