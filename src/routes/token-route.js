@@ -12,7 +12,7 @@ let auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'] ,
   
 /**
  * save token in database
- * @route GET /token/saveToken
+ * @route POST /token/saveToken
  * @group API - Endpoints to save token
  * @returns {confirmation message} 200
  * @returns {Error}  default - Unexpected error
@@ -21,17 +21,40 @@ let auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'] ,
 
 
  /**
- * get token from database
- * @route GET /token/getAllTokens
+ * get all tokens from database
+ * @route POST /token/getAllTokens
  * @group API - Endpoints to get All Tokens
  * @returns {confirmation message} 200
  * @returns {Error}  default - Unexpected error
  */
   router.post('/getAllTokens', auth , tokenCtl.getAllTokens);
 
+   /**
+ * get token detail from database
+ * @route POST /token/getTokenDetail
+ * @group API - Endpoints to get All Tokens Detail
+ * @returns {confirmation message} 200
+ * @returns {Error}  default - Unexpected error
+ */
   router.post('/getTokenDetail',  tokenCtl.getTokenDetail);
 
+/**
+ * get Token By Id from database
+ * @route GET /token/getTokenById
+ * @group API - Endpoints to get Token By Id
+ * @returns {confirmation message} 200
+ * @returns {Error}  default - Unexpected error
+ */
   router.get('/getTokenById',  tokenCtl.getTokenById);
+
+/**
+ * delete Token from database
+ * @route GET /token/deleteToken
+ * @group API - Endpoints to delete Token By Id
+ * @returns {confirmation message} 200
+ * @returns {Error}  default - Unexpected error
+ */
+  router.get('/deleteToken',  tokenCtl.deleteToken);
 
   
 

@@ -77,7 +77,21 @@ const TokenRepository = {
         reject(error);
       }
     })
-  }
+  },
+
+
+  deleteTokenById : (id) => {
+    return new Promise(async (resolve, reject) => {
+      try {                                                                                                                   
+        let token_data = await Token.findByIdAndDelete({ _id : id });
+        resolve(token_data);
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    })
+  },
+
 };
 
 module.exports = TokenRepository;
