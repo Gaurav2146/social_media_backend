@@ -8,7 +8,7 @@ const smartContract = require('./smart-contract-route');
 const token = require('./token-route');
 const shipping = require('./shippingDetail-route');
 const contract = require('./contract-route');
-
+const ipfs = require('./ipfs-route');
 
 module.exports = {
   admin,
@@ -20,5 +20,6 @@ module.exports = {
   smartContract,
   token,
   shipping,
-  contract
+  contract,
+  ipfs
 };

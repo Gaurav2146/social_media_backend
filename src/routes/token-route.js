@@ -17,7 +17,7 @@ let auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'] ,
  * @returns {confirmation message} 200
  * @returns {Error}  default - Unexpected error
  */
- router.post('/saveToken', auth , tokenCtl.saveToken);
+ router.post('/saveToken', auth , tokenCtl.saveToken);        
 
 
  /**
