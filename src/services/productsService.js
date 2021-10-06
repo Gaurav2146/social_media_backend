@@ -2,6 +2,8 @@
 /* eslint-disable no-param-reassign */
 const productRepository = require('../repositories/product.repositoy');
 
+const deleteImagesFile = require('../route_middleware/deleteImages');
+
 class productsService {
   constructor() {
     this.productRepository = productRepository;
@@ -74,12 +76,27 @@ class productsService {
     });
   }
 
-  addProductStepTwo(productID, productObject) {
+  addProductStepTwo(productID, productObject, removeImagesProductDetails) {
     return new Promise(async (resolve, reject) => {
       try {
+        const deletedImageArray = [];
+        const deleteImagesFromDatabase = [];
+        if (removeImagesProductDetails && removeImagesProductDetails.length > 0) {
+          removeImagesProductDetails.forEach((element) => {
+            if (element.images && element.images.length > 0) {
+              element.images.forEach((image) => {
+                deletedImageArray.push({ Key: image.key });
+                deleteImagesFromDatabase.push({ key: image.key });
+              });
+            }
+          });
+        }
+        console.log(deletedImageArray);
+        const deletedResponse = await deleteImagesFile.deleteSelectedFiles(deletedImageArray);
+        console.log(deletedResponse);
         productObject.updatedAt = Date.now();
         productObject.product_stepperLastStepVisited = 2;
-        const response = await this.productRepository.createProductStepTwo(productID, productObject);
+        const response = await this.productRepository.createProductStepTwo(productID, productObject, removeImagesProductDetails);
         resolve(response);
       } catch (e) {
         reject(e);
