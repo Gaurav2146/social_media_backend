@@ -1,8 +1,6 @@
 /* eslint-disable consistent-return */
 const isHttpError = require('http-errors');
-
 const TagsService = require('../services/tagsService');
-
 const tagsService = new TagsService();
 
 const tagsCtlr = {
@@ -19,21 +17,21 @@ const tagsCtlr = {
       }
     }
   },
-  updateTag: async function (req, res, next) {
+  updateTag: async function (req, res, next) {        
     try {
       const { tagID, tagObject } = req.body;
       const response = await tagsService.updateTag(tagID, tagObject);
       return res.status(200).json({ success: true, data: response });
     } catch (e) {
-      if (isHttpError(e)) {
-        next(e);
-      } else {
+      if (isHttpError(e)) {                                                      
+        next(e);       
+      } else {                      
         return res.status(400).json({ message: 'something went wrong!' });
       }
     }
   },
-  getTags: async function (req, res, next) {
-    try {
+  getTags: async function (req, res, next) {                               
+    try {   
       const response = await tagsService.getAllTags();
       return res.status(200).json({ success: true, data: response, msg: 'All Tags Fetched' });
     } catch (e) {
@@ -41,7 +39,7 @@ const tagsCtlr = {
         next(e);
       } else {
         return res.status(400).json({ message: 'something went wrong!' });
-      }
+      }                                            
     }
   },
   getFilteredTags: async function (req, res, next) {
@@ -51,7 +49,7 @@ const tagsCtlr = {
         const response = await tagsService.getAllFilteredTags(tagSearchValue);
         return res.status(200).json({ success: true, data: response, msg: 'All Tags Fetched' });
       }
-    } catch (e) {
+    } catch (e) {                             
       if (isHttpError(e)) {
         next(e);
       } else {
