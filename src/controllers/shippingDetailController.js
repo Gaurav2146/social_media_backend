@@ -1,11 +1,8 @@
 /* eslint-disable consistent-return */
 const { BadRequest, InternalServerError } = require('http-errors');
 const isHttpError = require('http-errors');
-
 const shippingDetailService = require('../services/shippingDetailService');
-
 const shipping_detail_service = new shippingDetailService();
-
 
 const shippingDetailCtl = {
  
@@ -24,6 +21,5 @@ const shippingDetailCtl = {
   }
   
 }
-
 
 module.exports = shippingDetailCtl;

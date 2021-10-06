@@ -11,7 +11,6 @@ class TokenService {
             const token = await this.tokenRepository.saveToken(tokenObj)
             return token;
         } catch (error) {
-            console.log('Error in Contract Fetching: ', error);
             throw error;
         }
     }
@@ -21,7 +20,6 @@ class TokenService {
             const tokens = await this.tokenRepository.getAllTokens({ search , index , limit })
             return tokens;
         } catch (error) {
-            console.log('Error in Contract Fetching: ', error);
             throw error;
         }
     } 
@@ -31,7 +29,6 @@ class TokenService {
             const token = await this.tokenRepository.getToken({ Tokensymbol , TokenType })
             return token;
         } catch (error) {
-            console.log('Error in Contract Fetching: ', error);
             throw error;
         }
     } 
@@ -40,10 +37,19 @@ class TokenService {
             const token = await this.tokenRepository.getTokenById(id)
             return token;
         } catch (error) {
-            console.log('Error in Contract Fetching: ', error);
             throw error;
         }
     } 
+
+    deleteTokenById = async (id) => {
+        try {
+            const token = await this.tokenRepository.deleteTokenById(id)
+            return token;
+        } catch (error) {
+            throw error;
+        }
+    } 
+    
 }
 
 module.exports = TokenService;
