@@ -20,8 +20,8 @@ const productCtlr = {
   },
   createProductStepTwo: async function (req, res, next) {
     try {
-      const { productID, data } = req.body;
-      const response = await productService.addProductStepTwo(productID, data);
+      const { productID, data, removeImagesProductDetails } = req.body;
+      const response = await productService.addProductStepTwo(productID, data, removeImagesProductDetails);
       return res.status(200).json({ success: true, data: response });
     } catch (e) {
       if (isHttpError(e)) {
