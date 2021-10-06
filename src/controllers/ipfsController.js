@@ -21,12 +21,12 @@ const ipfsController = {
       //     const hash = fileadded.cid.toString();
       //     console.log('hash1-------------', hash);
       //     uploadFile.push('https://ipfs.io/ipfs/' + hash);
-      
+
       let req = https.request(options, (res) => {
         let body = ''
         res.on('data', function (chunk) {
-          body += chunk
-        })
+          body += chunk                                                                                                  
+        })                        
         res.on('end', function () {
           response.status(200).json({ data: body })                                          
         })
