@@ -129,7 +129,11 @@ const productsRepository = {
             $group: {
               _id: '$_id',
               data: { $first: '$$ROOT' },
-              tokenDetails: { $addToSet: { $mergeObjects: ['$product_tokenDetails', { $arrayElemAt: ['$tokenDetails', 0] }] } },
+              tokenDetails: {
+                $addToSet: {
+                  $mergeObjects: ['$product_tokenDetails', { $arrayElemAt: ['$tokenDetails', 0] }],
+                },
+              },
               collectionDetails: { $addToSet: { $arrayElemAt: ['$collectionDetails', 0] } },
               tagDetails: { $addToSet: { $arrayElemAt: ['$tagDetails', 0] } },
               brandInfo: { $first: { $arrayElemAt: ['$brandDetails', 0] } },
