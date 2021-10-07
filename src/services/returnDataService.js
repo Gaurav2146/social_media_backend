@@ -20,6 +20,7 @@ exports.returnDataProductListForAdmin = () => {
     product_weightUnit: '$data.product_weightUnit',
     product_updatedAt: '$data.product_updatedAt',
     product_createdAt: '$data.product_createdAt',
+    product_status: '$data.product_status',
     product_colorAndSizeDetails: '$data.product_colorAndSizeDetails',
     collectionDetails: '$collectionDetails',
     brandDetails: '$brandDetails',
