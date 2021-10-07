@@ -8,9 +8,9 @@ const shippingDetailCtl = {
  
     addShippingDetail : async function (req, res, next) {                                         
     try {
-      const { name , StreetAddress , City_Province ,  State , Zip , Country , Email } = req.body;
-      let shippimg_detail = await shipping_detail_service.addShippingDetail({ name , StreetAddress , City_Province ,  State , Zip , Country , Email });
-      res.status(200).json({ success : true , shippimg_detail : shippimg_detail });
+      const { name , StreetAddress , City_Province ,  State , Zip , Country , Email , product_color , product_price , product_quantity , product_size , Wallet_ID , product_ID } = req.body;
+      let shipping_detail = await shipping_detail_service.addShippingDetail({ name , StreetAddress , City_Province ,  State , Zip , Country , Email , product_color , product_price , product_quantity , product_size , Wallet_ID , product_ID });
+      res.status(200).json({ success : true , shipping_detail : shipping_detail });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);
