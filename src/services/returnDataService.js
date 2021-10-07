@@ -24,6 +24,7 @@ exports.returnDataProductListForAdmin = () => {
     product_colorAndSizeDetails: '$data.product_colorAndSizeDetails',
     collectionDetails: '$collectionDetails',
     brandDetails: '$brandDetails',
+    totalQuantity: '$totalQuantity',
   };
 };
 exports.returnDataProductDetail = () => {
