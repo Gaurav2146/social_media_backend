@@ -20,7 +20,7 @@ const productsRepository = {
       try {
         if (filterType) {
           let filter = [
-            { $match : {  product_status : 'active' } },
+            { $match: { product_status: 'active' } },
             { $unwind: '$product_colorAndSizeDetails' },
             {
               $addFields: {
@@ -63,12 +63,16 @@ const productsRepository = {
           }
           resolve({ productDetail: product, totalProducts: totalProducts });
         } else {
-          let filter = { product_status : 'active' };
+          let filter = { product_status: 'active' };
           if (search) {
-            filter = { product_status : 'active' ,  product_name: { $regex: search, $options: '-i' } };
+            filter = { product_status: 'active', product_name: { $regex: search, $options: '-i' } };
           }
           if (collection) {
-            filter = { product_status : 'active' ,  product_name: { $regex: search, $options: '-i' }, product_collectionName: { $in: [collection] } };
+            filter = {
+              product_status: 'active',
+              product_name: { $regex: search, $options: '-i' },
+              product_collectionName: { $in: [collection] },
+            };
           }
           const totalProducts = await Products.find(filter).countDocuments();
           const productDetail = await Products.find(filter).skip(Number(skip)).limit(Number(limit));
@@ -146,6 +150,7 @@ const productsRepository = {
           $or: [
             { product_name: { $regex: searchvalue, $options: 'i' } },
             { 'brandDetails.brand_name': { $regex: searchvalue, $options: 'i' } },
+            { 'collectionDetails.collection_name': { $regex: searchvalue, $options: 'i' } },
           ],
         };
         const productDetail = await Products.aggregate([
@@ -157,7 +162,6 @@ const productsRepository = {
               as: 'brandDetails',
             },
           },
-          { $match: query },
           { $unwind: { path: '$product_collectionName', preserveNullAndEmptyArrays: true } },
           {
             $lookup: {
@@ -176,6 +180,7 @@ const productsRepository = {
             },
           },
           { $project: returnDataService.returnDataProductListForAdmin() },
+          { $match: query },
           { $sort: { product_updatedAt: -1 } },
         ]);
         resolve(productDetail);
@@ -310,6 +315,7 @@ const productsRepository = {
       try {
         const productDetail = await Products.aggregate([
           { $unwind: { path: '$product_collectionName', preserveNullAndEmptyArrays: true } },
+          // { $unwind: { path: '$product_colorAndSizeDetails', preserveNullAndEmptyArrays: true } },
           {
             $lookup: {
               from: 'collections',
@@ -332,6 +338,7 @@ const productsRepository = {
               data: { $first: '$$ROOT' },
               collectionDetails: { $addToSet: { $arrayElemAt: ['$collectionDetails', 0] } },
               brandDetails: { $first: { $arrayElemAt: ['$brandDetails', 0] } },
+              // count: { $sum: '$product_colorAndSizeDetails.sizeInfo.qty' },
             },
           },
           { $project: returnDataService.returnDataProductListForAdmin() },
