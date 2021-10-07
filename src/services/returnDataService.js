@@ -38,6 +38,9 @@ exports.returnDataProductDetail = () => {
     product_stepperLastStepVisited: '$data.product_stepperLastStepVisited',
     nft_image: '$data.nft_image',
     product_colorAndSizeDetails: '$data.product_colorAndSizeDetails',
+    // tokenDetails: {
+    //   $cond: [{ $eq: [{ $exists: true, $not: { $size: 0 } }] }, { $literal: [] }, '$tokenDetails'],
+    // },
     tokenDetails: '$tokenDetails',
     collectionDetails: '$collectionDetails',
     brandInfo: '$brandInfo',

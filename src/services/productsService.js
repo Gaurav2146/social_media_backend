@@ -91,7 +91,6 @@ class productsService {
             }
           });
         }
-        console.log(deletedImageArray);
         const deletedResponse = await deleteImagesFile.deleteSelectedFiles(deletedImageArray);
         console.log(deletedResponse);
         productObject.updatedAt = Date.now();
