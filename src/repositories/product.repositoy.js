@@ -315,10 +315,7 @@ const productsRepository = {
       try {
         const productDetail = await Products.aggregate([
           { $unwind: { path: '$product_collectionName', preserveNullAndEmptyArrays: true } },
-          { $unwind: { path: '$data', preserveNullAndEmptyArrays: true } },
           // { $unwind: { path: '$product_colorAndSizeDetails', preserveNullAndEmptyArrays: true } },
-          // { $unwind: { path: '$sizeInfo', preserveNullAndEmptyArrays: true } },
-          { $unwind: { path: '$product_colorAndSizeDetails.sizeInfo', preserveNullAndEmptyArrays: true } },
           {
             $lookup: {
               from: 'collections',
@@ -341,6 +338,7 @@ const productsRepository = {
               data: { $first: '$$ROOT' },
               collectionDetails: { $addToSet: { $arrayElemAt: ['$collectionDetails', 0] } },
               brandDetails: { $first: { $arrayElemAt: ['$brandDetails', 0] } },
+              // count: { $sum: '$product_colorAndSizeDetails.sizeInfo.qty' },
             },
           },
           { $project: returnDataService.returnDataProductListForAdmin() },
