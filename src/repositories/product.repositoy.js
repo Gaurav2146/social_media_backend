@@ -126,6 +126,19 @@ const productsRepository = {
             },
           },
           {
+            $cond: [
+              {
+                $and: [
+                  // if
+                  { $eq: [1, { $size: '$data.marks.Score' }] },
+                  { $arrayElemAt: ['$data.marks.Score.history', 0] },
+                ],
+              },
+              { $arrayElemAt: ['$data.marks.Score.history', 0] }, // then (use value of history)
+              null,
+            ],
+          },
+          {
             $group: {
               _id: '$_id',
               data: { $first: '$$ROOT' },
@@ -315,10 +328,7 @@ const productsRepository = {
       try {
         const productDetail = await Products.aggregate([
           { $unwind: { path: '$product_collectionName', preserveNullAndEmptyArrays: true } },
-          { $unwind: { path: '$data', preserveNullAndEmptyArrays: true } },
           // { $unwind: { path: '$product_colorAndSizeDetails', preserveNullAndEmptyArrays: true } },
-          // { $unwind: { path: '$sizeInfo', preserveNullAndEmptyArrays: true } },
-          { $unwind: { path: '$product_colorAndSizeDetails.sizeInfo', preserveNullAndEmptyArrays: true } },
           {
             $lookup: {
               from: 'collections',
@@ -341,6 +351,7 @@ const productsRepository = {
               data: { $first: '$$ROOT' },
               collectionDetails: { $addToSet: { $arrayElemAt: ['$collectionDetails', 0] } },
               brandDetails: { $first: { $arrayElemAt: ['$brandDetails', 0] } },
+              // count: { $sum: '$product_colorAndSizeDetails.sizeInfo.qty' },
             },
           },
           { $project: returnDataService.returnDataProductListForAdmin() },
