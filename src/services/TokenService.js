@@ -15,6 +15,17 @@ class TokenService {
         }
     }
 
+    editToken = async (tokenObj , id) => {
+        try {
+            const token = await this.tokenRepository.editToken(tokenObj , id)
+            return token;
+        } catch (error) {
+            throw error;
+        }
+    }
+
+    
+
     getAllTokens = async ({ search , index , limit }) => {
         try {
             const tokens = await this.tokenRepository.getAllTokens({ search , index , limit })

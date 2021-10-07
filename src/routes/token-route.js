@@ -17,9 +17,18 @@ let auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'] ,
  * @returns {confirmation message} 200
  * @returns {Error}  default - Unexpected error
  */
- router.post('/saveToken', auth , tokenCtl.saveToken);        
-
-
+ router.post('/saveToken', auth , tokenCtl.saveToken);  
+ 
+ /**
+ * editToken token in database
+ * @route POST /token/editToken
+ * @group API - Endpoints to edit Token
+ * @returns {confirmation message} 200
+ * @returns {Error}  default - Unexpected error
+ */
+  router.post('/editToken', auth , tokenCtl.editToken);  
+ 
+ 
  /**
  * get all tokens from database
  * @route POST /token/getAllTokens
@@ -56,6 +65,6 @@ let auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'] ,
  */
   router.get('/deleteToken',  tokenCtl.deleteToken);
 
-  
+
 
 module.exports = router;

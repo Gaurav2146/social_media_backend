@@ -14,6 +14,18 @@ const TokenRepository = {
     })
   },
 
+  editToken: (tokenObj , id) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let token = await Token.findOneAndUpdate({_id : id} , { $set : tokenObj })
+        resolve(token);
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    })
+  },
+
   getToken: (Symbol) => {
     return new Promise(async (resolve, reject) => {
       try {
@@ -39,7 +51,7 @@ const TokenRepository = {
           filter = { $or: [{ TokenType: { $regex: search, $options: "-i" } }, { TokenName: { $regex: search, $options: "-i" } }, { Symbol: { $regex: search, $options: "-i" } }, { ContractAddress: { $regex: search, $options: "-i" } }] }
         }
         let total_data = await Token.find(filter).countDocuments();
-        let tokens = await Token.find(filter, { ContractABI: 0 }).sort({ createdAt : -1}).skip(Number(index - 1) * Number(limit)).limit(Number(limit));
+        let tokens = await Token.find(filter).sort({ createdAt : -1}).skip(Number(index - 1) * Number(limit)).limit(Number(limit));
         resolve({ tokens, total_data });
       } catch (error) {
         console.log(error);
