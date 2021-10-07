@@ -10,7 +10,7 @@ const ipfsController = {
   saveDataToIPFS: async function (reqest, response, next) {
     try {
 
-      const options = {
+      const options = {                                                      
         host: 'ipfs.infura.io',
         port: 5001,
         path: '/api/v0/pin/add?arg=QmeGAVddnBSnKc1DLE7DLV9uuTqo5F7QbaveTjr45JUdQn',
@@ -24,8 +24,8 @@ const ipfsController = {
 
       let req = https.request(options, (res) => {
         let body = ''
-        res.on('data', function (chunk) {
-          body += chunk                                                                                                  
+        res.on('data', function (chunk) {                     
+          body += chunk                                                             
         })                        
         res.on('end', function () {
           response.status(200).json({ data: body })                                          

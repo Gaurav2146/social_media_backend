@@ -9,21 +9,21 @@ const productCtlr = {
       const productObject = req.body;
       const response = await productService.addProductStepOne(productObject);
       return res.status(200).json({ success: true, data: response });
-    } catch (e) {
+    } catch (e) {                                      
       if (isHttpError(e)) {
         next(e);
       } else {
         return res.status(400).json({ success: false, message: 'something went wrong!' });
       }
-    }    
-  },
+    }      
+  },                       
   createProductStepTwo: async function (req, res, next) {
     try {
       const { productID, data, removeImagesProductDetails } = req.body;
       const response = await productService.addProductStepTwo(productID, data, removeImagesProductDetails);
       return res.status(200).json({ success: true, data: response });
     } catch (e) {
-      if (isHttpError(e)) {
+      if (isHttpError(e)) {  
         next(e);
       } else {
         return res.status(400).json({ success: false, message: 'something went wrong!' });
@@ -96,7 +96,7 @@ const productCtlr = {
     } catch (e) {
       if (isHttpError(e)) {
         next(e);
-      } else {
+      } else {   
         return res.status(400).json({ message: 'something went wrong!' });
       }
     }
