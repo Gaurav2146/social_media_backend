@@ -126,19 +126,6 @@ const productsRepository = {
             },
           },
           {
-            $cond: [
-              {
-                $and: [
-                  // if
-                  { $eq: [1, { $size: '$data.marks.Score' }] },
-                  { $arrayElemAt: ['$data.marks.Score.history', 0] },
-                ],
-              },
-              { $arrayElemAt: ['$data.marks.Score.history', 0] }, // then (use value of history)
-              null,
-            ],
-          },
-          {
             $group: {
               _id: '$_id',
               data: { $first: '$$ROOT' },
