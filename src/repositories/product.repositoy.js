@@ -20,6 +20,7 @@ const productsRepository = {
       try {
         if (filterType) {
           let filter = [
+            { $match : {  product_status : 'active' } },
             { $unwind: '$product_colorAndSizeDetails' },
             {
               $addFields: {
@@ -62,12 +63,12 @@ const productsRepository = {
           }
           resolve({ productDetail: product, totalProducts: totalProducts });
         } else {
-          let filter = {};
+          let filter = { product_status : 'active' };
           if (search) {
-            filter = { product_name: { $regex: search, $options: '-i' } };
+            filter = { product_status : 'active' ,  product_name: { $regex: search, $options: '-i' } };
           }
           if (collection) {
-            filter = { product_name: { $regex: search, $options: '-i' }, product_collectionName: { $in: [collection] } };
+            filter = { product_status : 'active' ,  product_name: { $regex: search, $options: '-i' }, product_collectionName: { $in: [collection] } };
           }
           const totalProducts = await Products.find(filter).countDocuments();
           const productDetail = await Products.find(filter).skip(Number(skip)).limit(Number(limit));
