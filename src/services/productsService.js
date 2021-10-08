@@ -94,7 +94,7 @@ class productsService {
         await deleteImagesFile.deleteSelectedFiles(deletedImageArray);
         productObject.updatedAt = Date.now();
         productObject.product_stepperLastStepVisited = 2;
-        const response = await this.productRepository.createProductStepTwo(productID, productObject, removeImagesProductDetails);
+        const response = await this.productRepository.createProductStepTwo(productID, productObject);
         resolve(response);
       } catch (e) {
         reject(e);
