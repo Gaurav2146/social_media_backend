@@ -1,8 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 const mongoose = require('mongoose');
-
 const orderSchema = new mongoose.Schema({
-
   product_ID:{
     type: String,
     required: true,       
