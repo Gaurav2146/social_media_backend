@@ -22,6 +22,8 @@ exports.returnDataProductListForAdmin = () => {
     product_createdAt: '$data.product_createdAt',
     product_status: '$data.product_status',
     product_colorAndSizeDetails: '$data.product_colorAndSizeDetails',
+    product_stepperLastStepVisited: '$data.product_stepperLastStepVisited',
+    product_stepperStatus: '$data.product_stepperStatus',
     collectionDetails: '$collectionDetails',
     brandDetails: '$brandDetails',
     // data: { $first: '$$ROOT' },
