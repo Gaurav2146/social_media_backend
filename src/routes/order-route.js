@@ -36,7 +36,7 @@ router.post('/createOrder', orderCtl.createOrder);
  * @returns {array of object} 200
  * @returns {Error}  default - Unexpected error
  */
-  router.post('/getPendingOrders', orderCtl.getPendingOrders);
+  router.get('/getPendingOrders', orderCtl.getPendingOrders);
 
 
 module.exports = router;

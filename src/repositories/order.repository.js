@@ -25,6 +25,18 @@ const orderRepository = {
     })
   } ,
 
+  getPendingOrders : () =>{
+    return new Promise(async (resolve, reject) => {
+      try {
+        let order = await Order.find( { shipping_Detail_Id : null } );
+        resolve(order);
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    })
+  } 
+
 };
 
 module.exports = orderRepository;
