@@ -12,14 +12,16 @@ const params = {
 
 exports.deleteSelectedFiles = async (deleteFiles) => {
   console.log('deleteFiles', deleteFiles);
-  params.Delete = { Objects: deleteFiles, Quiet: false };
-  await awsS3Config.deleteObjects(params, (err, data) => {
-    if (err) {
-      console.log(err, err.stack);
-    } // an error occurred
-    else {
-      console.log('data', data);
-      return data;
-    } // successful response
-  });
+  if (deleteFiles && deleteFiles.length > 0) {
+    params.Delete = { Objects: deleteFiles, Quiet: false };
+    await awsS3Config.deleteObjects(params, (err, data) => {
+      // eslint-disable-next-line no-empty
+      if (err) {
+      } // an error occurred
+      else {
+        console.log('data', data);
+        return data;
+      } // successful response
+    });
+  }
 };
