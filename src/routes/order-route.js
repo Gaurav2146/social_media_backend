@@ -19,5 +19,16 @@ let auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'], 
  */
 router.post('/createOrder', orderCtl.createOrder);
 
+/**
+ * update Shipping Detail in database
+ * @route POST /order/updateShippingDetailId
+ * @group Upload API - Endpoints to update Shipping Detail Id
+ * @returns {array of object} 200
+ * @returns {Error}  default - Unexpected error
+ */
+ router.post('/updateShippingDetailId', orderCtl.updateShippingDetailId);
+
+
+
 
 module.exports = router;

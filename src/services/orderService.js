@@ -18,5 +18,17 @@ class orderService {
     });
   }
 
+  updateShippingDetailId({ orderId , ShippingDetailId })
+  {
+    return new Promise((resolve, reject) => {
+        try {
+          const response = this.orderRepository.updateShippingDetailId({ orderId , ShippingDetailId });
+          resolve(response);
+        } catch (e) {
+          reject(e);
+        }
+      });
+  }
+
 }
 module.exports = orderService;

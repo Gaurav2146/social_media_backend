@@ -18,7 +18,22 @@ const orderCtl = {
                 return res.status(400).json({ message: 'something went wrong!' });
             }
         }
-    }
+    },
+
+    updateShippingDetailId : async function (req, res, next) {
+        try {
+            const { orderId , ShippingDetailId } = req.body;
+            let order_detail = await order_service.updateShippingDetailId({ orderId , ShippingDetailId });
+            res.status(200).json({ success: true, order_detail: order_detail });
+        } catch (e) {
+            if (isHttpError(e)) {
+                next(e);
+            } else {
+                return res.status(400).json({ message: 'something went wrong!' });
+            }
+        }
+    },
+
 
 }
 
