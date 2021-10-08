@@ -1,3 +1,5 @@
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-loop-func */
 /* eslint-disable no-param-reassign */
 /* eslint-disable no-async-promise-executor */
 const mongoose = require('mongoose');
@@ -241,38 +243,40 @@ const productsRepository = {
   createProductStepTwo: (productID, productObject, colorImagesDetails) =>
     new Promise(async (resolve, reject) => {
       try {
-        if (colorImagesDetails && colorImagesDetails.length > 0) {
-          for (let i = 0; i < colorImagesDetails.length; i++) {
-            // eslint-disable-next-line no-await-in-loop
-            await Products.findByIdAndUpdate(
-              {
-                _id: productID,
-                product_colorAndSizeDetails: {
-                  $elemMatch: {
-                    'colorDetails.color': colorImagesDetails[i].colorDetails.color,
-                  },
-                },
-              },
-              {
-                $set: {
-                  'product_colorAndSizeDetails.$[outer].images': [],
-                },
-              },
-              {
-                arrayFilters: [{ 'outer.colorDetails.color': colorImagesDetails[i].colorDetails.color }],
-              },
-              (err, result) => {
-                if (err) {
-                  console.log(`Error updating service: ${err}`);
-                } else {
-                  console.log(`${result} document(s) updated`);
-                }
-              },
-            );
-          }
-        }
-        // resolve(productUpdate);
+        console.log(productID, productObject, colorImagesDetails);
+        // if (colorImagesDetails && colorImagesDetails.length > 0) {
+        //   for (let i = 0; i < colorImagesDetails.length; i++) {
+        //     // eslint-disable-next-line no-await-in-loop
+        //     console.log(colorImagesDetails[i]);
+        //     await Products.findByIdAndUpdate(
+        //       {
+        //         _id: productID,
+        //         product_colorAndSizeDetails: {
+        //           $elemMatch: {
+        //             'colorDetails.color': colorImagesDetails[i].colorDetails.color,
+        //           },
+        //         },
+        //       },
+        //       {
+        //         $set: {
+        //           'product_colorAndSizeDetails.$[outer].images': [],
+        //         },
+        //       },
+        //       {
+        //         arrayFilters: [{ 'outer.colorDetails.color': colorImagesDetails[i].colorDetails.color }],
+        //       },
+        //       (err, result) => {
+        //         if (err) {
+        //           console.log(`Error updating service: ${err}`);
+        //         } else {
+        //           console.log(`${result} document(s) updated`);
+        //         }
+        //       },
+        //     );
+        //   }
+        // }
         const productUpdate = await Products.findByIdAndUpdate({ _id: productID }, { $set: productObject }, { new: true });
+        console.log(productUpdate);
         resolve(productUpdate);
       } catch (error) {
         console.log(error);

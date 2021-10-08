@@ -23,6 +23,7 @@ const productCtlr = {
     try {
       const { productID, data, removeImagesProductDetails } = req.body;
       const response = await productService.addProductStepTwo(productID, data, removeImagesProductDetails);
+      console.log(response);
       return res.status(200).json({ success: true, data: response });
     } catch (e) {
       if (isHttpError(e)) {
