@@ -6,9 +6,9 @@ class shippingDetailService {
         this.shippingDetailRepository = shippingDetailRepository;
     }
 
-    addShippingDetail = async (obj) => {
+    addShippingDetail = async (obj , Order_Id) => {
         try {
-            const token = await this.shippingDetailRepository.addShippingDetail(obj);
+            const token = await this.shippingDetailRepository.addShippingDetail(obj , Order_Id);
             return token;
         } catch (error) {
             console.log(error);

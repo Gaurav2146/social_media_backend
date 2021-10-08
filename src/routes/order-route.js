@@ -29,6 +29,14 @@ router.post('/createOrder', orderCtl.createOrder);
  router.post('/updateShippingDetailId', orderCtl.updateShippingDetailId);
 
 
+ /**
+ * get Pending Orders from database
+ * @route GET /order/getPendingOrders
+ * @group Upload API - Endpoints to get Pending Orders
+ * @returns {array of object} 200
+ * @returns {Error}  default - Unexpected error
+ */
+  router.get('/getPendingOrders', orderCtl.getPendingOrders);
 
 
 module.exports = router;

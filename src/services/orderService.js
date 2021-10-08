@@ -30,5 +30,17 @@ class orderService {
       });
   }
 
+  getPendingOrders()
+  {
+    return new Promise((resolve, reject) => {
+        try {
+          const response = this.orderRepository.getPendingOrders();
+          resolve(response);
+        } catch (e) {
+          reject(e);
+        }
+      });
+  }
+
 }
 module.exports = orderService;
