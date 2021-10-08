@@ -91,8 +91,7 @@ class productsService {
             }
           });
         }
-        const deletedResponse = await deleteImagesFile.deleteSelectedFiles(deletedImageArray);
-        console.log(deletedResponse);
+        await deleteImagesFile.deleteSelectedFiles(deletedImageArray);
         productObject.updatedAt = Date.now();
         productObject.product_stepperLastStepVisited = 2;
         const response = await this.productRepository.createProductStepTwo(productID, productObject, removeImagesProductDetails);
