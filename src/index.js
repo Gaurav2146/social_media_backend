@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { admin, product, user, smartContract, token, brand, tags, collections , shipping , contract , ipfs } = require('./routes');
+const { admin, product, user, smartContract, token, brand, tags, collections , shipping , contract , ipfs , order } = require('./routes');
 
 const router = express.Router();
 
@@ -15,5 +15,6 @@ router.use('/token', token);
 router.use('/shipping', shipping);
 router.use('/contract', contract);
 router.use('/ipfs', ipfs);
+router.use('/order', order);
 
 module.exports = router;
