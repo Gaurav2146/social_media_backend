@@ -9,6 +9,7 @@ const token = require('./token-route');
 const shipping = require('./shippingDetail-route');
 const contract = require('./contract-route');
 const ipfs = require('./ipfs-route');
+const order = require('./order-route');
 
 module.exports = {
   admin,
@@ -21,5 +22,6 @@ module.exports = {
   token,
   shipping,
   contract,
-  ipfs
+  ipfs,
+  order
 };
