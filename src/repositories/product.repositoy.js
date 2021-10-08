@@ -11,6 +11,7 @@ const productsRepository = {
         const productDetail = await Products.create(productObject);
         resolve(productDetail);
       } catch (error) {
+        console.log(error);
         reject(error);
       }
     }),
@@ -79,7 +80,6 @@ const productsRepository = {
           resolve({ productDetail, totalProducts });
         }
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     }),
@@ -143,6 +143,7 @@ const productsRepository = {
         ]);
         resolve(productDetail);
       } catch (error) {
+        console.log(error);
         reject(error);
       }
     }),
@@ -187,8 +188,19 @@ const productsRepository = {
           { $match: query },
           { $sort: { product_updatedAt: -1 } },
         ]);
+
+        productDetail.forEach((element) => {
+          element.totalQuantity = element.product_colorAndSizeDetails.reduce((accumulator, colorDetails) => {
+            accumulator += colorDetails.sizeInfo.reduce((acc, sizeInfo) => {
+              acc += sizeInfo.qty;
+              return acc;
+            }, 0);
+            return accumulator;
+          }, 0);
+        });
         resolve(productDetail);
       } catch (error) {
+        console.log(error);
         reject(error);
       }
     }),
@@ -199,6 +211,7 @@ const productsRepository = {
         const productDetail = await Products.findByIdAndUpdate({ _id: productID }, { $set: productObject }, { new: true });
         resolve(productDetail);
       } catch (error) {
+        console.log(error);
         reject(error);
       }
     }),
@@ -209,6 +222,7 @@ const productsRepository = {
         const productDetail = await Products.findByIdAndDelete({ _id: productID });
         resolve(productDetail);
       } catch (error) {
+        console.log(error);
         reject(error);
       }
     }),
@@ -219,6 +233,7 @@ const productsRepository = {
         const productCreate = await Products.create(productObject);
         resolve(productCreate);
       } catch (error) {
+        console.log(error);
         reject(error);
       }
     }),
@@ -260,6 +275,7 @@ const productsRepository = {
         const productUpdate = await Products.findByIdAndUpdate({ _id: productID }, { $set: productObject }, { new: true });
         resolve(productUpdate);
       } catch (error) {
+        console.log(error);
         reject(error);
       }
     }),
@@ -297,6 +313,7 @@ const productsRepository = {
         );
         resolve(productUpdate);
       } catch (error) {
+        console.log(error);
         reject(error);
       }
     }),
@@ -319,7 +336,6 @@ const productsRepository = {
       try {
         const productDetail = await Products.aggregate([
           { $unwind: { path: '$product_collectionName', preserveNullAndEmptyArrays: true } },
-          // { $unwind: { path: '$product_colorAndSizeDetails', preserveNullAndEmptyArrays: true } },
           {
             $lookup: {
               from: 'collections',
@@ -342,14 +358,24 @@ const productsRepository = {
               data: { $first: '$$ROOT' },
               collectionDetails: { $addToSet: { $arrayElemAt: ['$collectionDetails', 0] } },
               brandDetails: { $first: { $arrayElemAt: ['$brandDetails', 0] } },
-              // count: { $sum: '$product_colorAndSizeDetails.sizeInfo.qty' },
             },
           },
           { $project: returnDataService.returnDataProductListForAdmin() },
           { $sort: { product_updatedAt: -1 } },
         ]);
+
+        productDetail.forEach((element) => {
+          element.totalQuantity = element.product_colorAndSizeDetails.reduce((accumulator, colorDetails) => {
+            accumulator += colorDetails.sizeInfo.reduce((acc, sizeInfo) => {
+              acc += sizeInfo.qty;
+              return acc;
+            }, 0);
+            return accumulator;
+          }, 0);
+        });
         resolve(productDetail);
       } catch (error) {
+        console.log(error);
         reject(error);
       }
     }),
