@@ -13,7 +13,7 @@ const productAddSchema = new mongoose.Schema({
       trim: true,
       ref: 'Collections',
     },
-  ],                                        
+  ],
   product_tags: [
     {
       type: mongoose.Schema.ObjectId,
