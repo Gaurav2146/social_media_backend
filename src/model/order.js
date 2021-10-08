@@ -38,7 +38,8 @@ const orderSchema = new mongoose.Schema({
     required: true,
   },
   shipping_Detail_Id:{
-    type: mongoose.Types.ObjectId
+    type: mongoose.Types.ObjectId,
+    default : null
   },
   createdAt: {
     type: Date,
