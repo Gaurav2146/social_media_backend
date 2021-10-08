@@ -121,4 +121,13 @@ router.post('/getSelectedProductDetails', productCltr.getSelectedProductInfo);
 //  */
 router.get('/getProductsForAdmin', productCltr.getProductsForAdmin);
 
+// /**
+//  * Update Images
+//  * @route Post /product/getProductsForAdmin
+//  * @group get API - Endpoints related to all products.
+//  * @returns {object} 200 - Product Information Fetched
+//  * @returns {Error}  default - Unexpected error
+//  */
+// router.get('/updateImagesForVariants', productCltr.updateImagesForVariants);
+
 module.exports = router;
