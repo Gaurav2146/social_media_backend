@@ -49,8 +49,8 @@ const orderCtl = {
 
     getAllOrders : async function (req, res, next) {
         try {
-            let pending_orders = await order_service.getAllOrders();
-            res.status(200).json({ success: true, pending_orders: pending_orders });
+            let all_orders = await order_service.getAllOrders();
+            res.status(200).json({ success: true, all_orders: all_orders });
         } catch (e) {
             if (isHttpError(e)) {
                 next(e);
