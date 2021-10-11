@@ -128,4 +128,13 @@ router.get('/getProductsForAdmin', productCltr.getProductsForAdmin);
  */
 router.post('/updateImagesForVariants', uploadImages.fileUploader, productCltr.updateImagesForVariants);
 
+/**
+ * Update NFt Image
+ * @route Post /product/updateNFTImage
+ * @group get API - Endpoints related to all products.
+ * @returns {object} 200 - Product Information Fetched
+ * @returns {Error}  default - Unexpected error
+ */
+router.post('/updateNFTImage', uploadImages.nftFileUploader, productCltr.updateNFTImage);
+
 module.exports = router;

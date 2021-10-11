@@ -80,6 +80,20 @@ const productCtlr = {
       }
     }
   },
+  updateNFTImage: async function (req, res, next) {
+    try {
+      const { productID, nftDeleteImage } = req.body;
+      const nftImage = req.file;
+      const response = await productService.updateNFTImage(productID, nftImage, nftDeleteImage);
+      return res.status(200).json({ success: true, data: response });
+    } catch (e) {
+      if (isHttpError(e)) {
+        next(e);
+      } else {
+        return res.status(400).json({ success: false, message: 'something went wrong!' });
+      }
+    }
+  },
   updateProduct: async function (req, res, next) {
     try {
       const { productID, productObject } = req.body;
