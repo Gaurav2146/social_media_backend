@@ -27,37 +27,24 @@ const orderRepository = {
     })
   } ,
 
-  getPendingOrders : () =>{
+  getPendingOrders: () => {
     return new Promise(async (resolve, reject) => {
       try {
-        let order = await Order.find( { shipping_Detail_Id : null } );
-        
-        // console.log(order , 'order');
-        
+        let order = await Order.find({ shipping_Detail_Id: null });
         let product_name_arr = [];
-
-        for(let i=0;i<order.length;i++)
-        {
-
-          console.log(order[i].product_ID , 'order[i].product_ID');
-
-          let product_name = await Products.findById({_id : order[i].product_ID } , { product_name : 1 });
-
-          // console.log( product_name , 'product_name' );
-
-          product_name_arr.push( product_name.product_name );
-
+        for (let i = 0; i < order.length; i++) {
+          console.log(order[i].product_ID, 'order[i].product_ID');
+          let product_name = await Products.findById({ _id: order[i].product_ID }, { product_name: 1 });
+          product_name_arr.push(product_name.product_name);
         }
-
-        console.log(product_name_arr , 'product_name_arr');
-
-        resolve({ order , product_name_arr});
+        console.log(product_name_arr, 'product_name_arr');
+        resolve({ order, product_name_arr });
       } catch (error) {
         console.log(error);
         reject(error);
       }
     })
-  } 
+  }
 
 };
 
