@@ -94,7 +94,7 @@ class productsService {
         await deleteImagesFile.deleteSelectedFiles(deletedImageArray);
         productObject.updatedAt = Date.now();
         productObject.product_stepperLastStepVisited = 2;
-        const response = await this.productRepository.createProductStepTwo(productID, productObject);
+        const response = await this.productRepository.createProductStepTwo(productID, productObject, removeImagesProductDetails);
         resolve(response);
       } catch (e) {
         reject(e);
@@ -163,6 +163,26 @@ class productsService {
           },
           updatedAt: Date.now(),
         };
+        const response = await this.productRepository.editProductDetails(productID, updatedObject);
+        resolve(response);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  updateNFTImage(productID, image, nftDeleteImage) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const updatedObject = {
+          nft_image: {
+            file: image.location,
+            key: image.key,
+            contentType: image.contentType,
+          },
+          updatedAt: Date.now(),
+        };
+        await deleteImagesFile.deleteSelectedFiles([{ Key: nftDeleteImage }]);
         const response = await this.productRepository.editProductDetails(productID, updatedObject);
         resolve(response);
       } catch (e) {
