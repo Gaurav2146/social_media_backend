@@ -2,7 +2,7 @@
 const mongoose = require('mongoose');
 const orderSchema = new mongoose.Schema({
   product_ID:{
-    type: String,
+    type: mongoose.Schema.ObjectId,
     required: true,       
     trim: true
   },
@@ -38,7 +38,7 @@ const orderSchema = new mongoose.Schema({
     required: true,
   },
   shipping_Detail_Id:{
-    type: mongoose.Types.ObjectId,
+    type: mongoose.Schema.ObjectId,
     default : null
   },
   createdAt: {
