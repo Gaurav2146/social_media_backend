@@ -274,7 +274,6 @@ const productsRepository = {
             },
           );
         }
-        // resolve(productUpdate);
         const productUpdate = await Products.findByIdAndUpdate({ _id: productID }, { $set: productObject }, { new: true });
         resolve(productUpdate);
       } catch (error) {
