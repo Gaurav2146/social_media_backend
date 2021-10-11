@@ -143,6 +143,9 @@ const productsRepository = {
           },
           { $project: returnDataService.returnDataProductDetail() },
         ]);
+        if (Object.keys(productDetail[0].tokenDetails[0] || {}).length <= 0) {
+          productDetail[0].tokenDetails = [];
+        }
         resolve(productDetail);
       } catch (error) {
         console.log(error);
@@ -243,7 +246,7 @@ const productsRepository = {
   createProductStepTwo: (productID, productObject) =>
     new Promise(async (resolve, reject) => {
       try {
-        const productUpdate = await Products.findByIdAndUpdate({ _id: productID }, { $set: productObject }, { upsert: true });
+        const productUpdate = await Products.findByIdAndUpdate({ _id: productID }, { $set: productObject }, { new: true });
         console.log(productUpdate);
         resolve(productUpdate);
       } catch (error) {
@@ -283,6 +286,37 @@ const productsRepository = {
             }
           },
         );
+        resolve(productUpdate);
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    }),
+
+  updateImagesForColorVariant: (productID, color, imagesArray, variantIndex, deletedImagesArrayOnEditing) =>
+    new Promise(async (resolve, reject) => {
+      try {
+        const productDetails = await Products.findOne({ _id: productID });
+        const imagesDetails = productDetails.product_colorAndSizeDetails[variantIndex].images;
+        console.log(imagesDetails);
+        if (deletedImagesArrayOnEditing && deletedImagesArrayOnEditing.length > 0) {
+          for (let i = 0; i < deletedImagesArrayOnEditing.length; i++) {
+            for (let j = 0; j < imagesDetails.length; j++) {
+              if (imagesDetails[j].key === deletedImagesArrayOnEditing[i].Key) {
+                imagesDetails.splice(j, 1);
+              }
+            }
+          }
+        }
+        if (imagesArray && imagesArray.length > 0) {
+          for (let i = 0; i < imagesArray.length; i++) {
+            imagesDetails.push(imagesArray[i]);
+          }
+        }
+        productDetails.product_colorAndSizeDetails[variantIndex].images = imagesDetails;
+        productDetails.product_updatedAt = Date.now();
+        const productUpdate = await Products.findByIdAndUpdate({ _id: productID }, { $set: productDetails }, { new: true });
+        console.log(productUpdate);
         resolve(productUpdate);
       } catch (error) {
         console.log(error);

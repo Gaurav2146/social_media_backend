@@ -5,13 +5,11 @@ const uploadImages = require('../route_middleware/uploadImages');
 var app = express();
 const jwt = require('express-jwt');
 
-let auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'], userProperty: 'user' }),
+const auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'], userProperty: 'user' }),
     async function (req, res, next) {
-        console.log(req.user, 'inside jwt');
-        next();
-    });
-
-
+  console.log(req.user, 'inside jwt');
+  next();
+});
 
 /**
  * add product details
@@ -121,13 +119,13 @@ router.post('/getSelectedProductDetails', productCltr.getSelectedProductInfo);
 //  */
 router.get('/getProductsForAdmin', productCltr.getProductsForAdmin);
 
-// /**
-//  * Update Images
-//  * @route Post /product/getProductsForAdmin
-//  * @group get API - Endpoints related to all products.
-//  * @returns {object} 200 - Product Information Fetched
-//  * @returns {Error}  default - Unexpected error
-//  */
-// router.get('/updateImagesForVariants', productCltr.updateImagesForVariants);
+/**
+ * Update Images
+ * @route Post /product/getProductsForAdmin
+ * @group get API - Endpoints related to all products.
+ * @returns {object} 200 - Product Information Fetched
+ * @returns {Error}  default - Unexpected error
+ */
+router.post('/updateImagesForVariants', uploadImages.fileUploader, productCltr.updateImagesForVariants);
 
 module.exports = router;
