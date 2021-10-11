@@ -314,6 +314,8 @@ const productsRepository = {
           }
         }
         productDetails.product_colorAndSizeDetails[variantIndex].images = imagesDetails;
+        productDetails.product_stepperLastStepVisited = 3;
+        productDetails.product_stepperStatus = true;
         productDetails.product_updatedAt = Date.now();
         const productUpdate = await Products.findByIdAndUpdate({ _id: productID }, { $set: productDetails }, { new: true });
         console.log(productUpdate);
