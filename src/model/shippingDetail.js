@@ -7,7 +7,7 @@ const mongoose = require('mongoose');
 const shippingDetailSchema = new mongoose.Schema({
 
   product_ID:{
-    type: String,
+    type: mongoose.Types.ObjectId,
     required: true,       
     trim: true
   },

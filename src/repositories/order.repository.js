@@ -62,7 +62,16 @@ const orderRepository = {
               as: 'productDetail',
             }
           },
-          { $unwind :  '$productDetail' }
+          { $unwind :  '$productDetail' },
+          {
+            $lookup: {
+              from: 'shippingdetails',
+              let: { shipping_Detail_Id: '$shipping_Detail_Id' },
+              pipeline: [{ $match: { $expr: { $eq: ['$$shipping_Detail_Id', '$_id'] } } }],
+              as: 'shippingDetail',
+            }
+          },
+          { $unwind :  '$shippingDetail' },
         ])
         resolve(order);
       } catch (error) {
