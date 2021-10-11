@@ -102,6 +102,35 @@ class productsService {
     });
   }
 
+  updateImagesForVariants(productID, color, imagesAddedArray, variantIndex, imagesDeletedArray) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const colorImages = [];
+        if (imagesAddedArray && imagesAddedArray.length > 0) {
+          for (let i = 0; i < imagesAddedArray.length; i++) {
+            colorImages.push({
+              file: imagesAddedArray[i].location,
+              key: imagesAddedArray[i].key,
+              contentType: imagesAddedArray[i].contentType,
+            });
+          }
+        }
+        console.log(productID, color, imagesAddedArray, variantIndex, imagesDeletedArray);
+        await deleteImagesFile.deleteSelectedFiles(imagesDeletedArray);
+        const response = await this.productRepository.updateImagesForColorVariant(
+          productID,
+          color,
+          colorImages,
+          variantIndex,
+          imagesDeletedArray,
+        );
+        resolve(response);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
   addProductStepThree(productID, color, files) {
     return new Promise(async (resolve, reject) => {
       try {
