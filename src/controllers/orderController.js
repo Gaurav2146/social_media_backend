@@ -47,7 +47,18 @@ const orderCtl = {
         }
     },
 
-
+    getAllOrders : async function (req, res, next) {
+        try {
+            let pending_orders = await order_service.getAllOrders();
+            res.status(200).json({ success: true, pending_orders: pending_orders });
+        } catch (e) {
+            if (isHttpError(e)) {
+                next(e);
+            } else {
+                return res.status(400).json({ message: 'something went wrong!' });
+            }
+        }
+    }
 
 }
 

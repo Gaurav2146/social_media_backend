@@ -39,4 +39,16 @@ router.post('/createOrder', orderCtl.createOrder);
   router.get('/getPendingOrders', orderCtl.getPendingOrders);
 
 
+/**
+ * get All Orders from database
+ * @route GET /order/getAllOrders
+ * @group Upload API - Endpoints to get All Orders
+ * @returns {array of object} 200
+ * @returns {Error}  default - Unexpected error
+ */
+ router.get('/getAllOrders', orderCtl.getAllOrders);
+
+
+  
+
 module.exports = router;

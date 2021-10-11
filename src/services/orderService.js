@@ -42,5 +42,17 @@ class orderService {
       });
   }
 
+  getAllOrders()
+  {
+    return new Promise((resolve, reject) => {
+      try {
+        const response = this.orderRepository.getAllOrders();
+        resolve(response);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
 }
 module.exports = orderService;

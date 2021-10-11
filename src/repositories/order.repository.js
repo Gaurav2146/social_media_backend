@@ -48,6 +48,28 @@ const orderRepository = {
         reject(error);
       }
     })
+  },
+
+  getAllOrders: () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let order = await Order.aggregate([
+          {
+            $lookup: {
+              from: 'products',
+              let: { product_ID: '$product_ID' },
+              pipeline: [{ $match: { $expr: { $eq: ['$$product_ID', '$_id'] } } }],
+              as: 'productDetail',
+            }
+          },
+          { $unwind :  '$productDetail' }
+        ])
+        resolve({ order });
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    })
   }
 
 };
