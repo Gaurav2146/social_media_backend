@@ -64,7 +64,7 @@ const orderRepository = {
           },
           { $unwind :  '$productDetail' }
         ])
-        resolve({ order });
+        resolve(order);
       } catch (error) {
         console.log(error);
         reject(error);
