@@ -6,6 +6,11 @@ const orderSchema = new mongoose.Schema({
     required: true,       
     trim: true
   },
+  orderId:{
+    type: String,
+    required: true,       
+    trim: true
+  },
   Wallet_ID:{
     type: String,
     required: true,       
