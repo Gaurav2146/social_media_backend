@@ -31,7 +31,7 @@ const orderRepository = {
     return new Promise(async (resolve, reject) => {
       try {
         let order = await Order.aggregate([
-          { $match : {  shipping_Detail_Id: null , Wallet_ID : id } },
+          { $match : { $and : [ {shipping_Detail_Id: null } , {Wallet_ID : id} ] } },
           {
             $lookup: {
               from: 'products',
