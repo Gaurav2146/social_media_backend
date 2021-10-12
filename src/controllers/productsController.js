@@ -36,9 +36,11 @@ const productCtlr = {
   },
   createProductStepThree: async function (req, res, next) {
     try {
-      const { productID, color } = req.body;
+      const { productID, color, typeOfProduct } = req.body;
+      console.log(req.body);
       const productVariantImages = req.files;
-      const response = await productService.addProductStepThree(productID, color, productVariantImages);
+      console.log(req.files);
+      const response = await productService.addProductStepThree(productID, color, productVariantImages, typeOfProduct);
       return res.status(200).json({ success: true, data: response });
     } catch (e) {
       if (isHttpError(e)) {
@@ -50,13 +52,20 @@ const productCtlr = {
   },
   updateImagesForVariants: async function (req, res, next) {
     try {
-      const { productID, color } = req.body;
+      const { productID, color, typeOfProduct } = req.body;
       const variantIndex = parseInt(req.body.variantIndex, 10);
       let imagesDeletedArray = req.body.deletedImagesArrayOnEditing;
       imagesDeletedArray = JSON.parse(imagesDeletedArray);
       const imagesAddedArray = req.files;
       console.log(productID, color, variantIndex, imagesDeletedArray, imagesAddedArray);
-      const response = await productService.updateImagesForVariants(productID, color, imagesAddedArray, variantIndex, imagesDeletedArray);
+      const response = await productService.updateImagesForVariants(
+        productID,
+        color,
+        imagesAddedArray,
+        variantIndex,
+        imagesDeletedArray,
+        typeOfProduct,
+      );
       return res.status(200).json({ success: true, data: response });
     } catch (e) {
       if (isHttpError(e)) {

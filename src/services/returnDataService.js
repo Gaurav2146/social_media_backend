@@ -39,6 +39,7 @@ exports.returnDataProductDetail = () => {
     product_status: '$data.product_status',
     product_stepper: '$data.product_stepper',
     product_stepperStatus: '$data.product_stepperStatus',
+    product_withoutVariantDetails: '$data.product_withoutVariantDetails',
     product_stepperLastStepVisited: '$data.product_stepperLastStepVisited',
     nft_image: '$data.nft_image',
     product_colorAndSizeDetails: '$data.product_colorAndSizeDetails',
