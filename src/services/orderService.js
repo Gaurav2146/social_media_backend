@@ -30,11 +30,11 @@ class orderService {
       });
   }
 
-  getPendingOrders()
+  getPendingOrders(id)
   {
     return new Promise((resolve, reject) => {
         try {
-          const response = this.orderRepository.getPendingOrders();
+          const response = this.orderRepository.getPendingOrders(id);
           resolve(response);
         } catch (e) {
           reject(e);
