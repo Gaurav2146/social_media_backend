@@ -102,7 +102,7 @@ class productsService {
     });
   }
 
-  updateImagesForVariants(productID, color, imagesAddedArray, variantIndex, imagesDeletedArray) {
+  updateImagesForVariants(productID, color, imagesAddedArray, variantIndex, imagesDeletedArray, typeOfProduct) {
     return new Promise(async (resolve, reject) => {
       try {
         const colorImages = [];
@@ -115,7 +115,6 @@ class productsService {
             });
           }
         }
-        console.log(productID, color, imagesAddedArray, variantIndex, imagesDeletedArray);
         await deleteImagesFile.deleteSelectedFiles(imagesDeletedArray);
         const response = await this.productRepository.updateImagesForColorVariant(
           productID,
@@ -123,6 +122,7 @@ class productsService {
           colorImages,
           variantIndex,
           imagesDeletedArray,
+          typeOfProduct,
         );
         resolve(response);
       } catch (e) {
@@ -131,20 +131,20 @@ class productsService {
     });
   }
 
-  addProductStepThree(productID, color, files) {
+  addProductStepThree(productID, color, files, typeOfProduct) {
     return new Promise(async (resolve, reject) => {
       try {
-        const colorImages = [];
+        const productImages = [];
         if (files.length > 0 && files) {
           for (let i = 0; i < files.length; i++) {
-            colorImages.push({
+            productImages.push({
               file: files[i].location,
               key: files[i].key,
               contentType: files[i].contentType,
             });
           }
         }
-        const response = await this.productRepository.createProductStepThree(productID, color, colorImages);
+        const response = await this.productRepository.createProductStepThree(productID, color, productImages, typeOfProduct);
         resolve(response);
       } catch (e) {
         reject(e);

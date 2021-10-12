@@ -48,6 +48,17 @@ const productAddSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  product_withoutVariantDetails: {
+    price: { type: Number },
+    qty: { type: Number },
+    images: [
+      {
+        file: { type: String },
+        key: { type: String },
+        contentType: { type: String },
+      },
+    ],
+  },
   product_stepperLastStepVisited: {
     type: Number,
     default: 1,
