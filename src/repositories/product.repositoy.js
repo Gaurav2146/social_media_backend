@@ -345,7 +345,6 @@ const productsRepository = {
         productDetails.product_stepperStatus = true;
         productDetails.product_updatedAt = Date.now();
         const productUpdate = await Products.findByIdAndUpdate({ _id: productID }, { $set: productDetails }, { new: true });
-        console.log(productUpdate);
         resolve(productUpdate);
       } catch (error) {
         console.log(error);
