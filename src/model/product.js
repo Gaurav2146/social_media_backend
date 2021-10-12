@@ -48,6 +48,10 @@ const productAddSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  product_withoutVariantDetails: {
+    price: { type: Number },
+    qty: { type: Number },
+  },
   product_stepperLastStepVisited: {
     type: Number,
     default: 1,
