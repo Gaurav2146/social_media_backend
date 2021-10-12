@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 
 const productAddSchema = new mongoose.Schema({
-  product_name: { type: String },
+  product_name: {
+    type: String,
+    trim: true,
+  },
   product_brand: {
     type: mongoose.Schema.ObjectId,
     trim: true,
@@ -30,6 +33,7 @@ const productAddSchema = new mongoose.Schema({
   },
   product_description: {
     type: String,
+    trim: true,
   },
   product_createdAt: {
     type: Date,
