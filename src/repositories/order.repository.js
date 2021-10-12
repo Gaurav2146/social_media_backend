@@ -109,30 +109,62 @@ const orderRepository = {
     })
   },
 
-  getAllOrders: () => {
+  getAllOrders: (id) => {
     return new Promise(async (resolve, reject) => {
       try {
-        let order = await Order.aggregate([
-          {
-            $lookup: {
-              from: 'products',
-              let: { product_ID: '$product_ID' },
-              pipeline: [{ $match: { $expr: { $eq: ['$$product_ID', '$_id'] } } }],
-              as: 'productDetail',
-            }
-          },
-          { $unwind :  '$productDetail' },
-          {
-            $lookup: {
-              from: 'shippingdetails',
-              let: { shipping_Detail_Id: '$shipping_Detail_Id' },
-              pipeline: [{ $match: { $expr: { $eq: ['$$shipping_Detail_Id', '$_id'] } } }],
-              as: 'shippingDetail',
-            }
-          },
-          { $unwind :  '$shippingDetail' },
-        ])
-        resolve(order);
+        if(id)
+        {
+
+          let order = await Order.aggregate([
+            { $match: { Wallet_ID: id } },
+            {
+              $lookup: {
+                from: 'products',
+                let: { product_ID: '$product_ID' },
+                pipeline: [{ $match: { $expr: { $eq: ['$$product_ID', '$_id'] } } }],
+                as: 'productDetail',
+              }
+            },
+            { $unwind: '$productDetail' },
+            {
+              $lookup: {
+                from: 'shippingdetails',
+                let: { shipping_Detail_Id: '$shipping_Detail_Id' },
+                pipeline: [{ $match: { $expr: { $eq: ['$$shipping_Detail_Id', '$_id'] } } }],
+                as: 'shippingDetail',
+              }
+            },
+            { $unwind: '$shippingDetail' },
+          ])
+          resolve(order);
+
+        }
+        else
+        {
+
+          let order = await Order.aggregate([
+            {
+              $lookup: {
+                from: 'products',
+                let: { product_ID: '$product_ID' },
+                pipeline: [{ $match: { $expr: { $eq: ['$$product_ID', '$_id'] } } }],
+                as: 'productDetail',
+              }
+            },
+            { $unwind: '$productDetail' },
+            {
+              $lookup: {
+                from: 'shippingdetails',
+                let: { shipping_Detail_Id: '$shipping_Detail_Id' },
+                pipeline: [{ $match: { $expr: { $eq: ['$$shipping_Detail_Id', '$_id'] } } }],
+                as: 'shippingDetail',
+              }
+            },
+            { $unwind: '$shippingDetail' },
+          ])
+          resolve(order);
+
+        }
       } catch (error) {
         console.log(error);
         reject(error);
