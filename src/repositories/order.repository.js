@@ -27,11 +27,11 @@ const orderRepository = {
     })
   } ,
 
-  getPendingOrders: () => {
+  getPendingOrders: (id) => {
     return new Promise(async (resolve, reject) => {
       try {
         let order = await Order.aggregate([
-          { $match : {  shipping_Detail_Id: null } },
+          { $match : {  shipping_Detail_Id: null , Wallet_ID : id } },
           {
             $lookup: {
               from: 'products',

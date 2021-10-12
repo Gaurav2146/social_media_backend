@@ -36,7 +36,8 @@ const orderCtl = {
 
     getPendingOrders : async function (req, res, next) {
         try {
-            let pending_orders = await order_service.getPendingOrders();
+            let { id } = req.query;
+            let pending_orders = await order_service.getPendingOrders(id);
             res.status(200).json({ success: true, pending_orders: pending_orders });
         } catch (e) {
             if (isHttpError(e)) {
