@@ -42,11 +42,11 @@ class orderService {
       });
   }
 
-  getAllOrders()
+  getAllOrders(id)
   {
     return new Promise((resolve, reject) => {
       try {
-        const response = this.orderRepository.getAllOrders();
+        const response = this.orderRepository.getAllOrders(id);
         resolve(response);
       } catch (e) {
         reject(e);
