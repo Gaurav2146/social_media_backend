@@ -282,37 +282,48 @@ const productsRepository = {
       }
     }),
 
-  createProductStepThree: (productID, color, imagesArray) =>
+  createProductStepThree: (productID, color, imagesArray, typeOfProduct) =>
     new Promise(async (resolve, reject) => {
       try {
-        const productUpdate = await Products.findByIdAndUpdate(
-          {
-            _id: productID,
-            product_colorAndSizeDetails: {
-              $elemMatch: {
-                'colorDetails.color': color,
+        let productUpdate;
+        if (typeOfProduct === 'variant') {
+          productUpdate = await Products.findByIdAndUpdate(
+            {
+              _id: productID,
+              product_colorAndSizeDetails: {
+                $elemMatch: {
+                  'colorDetails.color': color,
+                },
               },
             },
-          },
-          {
-            $set: {
-              'product_colorAndSizeDetails.$[outer].images': imagesArray,
-              product_stepperStatus: true,
-              product_stepperLastStepVisited: 3,
-              product_updatedAt: Date.now(),
+            {
+              $set: {
+                'product_colorAndSizeDetails.$[outer].images': imagesArray,
+                product_stepperStatus: true,
+                product_stepperLastStepVisited: 3,
+                product_updatedAt: Date.now(),
+              },
             },
-          },
-          {
-            arrayFilters: [{ 'outer.colorDetails.color': color }],
-          },
-          (err, result) => {
-            if (err) {
-              console.log(`Error updating service: ${err}`);
-            } else {
-              console.log(`${result} document(s) updated`);
-            }
-          },
-        );
+            {
+              arrayFilters: [{ 'outer.colorDetails.color': color }],
+            },
+            (err, result) => {
+              if (err) {
+                console.log(`Error updating service: ${err}`);
+              } else {
+                console.log(`${result} document(s) updated`);
+              }
+            },
+          );
+        } else {
+          const updatedObject = {
+            'product_withoutVariantDetails.images': imagesArray,
+            product_stepperLastStepVisited: 3,
+            product_stepperStatus: true,
+            product_updatedAt: Date.now(),
+          };
+          productUpdate = await Products.findByIdAndUpdate({ _id: productID }, { $set: updatedObject }, { new: true });
+        }
         resolve(productUpdate);
       } catch (error) {
         console.log(error);
@@ -320,11 +331,16 @@ const productsRepository = {
       }
     }),
 
-  updateImagesForColorVariant: (productID, color, imagesArray, variantIndex, deletedImagesArrayOnEditing) =>
+  updateImagesForColorVariant: (productID, color, imagesArray, variantIndex, deletedImagesArrayOnEditing, typeOfProduct) =>
     new Promise(async (resolve, reject) => {
       try {
         const productDetails = await Products.findOne({ _id: productID });
-        const imagesDetails = productDetails.product_colorAndSizeDetails[variantIndex].images;
+        let imagesDetails;
+        if (typeOfProduct === 'variant') {
+          imagesDetails = productDetails.product_colorAndSizeDetails[variantIndex].images;
+        } else {
+          imagesDetails = productDetails.product_withoutVariantDetails.images;
+        }
         console.log(imagesDetails);
         if (deletedImagesArrayOnEditing && deletedImagesArrayOnEditing.length > 0) {
           for (let i = 0; i < deletedImagesArrayOnEditing.length; i++) {
@@ -340,7 +356,11 @@ const productsRepository = {
             imagesDetails.push(imagesArray[i]);
           }
         }
-        productDetails.product_colorAndSizeDetails[variantIndex].images = imagesDetails;
+        if (typeOfProduct === 'variant') {
+          productDetails.product_colorAndSizeDetails[variantIndex].images = imagesDetails;
+        } else {
+          productDetails.product_withoutVariantDetails.images = imagesDetails;
+        }
         productDetails.product_stepperLastStepVisited = 3;
         productDetails.product_stepperStatus = true;
         productDetails.product_updatedAt = Date.now();
