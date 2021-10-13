@@ -141,13 +141,12 @@ const orderRepository = {
         }
         else
         {
-
-          let order = await Order.aggregate([
+          let order_with_shipping_details = await Order.aggregate([  
             {
               $lookup: {
                 from: 'products',
-                let: { product_ID: '$product_ID' },
-                pipeline: [{ $match: { $expr: { $eq: ['$$product_ID', '$_id'] } } }],
+                localField: 'product_ID',
+                foreignField: '_id',
                 as: 'productDetail',
               }
             },
@@ -155,15 +154,30 @@ const orderRepository = {
             {
               $lookup: {
                 from: 'shippingdetails',
-                let: { shipping_Detail_Id: '$shipping_Detail_Id' },
-                pipeline: [{ $match: { $expr: { $eq: ['$$shipping_Detail_Id', '$_id'] } } }],
+                localField: 'shipping_Detail_Id',
+                foreignField: '_id',
                 as: 'shippingDetail',
               }
             },
             { $unwind: '$shippingDetail' },
           ])
-          resolve(order);
 
+          let order_without_shipping_details = await Order.aggregate([  
+            {
+              $lookup: {
+                from: 'products',
+                localField: 'product_ID',
+                foreignField: '_id',
+                as: 'productDetail',
+              }
+            },
+            { $unwind: '$productDetail' },
+            { $match : { shipping_Detail_Id : null } }
+          ])
+
+          let order = [ ...order_with_shipping_details , ...order_without_shipping_details ]
+
+          resolve(order);
         }
       } catch (error) {
         console.log(error);
@@ -173,5 +187,20 @@ const orderRepository = {
   }
 
 };
+
+
+// {
+//   $cond: { if: { $gte: [ "$qty", 250 ] }, then: 30, else: 20 }
+// }
+
+
+// {
+//   $lookup: {
+//     from: 'products',
+//     let: { product_ID: '$product_ID' },
+//     pipeline: [{ $match: { $expr: { $eq: ['$$product_ID', '$_id'] } } }],
+//     as: 'productDetail',
+//   }
+// },
 
 module.exports = orderRepository;
