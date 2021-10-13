@@ -1,9 +1,5 @@
 /* eslint-disable no-underscore-dangle */
 const mongoose = require('mongoose');
-
-
-
-
 const shippingDetailSchema = new mongoose.Schema({
 
   product_ID:{
