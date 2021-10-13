@@ -17,6 +17,7 @@ exports.deleteSelectedFiles = async (deleteFiles) => {
     await awsS3Config.deleteObjects(params, (err, data) => {
       // eslint-disable-next-line no-empty
       if (err) {
+        console.log(err);
       } // an error occurred
       else {
         console.log('data', data);
