@@ -188,19 +188,4 @@ const orderRepository = {
 
 };
 
-
-// {
-//   $cond: { if: { $gte: [ "$qty", 250 ] }, then: 30, else: 20 }
-// }
-
-
-// {
-//   $lookup: {
-//     from: 'products',
-//     let: { product_ID: '$product_ID' },
-//     pipeline: [{ $match: { $expr: { $eq: ['$$product_ID', '$_id'] } } }],
-//     as: 'productDetail',
-//   }
-// },
-
 module.exports = orderRepository;
