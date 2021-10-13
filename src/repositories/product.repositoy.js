@@ -195,13 +195,17 @@ const productsRepository = {
         ]);
 
         productDetail.forEach((element) => {
-          element.totalQuantity = element.product_colorAndSizeDetails.reduce((accumulator, colorDetails) => {
-            accumulator += colorDetails.sizeInfo.reduce((acc, sizeInfo) => {
-              acc += sizeInfo.qty;
-              return acc;
+          if (element.product_withoutVariantDetails == null) {
+            element.totalQuantity = element.product_colorAndSizeDetails.reduce((accumulator, colorDetails) => {
+              accumulator += colorDetails.sizeInfo.reduce((acc, sizeInfo) => {
+                acc += sizeInfo.qty;
+                return acc;
+              }, 0);
+              return accumulator;
             }, 0);
-            return accumulator;
-          }, 0);
+          } else {
+            element.totalQuantity = element.product_withoutVariantDetails.qty;
+          }
         });
         resolve(productDetail);
       } catch (error) {
@@ -419,13 +423,17 @@ const productsRepository = {
         ]);
 
         productDetail.forEach((element) => {
-          element.totalQuantity = element.product_colorAndSizeDetails.reduce((accumulator, colorDetails) => {
-            accumulator += colorDetails.sizeInfo.reduce((acc, sizeInfo) => {
-              acc += sizeInfo.qty;
-              return acc;
+          if (element.product_withoutVariantDetails == null) {
+            element.totalQuantity = element.product_colorAndSizeDetails.reduce((accumulator, colorDetails) => {
+              accumulator += colorDetails.sizeInfo.reduce((acc, sizeInfo) => {
+                acc += sizeInfo.qty;
+                return acc;
+              }, 0);
+              return accumulator;
             }, 0);
-            return accumulator;
-          }, 0);
+          } else {
+            element.totalQuantity = element.product_withoutVariantDetails.qty;
+          }
         });
         resolve(productDetail);
       } catch (error) {
