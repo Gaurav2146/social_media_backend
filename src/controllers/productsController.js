@@ -57,7 +57,7 @@ const productCtlr = {
       let imagesDeletedArray = req.body.deletedImagesArrayOnEditing;
       imagesDeletedArray = JSON.parse(imagesDeletedArray);
       const imagesAddedArray = req.files;
-      console.log(productID, color, variantIndex, imagesDeletedArray, imagesAddedArray);
+      console.log(imagesAddedArray);
       const response = await productService.updateImagesForVariants(
         productID,
         color,
