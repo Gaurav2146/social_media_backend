@@ -22,9 +22,7 @@ const orderRepository = {
 
         // Aquiring Lock On current Order Id
         lock.acquire(order_id_to_put_lock, async function (done) {
-
           try {
-
             let order_count = await OrderCounter.find();
             console.log(order_count, 'order_count');
             let order_id;
@@ -57,10 +55,12 @@ const orderRepository = {
             done(null, order);
 
           } catch (error) {
+            console.log(error);
             done(new Error('error'));
           }
         }, function (err, ret) {
           if (err) {
+            console.log(error);
             reject(err);
           }
           console.log(ret , 'Created Order');
