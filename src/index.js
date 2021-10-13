@@ -1,6 +1,6 @@
 const express = require('express');
 
-const { admin, product, user, smartContract, token, brand, tags, collections , shipping , contract , ipfs , order } = require('./routes');
+const { admin, product, user, smartContract, token, brand, tags, collections, shipping, contract, ipfs, order } = require('./routes');
 
 const router = express.Router();
 
