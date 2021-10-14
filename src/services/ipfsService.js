@@ -29,10 +29,18 @@ class IpfsService {
   async uploadJSONFileToIPFS(document) {
     if (document) {
       try {
-        // const filepath = path.join('data.json');
-        // const fileadded = await ipfs.add(globSource(filepath, { recursive: true }));
-        // const hash = fileadded.cid.toString();
-        // return `https://ipfs.io/ipfs/${hash}`;
+        const parseJson = JSON.parse(JSON.stringify(document));
+        fs.writeFileSync('data.json', JSON.stringify(parseJson), { encoding: 'utf8', flag: 'w' }, (error) => {
+          if (error) throw error;
+          // const JSONDocument = JSON.stringify(document);
+          // const data = await ipfs.add(JSONDocument);
+          // return data;
+        });
+
+        const filepath = path.join('data.json');
+        const fileadded = await ipfs.add(globSource(filepath, { recursive: true }));
+        const hash = fileadded.cid.toString();
+        return `https://ipfs.io/ipfs/${hash}`;
         // fs.writeFileSync(path,content,{encoding:'utf8',flag:'w'})
 
         // const parseJson = JSON.parse(JSON.stringify(document));

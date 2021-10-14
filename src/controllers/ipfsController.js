@@ -4,23 +4,27 @@ const isHttpError = require('http-errors');
 
 const https = require('https');
 
+const request = require('request');
+
 const projectId = '1z5U6e17vOGlZCt3Te6KpfFuxVW';
 
 const projectSecret = 'b81f455dedc260e5a1fb3f17510ec0be';
 
-var fs = require('fs');
+const fs = require('fs');
 
-var FormData = require('form-data');
+const FormData = require('form-data');
 
 const IPFSService = require('../services/ipfsService');
 
 const ipfsService = new IPFSService();
 
+const product = require('../model/product');
+
 const ipfsController = {
   saveDataToIPFS: async function (reqest, response, next) {
-    let formData = new FormData();
+    const formData = new FormData();
     try {
-      fs.readFile('/home/gaurav/Documents/FANCY/FANCY_BACKEND/api.fancy/public/Demo.txt', 'utf8', function (err, data) {
+      fs.readFile('/home/gaurav/Documents/FANCY/FANCY_BACKEND/api.fancy/public/Demo.txt', 'utf8', (err, data) => {
         console.log(__dirname);
         if (err) {
           console.log(err);
@@ -41,12 +45,12 @@ const ipfsController = {
           },
           auth: '1z5U6e17vOGlZCt3Te6KpfFuxVW' + ':' + 'b81f455dedc260e5a1fb3f17510ec0be',
         };
-        let req = https.request(options, (res) => {
+        const req = https.request(options, (res) => {
           let body = '';
-          res.on('data', function (chunk) {
+          res.on('data', (chunk) => {
             body += chunk;
           });
-          res.on('end', function () {
+          res.on('end', () => {
             console.log('response body====', body);
           });
         });
@@ -79,7 +83,25 @@ const ipfsController = {
           ],
         };
         const ipfsJSONHash = await ipfsService.uploadJSONFileToIPFS(document);
-        console.log('ipfsJSONHash', ipfsJSONHash);
+        if (ipfsJSONHash) {
+          const updatedObject = {
+            product_updatedAt: Date.now(),
+            nft_image: {
+              imageHash: ipfsNFTHash,
+              JSONHash: ipfsJSONHash,
+            },
+          };
+          request.post(
+            `http://localhost:3210/product/updateProduct`,
+            { json: { productID: productID, productObject: updatedObject } },
+            (error, response, body) => {
+              if (error) {
+                return res.status(200).json({ success: false, error: error });
+              }
+              return res.status(200).json({ success: true, data: body });
+            },
+          );
+        }
       }
     } catch (error) {
       res.status(400);
