@@ -213,5 +213,21 @@ class productsService {
       }
     });
   }
+
+
+
+  updateProductQuantity(obj) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await this.productRepository.updateProductQuantity(obj);
+        resolve(response);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+
 }
+
 module.exports = productsService;

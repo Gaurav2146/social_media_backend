@@ -441,6 +441,22 @@ const productsRepository = {
         reject(error);
       }
     }),
+
+
+  updateProductQuantity: (obj) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+
+        console.log(obj , 'updateProductQuantity');
+
+      }
+      catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    })
+  }
+
 };
 
 module.exports = productsRepository;

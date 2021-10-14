@@ -60,7 +60,7 @@ const orderRepository = {
           }
         }, function (err, ret) {
           if (err) {
-            console.log(error);
+            console.log(err);
             reject(err);
           }
           console.log(ret , 'Created Order');

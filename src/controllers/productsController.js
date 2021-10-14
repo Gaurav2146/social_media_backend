@@ -186,6 +186,21 @@ const productCtlr = {
       }
     }
   },
-};
+
+  updateProductQuantity: async function (req, res, next) {
+    try {
+      let obj = req.body;
+      const response = await productService.updateProductQuantity(obj);
+      res.status(200).json({ success: true, data: response });
+    } catch (e) {
+      if (isHttpError(e)) {
+        next(e);
+      } else {
+        return res.status(400).json({ message: 'something went wrong!' });
+      }
+    }
+  }
+
+}
 
 module.exports = productCtlr;

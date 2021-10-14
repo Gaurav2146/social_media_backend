@@ -137,4 +137,16 @@ router.post('/updateImagesForVariants', uploadImages.fileUploader, productCltr.u
  */
 router.post('/updateNFTImage', uploadImages.nftFileUploader, productCltr.updateNFTImage);
 
+
+/**
+ * update Product Quantity
+ * @route Post /product/updateProductQuantity
+ * @group get API - Endpoints related to update Product Quantity
+ * @returns {object} 200 - Product Information updated
+ * @returns {Error}  default - Unexpected error
+ */
+ router.post('/updateProductQuantity', productCltr.updateProductQuantity);
+
+
+
 module.exports = router;
