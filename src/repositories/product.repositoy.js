@@ -446,9 +446,7 @@ const productsRepository = {
   updateProductQuantity: (obj) => {
     return new Promise(async (resolve, reject) => {
       try {
-
         console.log(obj , 'updateProductQuantity');
-
         let { product_info, Product_id, new_qty , product_withoutVariantDetails } = obj;
 
         if(!product_withoutVariantDetails)
