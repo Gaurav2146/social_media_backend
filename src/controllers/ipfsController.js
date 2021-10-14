@@ -92,7 +92,7 @@ const ipfsController = {
             },
           };
           request.post(
-            `http://localhost:3210/product/updateProduct`,
+            ` http://api.fancy.lapits.com/product/updateProduct`,
             { json: { productID: productID, productObject: updatedObject } },
             (error, response, body) => {
               if (error) {
