@@ -449,6 +449,42 @@ const productsRepository = {
 
         console.log(obj , 'updateProductQuantity');
 
+        let { product_info, Product_id, new_qty , product_withoutVariantDetails } = obj;
+
+        if(!product_withoutVariantDetails)
+        {
+
+          let new_quantity = Number(product_info.qty) - Number(new_qty);
+          let product_colorAndSizeDetails = await Products.findById({ _id: Product_id }, { product_colorAndSizeDetails: 1, _id: 0 });
+          console.log(product_colorAndSizeDetails.product_colorAndSizeDetails, 'product_colorAndSizeDetails');
+          let product_details = product_colorAndSizeDetails.product_colorAndSizeDetails;
+          for (let i = 0; i < product_details.length; i++) {
+            if (product_details[i]._id == product_info.top_level_id) {
+              for (let j = 0; j < product_details[i].sizeInfo.length; j++) {
+                if (product_details[i].sizeInfo[j]._id == product_info.size_detail_id) {
+                  product_details[i].sizeInfo[j].qty = new_quantity;
+                }
+              }
+            }
+          }
+          let updated_detail = await Products.findByIdAndUpdate({ _id: Product_id }, { $set: { product_colorAndSizeDetails: product_details } }, { new: true });
+          resolve(updated_detail);
+
+        }
+        else
+        {
+          let new_quantity = Number(product_info.qty) - Number(new_qty);
+
+          let product_withoutVariantDetails = await Products.findById({ _id: Product_id }, { product_withoutVariantDetails : 1, _id: 0 });
+          console.log(product_withoutVariantDetails.product_withoutVariantDetails, 'product_withoutVariantDetails');
+          let product_details = product_withoutVariantDetails.product_withoutVariantDetails;
+          
+          product_details['qty'] = new_quantity;
+          
+          let updated_detail = await Products.findByIdAndUpdate({ _id: Product_id }, { $set: { product_withoutVariantDetails: product_details } }, { new: true });
+          resolve(updated_detail);
+        }
+
       }
       catch (error) {
         console.log(error);
