@@ -484,7 +484,6 @@ const productsRepository = {
           let updated_detail = await Products.findByIdAndUpdate({ _id: Product_id }, { $set: { product_withoutVariantDetails: product_details } }, { new: true });
           resolve(updated_detail);
         }
-
       }
       catch (error) {
         console.log(error);
