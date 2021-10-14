@@ -12,7 +12,7 @@ const awsS3Config = new aws.S3({
 const fileFilter = (req, file, cb) => {
   let ext = path.extname(file.originalname);
   ext = String(ext).toLowerCase();
-  if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg' && ext !== '.jfif') {
+  if (ext !== '.png' && ext !== '.jpg' && ext !== '.jpeg' && ext !== '.jfif'&& ext !== '.gif') {
     return cb(new Error('Only images are allowed'));
   }
   cb(null, true);
