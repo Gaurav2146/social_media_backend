@@ -126,6 +126,7 @@ class productsService {
         );
         resolve(response);
       } catch (e) {
+        console.log(e);
         reject(e);
       }
     });

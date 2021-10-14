@@ -52,10 +52,12 @@ const productCtlr = {
   },
   updateImagesForVariants: async function (req, res, next) {
     try {
+      console.log(req.body);
+      console.log(req.files);
       const { productID, color, typeOfProduct } = req.body;
       const variantIndex = parseInt(req.body.variantIndex, 10);
-      let imagesDeletedArray = req.body.deletedImagesArrayOnEditing;
-      imagesDeletedArray = JSON.parse(imagesDeletedArray);
+      const imagesDeletedArray = JSON.parse(req.body.deletedImagesArrayOnEditing);
+      // imagesDeletedArray = JSON.parse(imagesDeletedArray);
       const imagesAddedArray = req.files;
       console.log(imagesAddedArray);
       const response = await productService.updateImagesForVariants(
