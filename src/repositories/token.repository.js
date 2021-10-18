@@ -14,10 +14,10 @@ const TokenRepository = {
     })
   },
 
-  editToken: (tokenObj , id) => {
+  editToken: (tokenObj, id) => {
     return new Promise(async (resolve, reject) => {
       try {
-        let token = await Token.findOneAndUpdate({_id : id} , { $set : tokenObj })
+        let token = await Token.findOneAndUpdate({ _id: id }, { $set: tokenObj })
         resolve(token);
       } catch (error) {
         console.log(error);
@@ -51,18 +51,18 @@ const TokenRepository = {
           filter = { $or: [{ TokenType: { $regex: search, $options: "-i" } }, { TokenName: { $regex: search, $options: "-i" } }, { Symbol: { $regex: search, $options: "-i" } }, { ContractAddress: { $regex: search, $options: "-i" } }] }
         }
         let total_data = await Token.find(filter).countDocuments();
-        let tokens = await Token.find(filter).sort({ createdAt : -1}).skip(Number(index - 1) * Number(limit)).limit(Number(limit));
+        let tokens = await Token.find(filter).sort({ createdAt: -1 }).skip(Number(index - 1) * Number(limit)).limit(Number(limit));
         resolve({ tokens, total_data });
       } catch (error) {
         console.log(error);
         reject(error);
       }
-    }) 
+    })
   },
 
-  getToken: ({ Tokensymbol , TokenType }) => {
+  getToken: ({ Tokensymbol, TokenType }) => {
     return new Promise(async (resolve, reject) => {
-      try {                                                                                                                   
+      try {
         let filter = {};
         if (Tokensymbol) {
           filter['Symbol'] = Tokensymbol;
@@ -79,10 +79,10 @@ const TokenRepository = {
     })
   },
 
-  getTokenById : (id) => {
+  getTokenById: (id) => {
     return new Promise(async (resolve, reject) => {
-      try {                                                                                                                   
-        let token_data = await Token.findById({ _id : id });
+      try {
+        let token_data = await Token.findById({ _id: id });
         resolve(token_data);
       } catch (error) {
         console.log(error);
@@ -92,10 +92,10 @@ const TokenRepository = {
   },
 
 
-  deleteTokenById : (id) => {
+  deleteTokenById: (id) => {
     return new Promise(async (resolve, reject) => {
-      try {                                                                                                                   
-        let token_data = await Token.findByIdAndDelete({ _id : id });
+      try {
+        let token_data = await Token.findByIdAndDelete({ _id: id });
         resolve(token_data);
       } catch (error) {
         console.log(error);
@@ -104,6 +104,17 @@ const TokenRepository = {
     })
   },
 
+  getAllTokensForProducts: () => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const token_data = await Token.find({}).sort({ TokenName: 1 });
+        resolve(token_data);
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    })
+  },
 };
 
 module.exports = TokenRepository;
