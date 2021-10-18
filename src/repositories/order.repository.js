@@ -109,7 +109,7 @@ const orderRepository = {
     })
   },
 
-  getAllOrders: (id) => {
+  getAllOrders: (id , search) => {
     return new Promise(async (resolve, reject) => {
       try {
         if(id)
@@ -141,7 +141,8 @@ const orderRepository = {
         }
         else
         {
-          let order_with_shipping_details = await Order.aggregate([  
+
+          let filter_for_order_with_shipping_details = [  
             {
               $lookup: {
                 from: 'products',
@@ -160,9 +161,23 @@ const orderRepository = {
               }
             },
             { $unwind: '$shippingDetail' },
-          ])
+          ];
 
-          let order_without_shipping_details = await Order.aggregate([  
+          if(search)
+          {
+            let filter = {
+              $match: {
+                orderId: { $regex: search, $options: '-i' },
+                Wallet_ID: { $regex: search, $options: '-i' },
+              }
+            };
+
+            filter_for_order_with_shipping_details.unshift( filter );
+          }
+
+          let order_with_shipping_details = await Order.aggregate(filter_for_order_with_shipping_details)
+
+          let filter_for_order_without_shipping_details = [  
             {
               $lookup: {
                 from: 'products',
@@ -173,7 +188,34 @@ const orderRepository = {
             },
             { $unwind: '$productDetail' },
             { $match : { shipping_Detail_Id : null } }
-          ])
+          ];
+
+
+          if(search)
+          {
+            if (search) {
+              let filter = {
+                $match: {
+                  $or: [
+                    { orderId: { $regex: search, $options: '-i' } },
+
+                    { Wallet_ID: { $regex: search, $options: '-i' } },
+
+                    { product_price: { $regex: search, $options: '-i' } },
+
+                    { product_color: { $regex: search, $options: '-i' } },
+
+                    { product_quantity: { $regex: search, $options: '-i' } },
+
+                    { product_size: { $regex: search, $options: '-i' } },                    
+                  ]
+                }
+              };
+              filter_for_order_without_shipping_details.unshift(filter);
+            }
+          }
+
+          let order_without_shipping_details = await Order.aggregate(filter_for_order_without_shipping_details)
 
           let order = [ ...order_with_shipping_details , ...order_without_shipping_details ]
 
