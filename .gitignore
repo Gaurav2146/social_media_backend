@@ -9,6 +9,7 @@
 .env
 env
 package-lock.json
+data.json
 
 
 # Compiled Java class files
