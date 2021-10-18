@@ -214,8 +214,6 @@ class productsService {
     });
   }
 
-
-
   updateProductQuantity(obj) {
     return new Promise(async (resolve, reject) => {
       try {
@@ -226,8 +224,6 @@ class productsService {
       }
     });
   }
-
-
 }
 
 module.exports = productsService;

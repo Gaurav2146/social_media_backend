@@ -1,3 +1,4 @@
+/* eslint-disable no-else-return */
 const shell = require('shelljs');
 
 const fs = require('fs');
@@ -21,7 +22,7 @@ const storagePicture = multer.diskStorage({
     if (file.fileSize) {
       return cb(new Error());
     }
-    if (!file.originalname.toLowerCase().match(/\.(jpg|png|gif|jpeg|svg|pdf|docx)$/)) {
+    if (!file.originalname.toLowerCase().match(/\.(jpg|png|gif|jpeg|svg|pdf|docx|mov)$/)) {
       const err = new Error();
 
       err.code = 'filetype'; // to check on file type
@@ -43,7 +44,6 @@ const storagePicture = multer.diskStorage({
 
 const upload = multer({
   storage: storagePicture,
-
   // limits: { fileSize: 1 * 1024 * 1024 }, // Max file size: 1MB
 }).any();
 
@@ -53,17 +53,16 @@ const pictureUpload = async (req, res, next) => {
   upload(req, res, async (err) => {
     if (err) {
       if (err.code === 'filetype') {
-        res.status(400).json({
-          message: 'File type is invalid. Only accepted .png/.jpg/.jpeg/.svg/.gif/.pdf/.docx .',
+        return res.status(400).json({
+          msg: 'File type is invalid. Only accepted .png/.jpg/.jpeg/.svg/.gif/.pdf/.docx/.mov .',
         });
       } else if (err.code === 'LIMIT_FILE_SIZE') {
-        res.status(400).json({
-          message: 'File should be less then 1MB .',
+        return res.status(400).json({
+          msg: 'File should be less then 1MB .',
         });
       } else {
         console.error(err);
-
-        res.status(400).json({ message: 'File was not able to be uploaded' });
+        return res.status(400).json({ msg: 'File was not able to be uploaded' });
       }
     } else {
       next();
