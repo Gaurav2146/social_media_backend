@@ -442,7 +442,6 @@ const productsRepository = {
       }
     }),
 
-
   updateProductQuantity: (obj) => {
     return new Promise(async (resolve, reject) => {
       try {

@@ -165,7 +165,7 @@ const productCtlr = {
     try {
       const { productID } = req.body;
       const response = await productService.removeProduct(productID);
-      res.status(200).json({ success: true, data: response });
+      res.status(200).json({ success: true, data: response, msg: 'Product Deleted Successfully!' });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);
@@ -177,7 +177,7 @@ const productCtlr = {
   getProductsForAdmin: async function (req, res, next) {
     try {
       const response = await productService.getProductsForAdmin();
-      res.status(200).json({ success: true, data: response });
+      res.status(200).json({ success: true, data: response, msg: 'All Products Fetched!' });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);
