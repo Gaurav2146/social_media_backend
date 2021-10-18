@@ -63,8 +63,15 @@ let auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'] ,
  * @returns {confirmation message} 200
  * @returns {Error}  default - Unexpected error
  */
-  router.get('/deleteToken',  tokenCtl.deleteToken);
+  router.post('/deleteToken',  tokenCtl.deleteToken);
 
-
+/**
+ * delete Token from database
+ * @route GET /token/deleteToken
+ * @group API - Endpoints to delete Token By Id
+ * @returns {confirmation message} 200
+ * @returns {Error}  default - Unexpected error
+ */
+router.get('/getAllTokensForProducts', tokenCtl.getAllTokensForProducts);
 
 module.exports = router;

@@ -15,34 +15,34 @@ class TokenService {
         }
     }
 
-    editToken = async (tokenObj , id) => {
+    editToken = async (tokenObj, id) => {
         try {
-            const token = await this.tokenRepository.editToken(tokenObj , id)
+            const token = await this.tokenRepository.editToken(tokenObj, id)
             return token;
         } catch (error) {
             throw error;
         }
     }
 
-    
 
-    getAllTokens = async ({ search , index , limit }) => {
+
+    getAllTokens = async ({ search, index, limit }) => {
         try {
-            const tokens = await this.tokenRepository.getAllTokens({ search , index , limit })
+            const tokens = await this.tokenRepository.getAllTokens({ search, index, limit })
             return tokens;
         } catch (error) {
             throw error;
         }
-    } 
+    }
 
-    getToken = async ({ Tokensymbol , TokenType }) => {
+    getToken = async ({ Tokensymbol, TokenType }) => {
         try {
-            const token = await this.tokenRepository.getToken({ Tokensymbol , TokenType })
+            const token = await this.tokenRepository.getToken({ Tokensymbol, TokenType })
             return token;
         } catch (error) {
             throw error;
         }
-    } 
+    }
     getTokenById = async (id) => {
         try {
             const token = await this.tokenRepository.getTokenById(id)
@@ -50,7 +50,7 @@ class TokenService {
         } catch (error) {
             throw error;
         }
-    } 
+    }
 
     deleteTokenById = async (id) => {
         try {
@@ -59,8 +59,17 @@ class TokenService {
         } catch (error) {
             throw error;
         }
-    } 
-    
+    }
+
+    getAllTokensForProducts = async () => {
+        try {
+            const token = await this.tokenRepository.getAllTokensForProducts();
+            return token;
+        } catch (error) {
+            throw error;
+        }
+    }
+
 }
 
 module.exports = TokenService;
