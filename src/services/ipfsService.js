@@ -18,6 +18,9 @@ class IpfsService {
         const filepath = path.join(__dirname, `../../${file.path}`);
         const fileadded = await ipfs.add(globSource(filepath, { recursive: true }));
         const hash = fileadded.cid.toString();
+        if (hash) {
+          fs.unlinkSync(filepath);
+        }
         return `https://ipfs.io/ipfs/${hash}`;
       } catch (err) {
         console.log('check----err.message---------------', err.message);
@@ -32,24 +35,11 @@ class IpfsService {
         const parseJson = JSON.parse(JSON.stringify(document));
         fs.writeFileSync('data.json', JSON.stringify(parseJson), { encoding: 'utf8', flag: 'w' }, (error) => {
           if (error) throw error;
-          // const JSONDocument = JSON.stringify(document);
-          // const data = await ipfs.add(JSONDocument);
-          // return data;
         });
-
         const filepath = path.join('data.json');
         const fileadded = await ipfs.add(globSource(filepath, { recursive: true }));
         const hash = fileadded.cid.toString();
         return `https://ipfs.io/ipfs/${hash}`;
-        // fs.writeFileSync(path,content,{encoding:'utf8',flag:'w'})
-
-        // const parseJson = JSON.parse(JSON.stringify(document));
-        // fs.writeFile('data.json', JSON.stringify(parseJson), (error) => {
-        //   // if (error) throw error;
-        //   // const JSONDocument = JSON.stringify(document);
-        //   // const data = await ipfs.add(JSONDocument);
-        //   // return data;
-        // });
       } catch (err) {
         console.log('check----err.message---------------', err.message);
         throw new InternalServerError('File not uploaded to IPFS');

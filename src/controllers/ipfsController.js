@@ -66,7 +66,6 @@ const ipfsController = {
       const file = req.files[0];
       const { productID, productName } = req.body;
       const ipfsNFTHash = await ipfsService.uploadToIPFS(file);
-      console.log('hash', ipfsNFTHash);
       if (ipfsNFTHash) {
         const document = {
           name: productName,
@@ -90,13 +89,14 @@ const ipfsController = {
               imageHash: ipfsNFTHash,
               JSONHash: ipfsJSONHash,
             },
+            product_stepperStatus: true,
           };
           request.post(
             ` http://api.fancy.lapits.com/product/updateProduct`,
             { json: { productID: productID, productObject: updatedObject } },
             (error, response, body) => {
               if (error) {
-                return res.status(200).json({ success: false, error: error });
+                return res.status(400).json({ success: false, error: error });
               }
               return res.status(200).json({ success: true, data: body });
             },
