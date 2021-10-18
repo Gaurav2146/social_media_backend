@@ -113,8 +113,8 @@ const TokenRepository = {
         console.log(error);
         reject(error);
       }
-    })
-  },
+    });
+  }
 };
 
 module.exports = TokenRepository;
