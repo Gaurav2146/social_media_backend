@@ -303,7 +303,6 @@ const productsRepository = {
             {
               $set: {
                 'product_colorAndSizeDetails.$[outer].images': imagesArray,
-                product_stepperStatus: true,
                 product_stepperLastStepVisited: 3,
                 product_updatedAt: Date.now(),
               },
@@ -323,7 +322,6 @@ const productsRepository = {
           const updatedObject = {
             'product_withoutVariantDetails.images': imagesArray,
             product_stepperLastStepVisited: 3,
-            product_stepperStatus: true,
             product_updatedAt: Date.now(),
           };
           productUpdate = await Products.findByIdAndUpdate({ _id: productID }, { $set: updatedObject }, { new: true });
@@ -366,7 +364,6 @@ const productsRepository = {
           productDetails.product_withoutVariantDetails.images = imagesDetails;
         }
         productDetails.product_stepperLastStepVisited = 3;
-        productDetails.product_stepperStatus = true;
         productDetails.product_updatedAt = Date.now();
         const productUpdate = await Products.findByIdAndUpdate({ _id: productID }, { $set: productDetails }, { new: true });
         resolve(productUpdate);

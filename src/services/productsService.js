@@ -163,6 +163,7 @@ class productsService {
             contentType: image.contentType,
           },
           updatedAt: Date.now(),
+          product_stepperStatus: true,
         };
         const response = await this.productRepository.editProductDetails(productID, updatedObject);
         resolve(response);
