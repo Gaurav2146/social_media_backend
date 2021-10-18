@@ -248,7 +248,7 @@ const productsRepository = {
     }),
 
   createProductStepTwo: (productID, productObject, colorImagesDetails) =>
-    new Promise(async (resolve, reject) => {    
+    new Promise(async (resolve, reject) => {
       try {
         for (let i = 0; i < colorImagesDetails.length; i++) {
           // eslint-disable-next-line no-await-in-loop
