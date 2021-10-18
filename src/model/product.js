@@ -87,6 +87,7 @@ const productAddSchema = new mongoose.Schema({
       sizeInfo: [
         {
           qty: { type: Number },
+          remaining_qty: { type: Number },
           price: { type: Number },
           size: { type: String },
         },
