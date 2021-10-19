@@ -164,6 +164,7 @@ const productsRepository = {
           ],
         };
         const productDetail = await Products.aggregate([
+          { $sort: { product_updatedAt: -1 } },
           { $skip: pageIndex * limit },
           { $limit: limit },
           {
@@ -193,7 +194,6 @@ const productsRepository = {
           },
           { $project: returnDataService.returnDataProductListForAdmin() },
           { $match: query },
-          { $sort: { product_updatedAt: -1 } },
         ]);
         const productTotalSize = await Products.find(query).countDocuments();
         productDetail.forEach((element) => {
@@ -392,6 +392,7 @@ const productsRepository = {
     new Promise(async (resolve, reject) => {
       try {
         const productDetail = await Products.aggregate([
+          { $sort: { product_updatedAt: -1 } },
           { $skip: pageIndex * limit },
           { $limit: limit },
           { $unwind: { path: '$product_collectionName', preserveNullAndEmptyArrays: true } },
@@ -420,7 +421,6 @@ const productsRepository = {
             },
           },
           { $project: returnDataService.returnDataProductListForAdmin() },
-          { $sort: { product_updatedAt: -1 } },
         ]);
 
         const productTotalSize = await Products.countDocuments();
