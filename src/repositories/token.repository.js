@@ -1,46 +1,44 @@
 const Token = require('../model/token');
 
 const TokenRepository = {
-
   saveToken: (tokenObj) => {
     return new Promise(async (resolve, reject) => {
       try {
-        let token = await Token.create(tokenObj)
+        let token = await Token.create(tokenObj);
         resolve(token);
       } catch (error) {
         console.log(error);
         reject(error);
       }
-    })
+    });
   },
 
   editToken: (tokenObj, id) => {
     return new Promise(async (resolve, reject) => {
       try {
-        let token = await Token.findOneAndUpdate({ _id: id }, { $set: tokenObj })
+        let token = await Token.findOneAndUpdate({ _id: id }, { $set: tokenObj });
         resolve(token);
       } catch (error) {
         console.log(error);
         reject(error);
       }
-    })
+    });
   },
 
   getToken: (Symbol) => {
     return new Promise(async (resolve, reject) => {
       try {
-        let token = await Token.findOne({ Symbol: Symbol }, { ContractABI: 1, _id: 0 })
+        let token = await Token.findOne({ Symbol: Symbol }, { ContractABI: 1, _id: 0 });
         if (token) {
           resolve(JSON.parse(token.ContractABI));
-        }
-        else {
+        } else {
           resolve('');
         }
       } catch (error) {
         console.log(error);
         reject(error);
       }
-    })
+    });
   },
 
   getAllTokens: ({ search, index, limit }) => {
@@ -48,16 +46,26 @@ const TokenRepository = {
       try {
         let filter = {};
         if (search) {
-          filter = { $or: [{ TokenType: { $regex: search, $options: "-i" } }, { TokenName: { $regex: search, $options: "-i" } }, { Symbol: { $regex: search, $options: "-i" } }, { ContractAddress: { $regex: search, $options: "-i" } }] }
+          filter = {
+            $or: [
+              { TokenType: { $regex: search, $options: '-i' } },
+              { TokenName: { $regex: search, $options: '-i' } },
+              { Symbol: { $regex: search, $options: '-i' } },
+              { ContractAddress: { $regex: search, $options: '-i' } },
+            ],
+          };
         }
         let total_data = await Token.find(filter).countDocuments();
-        let tokens = await Token.find(filter).sort({ createdAt: -1 }).skip(Number(index - 1) * Number(limit)).limit(Number(limit));
+        let tokens = await Token.find(filter)
+          .sort({ createdAt: -1 })
+          .skip(Number(index - 1) * Number(limit))
+          .limit(Number(limit));
         resolve({ tokens, total_data });
       } catch (error) {
         console.log(error);
         reject(error);
       }
-    })
+    });
   },
 
   getToken: ({ Tokensymbol, TokenType }) => {
@@ -76,7 +84,7 @@ const TokenRepository = {
         console.log(error);
         reject(error);
       }
-    })
+    });
   },
 
   getTokenById: (id) => {
@@ -88,9 +96,8 @@ const TokenRepository = {
         console.log(error);
         reject(error);
       }
-    })
+    });
   },
-
 
   deleteTokenById: (id) => {
     return new Promise(async (resolve, reject) => {
@@ -101,7 +108,7 @@ const TokenRepository = {
         console.log(error);
         reject(error);
       }
-    })
+    });
   },
 
   getAllTokensForProducts: () => {
@@ -114,7 +121,7 @@ const TokenRepository = {
         reject(error);
       }
     });
-  }
+  },
 };
 
 module.exports = TokenRepository;

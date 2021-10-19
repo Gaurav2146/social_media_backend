@@ -23,5 +23,5 @@ module.exports = {
   shipping,
   contract,
   ipfs,
-  order
+  order,
 };

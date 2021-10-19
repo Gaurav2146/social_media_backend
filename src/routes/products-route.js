@@ -8,13 +8,10 @@ const productCltr = require('../controllers/productsController');
 
 const uploadImages = require('../route_middleware/uploadImages');
 
-const app = express();
-
-const auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'], userProperty: 'user' }), async (req, res, next) => {
+const auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'], userProperty: 'user' }), async function (req, res, next) {
   console.log(req.user, 'inside jwt');
   next();
 });
-
 // Post route to edit product details
 /**
  * edit product details
@@ -140,7 +137,4 @@ router.post('/updateNFTImage', uploadImages.nftFileUploader, productCltr.updateN
  * @returns {Error}  default - Unexpected error
  */
 router.post('/updateProductQuantity', productCltr.updateProductQuantity);
-
-
-
 module.exports = router;

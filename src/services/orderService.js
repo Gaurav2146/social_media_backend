@@ -18,35 +18,10 @@ class orderService {
     });
   }
 
-  updateShippingDetailId({ orderId , ShippingDetailId })
-  {
-    return new Promise((resolve, reject) => {
-        try {
-          const response = this.orderRepository.updateShippingDetailId({ orderId , ShippingDetailId });
-          resolve(response);
-        } catch (e) {
-          reject(e);
-        }
-      });
-  }
-
-  getPendingOrders(id)
-  {
-    return new Promise((resolve, reject) => {
-        try {
-          const response = this.orderRepository.getPendingOrders(id);
-          resolve(response);
-        } catch (e) {
-          reject(e);
-        }
-      });
-  }
-
-  getAllOrders(id , search)
-  {
+  updateShippingDetailId({ orderId, ShippingDetailId }) {
     return new Promise((resolve, reject) => {
       try {
-        const response = this.orderRepository.getAllOrders(id , search);
+        const response = this.orderRepository.updateShippingDetailId({ orderId, ShippingDetailId });
         resolve(response);
       } catch (e) {
         reject(e);
@@ -54,5 +29,26 @@ class orderService {
     });
   }
 
+  getPendingOrders(id) {
+    return new Promise((resolve, reject) => {
+      try {
+        const response = this.orderRepository.getPendingOrders(id);
+        resolve(response);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+  getAllOrders(id, search) {
+    return new Promise((resolve, reject) => {
+      try {
+        const response = this.orderRepository.getAllOrders(id, search);
+        resolve(response);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
 }
 module.exports = orderService;

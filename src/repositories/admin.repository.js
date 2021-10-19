@@ -1,17 +1,16 @@
 const Admin = require('../model/admin');
 
 const adminRepository = {
-
   saveUser: (userObj) => {
     return new Promise(async (resolve, reject) => {
       try {
-        let admin = await Admin.create(userObj)
+        let admin = await Admin.create(userObj);
         resolve(admin);
       } catch (error) {
         console.log(error);
         reject(error);
       }
-    })
+    });
   },
 
   login: (userObj) => {
@@ -23,9 +22,8 @@ const adminRepository = {
         console.log(error);
         reject(error);
       }
-    })
+    });
   },
-
 
   isAdminAvailable: () => {
     return new Promise(async (resolve, reject) => {
@@ -36,19 +34,19 @@ const adminRepository = {
         console.log(error);
         reject(error);
       }
-    })
+    });
   },
 
   getAdminByEmail: (email) => {
     return new Promise(async (resolve, reject) => {
       try {
-        let admin = await Admin.findOne({ email: email })
+        let admin = await Admin.findOne({ email: email });
         resolve(admin);
       } catch (error) {
         console.log(error);
         reject(error);
       }
-    })
+    });
   },
 
   getAdmin: () => {
@@ -60,21 +58,20 @@ const adminRepository = {
         console.log(error);
         reject(error);
       }
-    })
+    });
   },
 
-  updatePassword : (password) =>{
+  updatePassword: (password) => {
     return new Promise(async (resolve, reject) => {
       try {
-        let admin = await Admin.findOneAndUpdate({ password : password });
+        let admin = await Admin.findOneAndUpdate({ password: password });
         resolve(admin);
       } catch (error) {
         console.log(error);
         reject(error);
       }
-    })
-  } 
-
+    });
+  },
 };
 
 module.exports = adminRepository;

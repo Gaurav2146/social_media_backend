@@ -4,11 +4,10 @@ const orderCtl = require('../controllers/orderController');
 var app = express();
 const jwt = require('express-jwt');
 
-let auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'], userProperty: 'user' }),
-    async function (req, res, next) {
-        console.log(req.user, 'inside jwt');
-        next();
-    });
+let auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'], userProperty: 'user' }), async function (req, res, next) {
+  console.log(req.user, 'inside jwt');
+  next();
+});
 
 /**
  * create Order in database
@@ -17,7 +16,7 @@ let auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'], 
  * @returns {array of object} 200
  * @returns {Error}  default - Unexpected error
  */
-router.post('/createOrder', orderCtl.createOrder); 
+router.post('/createOrder', orderCtl.createOrder);
 
 /**
  * update Shipping Detail in database
@@ -26,18 +25,16 @@ router.post('/createOrder', orderCtl.createOrder);
  * @returns {array of object} 200
  * @returns {Error}  default - Unexpected error
  */
- router.post('/updateShippingDetailId', orderCtl.updateShippingDetailId);
+router.post('/updateShippingDetailId', orderCtl.updateShippingDetailId);
 
-
- /**
+/**
  * get Pending Orders from database
  * @route GET /order/getPendingOrders
  * @group Upload API - Endpoints to get Pending Orders
  * @returns {array of object} 200
  * @returns {Error}  default - Unexpected error
  */
-  router.get('/getPendingOrders', orderCtl.getPendingOrders);
-
+router.get('/getPendingOrders', orderCtl.getPendingOrders);
 
 /**
  * get All Orders from database
@@ -46,9 +43,6 @@ router.post('/createOrder', orderCtl.createOrder);
  * @returns {array of object} 200
  * @returns {Error}  default - Unexpected error
  */
- router.get('/getAllOrders', orderCtl.getAllOrders);
-
-
-  
+router.get('/getAllOrders', orderCtl.getAllOrders);
 
 module.exports = router;

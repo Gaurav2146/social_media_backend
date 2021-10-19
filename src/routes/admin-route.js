@@ -10,7 +10,6 @@ const auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256']
   next();
 });
 
-
 /**
  * admin registration
  * @route POST /admin/registration
@@ -56,8 +55,6 @@ router.get('/sendPasswordResetLink', adminCtl.sendPasswordResetLink);
  */
 router.get('/verifyPasswordResetLink', adminCtl.verifyPasswordResetLink);
 
-
-
 /**
  * resetPassword
  * @route POST  /admin/resetPassword
@@ -65,8 +62,6 @@ router.get('/verifyPasswordResetLink', adminCtl.verifyPasswordResetLink);
  * @returns {object} 200 - On Success
  * @returns {Error}  default - Unexpected error
  */
- router.post('/resetPassword', adminCtl.resetPassword);
-
-
+router.post('/resetPassword', adminCtl.resetPassword);
 
 module.exports = router;
