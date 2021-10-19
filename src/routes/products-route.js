@@ -1,24 +1,19 @@
-const express = require('express');
-const router = express.Router();
-const productCltr = require('../controllers/productsController');
-const uploadImages = require('../route_middleware/uploadImages');
-var app = express();
 const jwt = require('express-jwt');
 
-const auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'], userProperty: 'user' }),
-    async function (req, res, next) {
+const express = require('express');
+
+const router = express.Router();
+
+const productCltr = require('../controllers/productsController');
+
+const uploadImages = require('../route_middleware/uploadImages');
+
+const app = express();
+
+const auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'], userProperty: 'user' }), async (req, res, next) => {
   console.log(req.user, 'inside jwt');
   next();
 });
-
-/**
- * add product details
- * @route POST /product/addProduct
- * @group add API - Endpoints related to add product.
- * @returns {object} 200 - Product Added
- * @returns {Error}  default - Unexpected error
- */
-// router.post('/addProduct', productCltr.addProduct);
 
 // Post route to edit product details
 /**
@@ -117,7 +112,7 @@ router.post('/getSelectedProductDetails', productCltr.getSelectedProductInfo);
 //  * @returns {object} 200 - Product Information Fetched
 //  * @returns {Error}  default - Unexpected error
 //  */
-router.get('/getProductsForAdmin', productCltr.getProductsForAdmin);
+router.post('/getProductsForAdmin', productCltr.getProductsForAdmin);
 
 /**
  * Update Images
@@ -137,7 +132,6 @@ router.post('/updateImagesForVariants', uploadImages.fileUploader, productCltr.u
  */
 router.post('/updateNFTImage', uploadImages.nftFileUploader, productCltr.updateNFTImage);
 
-
 /**
  * update Product Quantity
  * @route Post /product/updateProductQuantity
@@ -145,7 +139,7 @@ router.post('/updateNFTImage', uploadImages.nftFileUploader, productCltr.updateN
  * @returns {object} 200 - Product Information updated
  * @returns {Error}  default - Unexpected error
  */
- router.post('/updateProductQuantity', productCltr.updateProductQuantity);
+router.post('/updateProductQuantity', productCltr.updateProductQuantity);
 
 
 
