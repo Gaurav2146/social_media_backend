@@ -1,16 +1,15 @@
 /* eslint-disable no-underscore-dangle */
 const mongoose = require('mongoose');
 const shippingDetailSchema = new mongoose.Schema({
-
-  product_ID:{
+  product_ID: {
     type: mongoose.Types.ObjectId,
-    required: true,       
-    trim: true
+    required: true,
+    trim: true,
   },
-  Wallet_ID:{
+  Wallet_ID: {
     type: String,
-    required: true,       
-    trim: true
+    required: true,
+    trim: true,
   },
   product_price: {
     type: Number,
@@ -19,14 +18,14 @@ const shippingDetailSchema = new mongoose.Schema({
   product_color: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
   },
-  product_size : {
+  product_size: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
   },
-  product_quantity : {
+  product_quantity: {
     type: Number,
     required: true,
   },
@@ -68,7 +67,7 @@ const shippingDetailSchema = new mongoose.Schema({
   createdAt: {
     type: Date,
     default: Date.now,
-  }
+  },
 });
 
 const ShippingDetail = mongoose.model('ShippingDetail', shippingDetailSchema);

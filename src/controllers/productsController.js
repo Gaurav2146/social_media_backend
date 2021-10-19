@@ -199,8 +199,7 @@ const productCtlr = {
         return res.status(400).json({ message: 'something went wrong!' });
       }
     }
-  }
-
-}
+  },
+};
 
 module.exports = productCtlr;

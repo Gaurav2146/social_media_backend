@@ -1,25 +1,25 @@
 /* eslint-disable no-underscore-dangle */
 const mongoose = require('mongoose');
 const orderSchema = new mongoose.Schema({
-  product_ID:{
+  product_ID: {
     type: mongoose.Schema.ObjectId,
-    required: true,       
-    trim: true
+    required: true,
+    trim: true,
   },
-  orderId:{
+  orderId: {
     type: String,
-    required: true,       
-    trim: true
+    required: true,
+    trim: true,
   },
   eth_transaction_hash: {
     type: String,
-    required: true,       
-    trim: true
+    required: true,
+    trim: true,
   },
-  Wallet_ID:{
+  Wallet_ID: {
     type: String,
-    required: true,       
-    trim: true
+    required: true,
+    trim: true,
   },
   product_price: {
     type: Number,
@@ -28,14 +28,14 @@ const orderSchema = new mongoose.Schema({
   product_color: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
   },
-  product_size : {
+  product_size: {
     type: String,
     required: true,
-    trim: true
+    trim: true,
   },
-  product_quantity : {
+  product_quantity: {
     type: Number,
     required: true,
   },
@@ -47,14 +47,14 @@ const orderSchema = new mongoose.Schema({
     type: Object,
     required: true,
   },
-  shipping_Detail_Id:{
+  shipping_Detail_Id: {
     type: mongoose.Schema.ObjectId,
-    default : null
+    default: null,
   },
   createdAt: {
     type: Date,
     default: Date.now,
-  }
+  },
 });
 
 const Order = mongoose.model('Order', orderSchema);

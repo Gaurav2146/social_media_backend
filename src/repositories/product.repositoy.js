@@ -442,12 +442,10 @@ const productsRepository = {
   updateProductQuantity: (obj) => {
     return new Promise(async (resolve, reject) => {
       try {
-        console.log(obj , 'updateProductQuantity');
-        let { product_info, Product_id, new_qty , product_withoutVariantDetails } = obj;
+        console.log(obj, 'updateProductQuantity');
+        let { product_info, Product_id, new_qty, product_withoutVariantDetails } = obj;
 
-        if(!product_withoutVariantDetails)
-        {
-
+        if (!product_withoutVariantDetails) {
           let new_quantity = Number(product_info.qty) - Number(new_qty);
           let product_colorAndSizeDetails = await Products.findById({ _id: Product_id }, { product_colorAndSizeDetails: 1, _id: 0 });
           console.log(product_colorAndSizeDetails.product_colorAndSizeDetails, 'product_colorAndSizeDetails');
@@ -461,31 +459,34 @@ const productsRepository = {
               }
             }
           }
-          let updated_detail = await Products.findByIdAndUpdate({ _id: Product_id }, { $set: { product_colorAndSizeDetails: product_details } }, { new: true });
+          let updated_detail = await Products.findByIdAndUpdate(
+            { _id: Product_id },
+            { $set: { product_colorAndSizeDetails: product_details } },
+            { new: true },
+          );
           resolve(updated_detail);
-
-        }
-        else
-        {
-          let product_withoutVariantDetails = await Products.findById({ _id: Product_id }, { product_withoutVariantDetails : 1, _id: 0 });
-          console.log( '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' );
+        } else {
+          let product_withoutVariantDetails = await Products.findById({ _id: Product_id }, { product_withoutVariantDetails: 1, _id: 0 });
+          console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
           console.log(product_withoutVariantDetails.product_withoutVariantDetails, 'product_withoutVariantDetails');
-          console.log( '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' );
+          console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
           let product_details = product_withoutVariantDetails.product_withoutVariantDetails;
           let prev_qty = product_details.qty;
           let new_quantity = Number(prev_qty) - Number(new_qty);
           product_details['qty'] = new_quantity;
-          let updated_detail = await Products.findByIdAndUpdate({ _id: Product_id }, { $set: { product_withoutVariantDetails: product_details } }, { new: true });
+          let updated_detail = await Products.findByIdAndUpdate(
+            { _id: Product_id },
+            { $set: { product_withoutVariantDetails: product_details } },
+            { new: true },
+          );
           resolve(updated_detail);
         }
-      }
-      catch (error) {
+      } catch (error) {
         console.log(error);
         reject(error);
       }
-    })
-  }
-
+    });
+  },
 };
 
 module.exports = productsRepository;

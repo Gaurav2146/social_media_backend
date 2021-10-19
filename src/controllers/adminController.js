@@ -26,7 +26,7 @@ const adminCtl = {
         return res.status(400).json({ message: 'something went wrong!' });
       }
     }
-  }, 
+  },
 
   isAdminAvailable: async function (req, res, next) {
     try {
@@ -35,20 +35,22 @@ const adminCtl = {
         return res.status(200).json({ success: true, isAvailable: true });
       }
       return res.status(200).json({ success: true, isAvailable: false });
-    } catch (e) {           
+    } catch (e) {
       if (isHttpError(e)) {
         next(e);
       } else {
         return res.status(400).json({ message: 'something went wrong!' });
       }
     }
-  },                
+  },
 
   adminLogin: async function (req, res) {
     try {
       let { email, password } = req.body;
       email = email.toLowerCase();
-      adminService.adminLogin({ email, password}).then((token) => {
+      adminService
+        .adminLogin({ email, password })
+        .then((token) => {
           res.status(200).json({ token, success: true, msg: 'Login Successfully', type: 'login' });
         })
         .catch((error) => {
@@ -60,7 +62,7 @@ const adminCtl = {
       res.status(400).json({ success: false, msg: 'Something went wrong!', type: 'main catch', error: error });
     }
   },
-  
+
   sendPasswordResetLink: async function (req, res) {
     try {
       adminService
@@ -80,24 +82,10 @@ const adminCtl = {
 
   verifyPasswordResetLink: async function (req, res) {
     try {
-      let {jwt} = req.query;
-      adminService.verifyPasswordResetLink(jwt).then((data) => {
-          res.status(200).json({ success: true, msg: data });
-        })
-        .catch((error) => {
-          console.log(error);
-          res.status(400).json({ success: false, msg: error });
-        });
-    } catch (error) {
-      console.log(error);
-      res.status(400).json({ success: false, msg: 'Something went wrong!', type: 'main catch', error: error });
-    }
-  },
-  
-  resetPassword: async function (req, res) {
-    try {
-      let {jwt , password } = req.body;
-      adminService.resetPassword(jwt , password ).then((data) => {
+      let { jwt } = req.query;
+      adminService
+        .verifyPasswordResetLink(jwt)
+        .then((data) => {
           res.status(200).json({ success: true, msg: data });
         })
         .catch((error) => {
@@ -110,6 +98,23 @@ const adminCtl = {
     }
   },
 
+  resetPassword: async function (req, res) {
+    try {
+      let { jwt, password } = req.body;
+      adminService
+        .resetPassword(jwt, password)
+        .then((data) => {
+          res.status(200).json({ success: true, msg: data });
+        })
+        .catch((error) => {
+          console.log(error);
+          res.status(400).json({ success: false, msg: error });
+        });
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ success: false, msg: 'Something went wrong!', type: 'main catch', error: error });
+    }
+  },
 };
 
 module.exports = adminCtl;

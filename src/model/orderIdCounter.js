@@ -2,13 +2,11 @@
 const mongoose = require('mongoose');
 
 const orderIdCounterSchema = new mongoose.Schema({
-
-  orderIdCounter:{
+  orderIdCounter: {
     type: String,
-    required: true,       
-    trim: true
+    required: true,
+    trim: true,
   },
- 
 });
 
 const OrderCounter = mongoose.model('OrderCounter', orderIdCounterSchema);

@@ -65,18 +65,19 @@ class AdminService {
     return new Promise(async (resolve, reject) => {
       try {
         const admin_detail = await this.adminRepository.getAdmin();
-        console.log( admin_detail.email , ' admin_detail in case of forgot password ');
-        let admin_jwt =  jwt.sign({ email : admin_detail.email }, admin_detail.password , { expiresIn: 60 * 60 * 24 } );
-      
-        let mail_res = await mailer(admin_detail.email, 'Forgot Password Email', 'views/emailTemplate/forgotPassword.ejs', { admin_jwt : admin_jwt });
-      
+        console.log(admin_detail.email, ' admin_detail in case of forgot password ');
+        let admin_jwt = jwt.sign({ email: admin_detail.email }, admin_detail.password, { expiresIn: 60 * 60 * 24 });
+
+        let mail_res = await mailer(admin_detail.email, 'Forgot Password Email', 'views/emailTemplate/forgotPassword.ejs', {
+          admin_jwt: admin_jwt,
+        });
+
         resolve(mail_res);
       } catch (e) {
         reject(e);
       }
     });
   }
-
 
   verifyPasswordResetLink(token) {
     return new Promise(async (resolve, reject) => {
@@ -85,8 +86,7 @@ class AdminService {
         let detail = jwt.verify(token, admin_detail.password);
         if (admin_detail.email === detail.email) {
           resolve('Verified Successfully');
-        }
-        else {
+        } else {
           reject('Verification Failed');
         }
       } catch (e) {
@@ -95,7 +95,7 @@ class AdminService {
     });
   }
 
-  resetPassword(jwt_token , password ){
+  resetPassword(jwt_token, password) {
     return new Promise(async (resolve, reject) => {
       try {
         const admin_detail = await this.adminRepository.getAdmin();
@@ -104,8 +104,7 @@ class AdminService {
           let encrypted_password = crytojs.passencrypt(password.toString());
           const detail = await this.adminRepository.updatePassword(encrypted_password);
           resolve(detail);
-        }
-        else {
+        } else {
           reject('Verification Failed');
         }
       } catch (e) {
@@ -113,8 +112,6 @@ class AdminService {
       }
     });
   }
-
-
 }
 
 module.exports = AdminService;
