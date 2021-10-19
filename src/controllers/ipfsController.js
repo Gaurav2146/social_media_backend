@@ -64,7 +64,7 @@ const ipfsController = {
   saveDetailsToIPFS: async function (req, res, next) {
     try {
       const file = req.files[0];
-      const { productID, productName } = req.body;
+      const { productID, productName, fileType } = req.body;
       const ipfsNFTHash = await ipfsService.uploadToIPFS(file);
       if (ipfsNFTHash) {
         const document = {
@@ -88,6 +88,7 @@ const ipfsController = {
             nft_image: {
               imageHash: ipfsNFTHash,
               JSONHash: ipfsJSONHash,
+              fileType: fileType,
             },
             product_stepperStatus: true,
           };
