@@ -153,7 +153,7 @@ const productsRepository = {
       }
     }),
 
-  filterProductData: (searchvalue) =>
+  filterProductData: (searchvalue, pageIndex, limit) =>
     new Promise(async (resolve, reject) => {
       try {
         const query = {
@@ -164,6 +164,8 @@ const productsRepository = {
           ],
         };
         const productDetail = await Products.aggregate([
+          { $skip: pageIndex * limit },
+          { $limit: limit },
           {
             $lookup: {
               from: 'brands',
@@ -193,7 +195,7 @@ const productsRepository = {
           { $match: query },
           { $sort: { product_updatedAt: -1 } },
         ]);
-
+        const productTotalSize = await Products.find(query).countDocuments();
         productDetail.forEach((element) => {
           if (element.product_withoutVariantDetails == null) {
             element.totalQuantity = element.product_colorAndSizeDetails.reduce((accumulator, colorDetails) => {
@@ -207,7 +209,7 @@ const productsRepository = {
             element.totalQuantity = element.product_withoutVariantDetails.qty;
           }
         });
-        resolve(productDetail);
+        resolve({ productDetail: productDetail, productTotalSize: productTotalSize });
       } catch (error) {
         console.log(error);
         reject(error);
@@ -386,10 +388,12 @@ const productsRepository = {
     }
     return res;
   },
-  getProductsAdmin: () =>
+  getProductsAdmin: (pageIndex, limit) =>
     new Promise(async (resolve, reject) => {
       try {
         const productDetail = await Products.aggregate([
+          { $skip: pageIndex * limit },
+          { $limit: limit },
           { $unwind: { path: '$product_collectionName', preserveNullAndEmptyArrays: true } },
           {
             $lookup: {
@@ -419,6 +423,8 @@ const productsRepository = {
           { $sort: { product_updatedAt: -1 } },
         ]);
 
+        const productTotalSize = await Products.countDocuments();
+
         productDetail.forEach((element) => {
           if (element.product_withoutVariantDetails == null) {
             element.totalQuantity = element.product_colorAndSizeDetails.reduce((accumulator, colorDetails) => {
@@ -432,7 +438,7 @@ const productsRepository = {
             element.totalQuantity = element.product_withoutVariantDetails.qty;
           }
         });
-        resolve(productDetail);
+        resolve({ productDetail: productDetail, productTotalSize: productTotalSize });
       } catch (error) {
         console.log(error);
         reject(error);

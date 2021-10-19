@@ -135,11 +135,16 @@ const productCtlr = {
   getFilteredProducts: async function (req, res, next) {
     try {
       const { productSearchValue } = req.body;
+      let { pageIndex, limit } = req.body;
+      pageIndex -= 1;
+      limit = parseInt(limit, 10);
       if (productSearchValue === null || productSearchValue === undefined) {
         return;
       }
-      const response = await productService.getAllFilteredProducts(productSearchValue);
-      return res.status(200).json({ success: true, data: response, msg: 'All Products Fetched' });
+      const response = await productService.getAllFilteredProducts(productSearchValue, pageIndex, limit);
+      return res
+        .status(200)
+        .json({ success: true, data: response.productDetail, totalSize: response.productTotalSize, msg: 'All Products Fetched' });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);
@@ -176,8 +181,13 @@ const productCtlr = {
   },
   getProductsForAdmin: async function (req, res, next) {
     try {
-      const response = await productService.getProductsForAdmin();
-      res.status(200).json({ success: true, data: response, msg: 'All Products Fetched!' });
+      let { pageIndex, limit } = req.body;
+      pageIndex -= 1;
+      limit = parseInt(limit, 10);
+      const response = await productService.getProductsForAdmin(pageIndex, limit);
+      res
+        .status(200)
+        .json({ success: true, data: response.productDetail, totalSize: response.productTotalSize, msg: 'All Products Fetched!' });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);

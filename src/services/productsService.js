@@ -193,10 +193,10 @@ class productsService {
     });
   }
 
-  getAllFilteredProducts(searchString) {
+  getAllFilteredProducts(searchString, pageIndex, limit) {
     return new Promise(async (resolve, reject) => {
       try {
-        const response = await this.productRepository.filterProductData(searchString);
+        const response = await this.productRepository.filterProductData(searchString, pageIndex, limit);
         resolve(response);
       } catch (e) {
         reject(e);
@@ -204,10 +204,10 @@ class productsService {
     });
   }
 
-  getProductsForAdmin() {
+  getProductsForAdmin(pageIndex, limit) {
     return new Promise(async (resolve, reject) => {
       try {
-        const response = await this.productRepository.getProductsAdmin();
+        const response = await this.productRepository.getProductsAdmin(pageIndex, limit);
         resolve(response);
       } catch (e) {
         reject(e);

@@ -71,6 +71,7 @@ const productAddSchema = new mongoose.Schema({
   nft_image: {
     imageHash: { type: String },
     JSONHash: { type: String },
+    fileType: { type: String },
   },
   product_colorAndSizeDetails: [
     {
