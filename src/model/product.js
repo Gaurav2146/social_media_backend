@@ -55,6 +55,7 @@ const productAddSchema = new mongoose.Schema({
   product_withoutVariantDetails: {
     price: { type: Number },
     qty: { type: Number },
+    remaining_qty: { type: Number },
     images: [
       {
         file: { type: String },
