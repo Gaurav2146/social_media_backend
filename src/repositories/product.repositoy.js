@@ -467,14 +467,14 @@ const productsRepository = {
         }
         else
         {
-          let new_quantity = Number(product_info.qty) - Number(new_qty);
-
           let product_withoutVariantDetails = await Products.findById({ _id: Product_id }, { product_withoutVariantDetails : 1, _id: 0 });
+          console.log( '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' );
           console.log(product_withoutVariantDetails.product_withoutVariantDetails, 'product_withoutVariantDetails');
+          console.log( '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%' );
           let product_details = product_withoutVariantDetails.product_withoutVariantDetails;
-          
+          let prev_qty = product_details.qty;
+          let new_quantity = Number(prev_qty) - Number(new_qty);
           product_details['qty'] = new_quantity;
-          
           let updated_detail = await Products.findByIdAndUpdate({ _id: Product_id }, { $set: { product_withoutVariantDetails: product_details } }, { new: true });
           resolve(updated_detail);
         }

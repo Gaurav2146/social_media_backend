@@ -92,7 +92,8 @@ const ipfsController = {
             product_stepperStatus: true,
           };
           request.post(
-            ` http://api.fancy.lapits.com/product/updateProduct`,
+            // ` http://api.fancy.lapits.com/product/updateProduct`,
+            ` http://localhost:3210/product/updateProduct`,
             { json: { productID: productID, productObject: updatedObject } },
             (error, response, body) => {
               if (error) {
