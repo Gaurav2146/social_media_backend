@@ -1,6 +1,8 @@
 /* eslint-disable consistent-return */
 const isHttpError = require('http-errors');
+
 const TagsService = require('../services/tagsService');
+
 const tagsService = new TagsService();
 
 const tagsCtlr = {

@@ -13,7 +13,6 @@ const productsRepository = {
         const productDetail = await Products.create(productObject);
         resolve(productDetail);
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     }),
@@ -148,12 +147,11 @@ const productsRepository = {
         }
         resolve(productDetail);
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     }),
 
-  filterProductData: (searchvalue) =>
+  filterProductData: (searchvalue, pageIndex, limit) =>
     new Promise(async (resolve, reject) => {
       try {
         const query = {
@@ -190,10 +188,12 @@ const productsRepository = {
             },
           },
           { $project: returnDataService.returnDataProductListForAdmin() },
-          { $match: query },
           { $sort: { product_updatedAt: -1 } },
+          { $skip: pageIndex * limit },
+          { $limit: limit },
+          { $match: query },
         ]);
-
+        const productTotalSize = await Products.find(query).countDocuments();
         productDetail.forEach((element) => {
           if (element.product_withoutVariantDetails == null) {
             element.totalQuantity = element.product_colorAndSizeDetails.reduce((accumulator, colorDetails) => {
@@ -207,9 +207,8 @@ const productsRepository = {
             element.totalQuantity = element.product_withoutVariantDetails.qty;
           }
         });
-        resolve(productDetail);
+        resolve({ productDetail: productDetail, productTotalSize: productTotalSize });
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     }),
@@ -220,7 +219,6 @@ const productsRepository = {
         const productDetail = await Products.findByIdAndUpdate({ _id: productID }, { $set: productObject }, { new: true });
         resolve(productDetail);
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     }),
@@ -231,7 +229,6 @@ const productsRepository = {
         const productDetail = await Products.findByIdAndDelete({ _id: productID });
         resolve(productDetail);
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     }),
@@ -242,7 +239,6 @@ const productsRepository = {
         const productCreate = await Products.create(productObject);
         resolve(productCreate);
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     }),
@@ -281,7 +277,6 @@ const productsRepository = {
         const productUpdate = await Products.findByIdAndUpdate({ _id: productID }, { $set: productObject }, { new: true });
         resolve(productUpdate);
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     }),
@@ -328,7 +323,6 @@ const productsRepository = {
         }
         resolve(productUpdate);
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     }),
@@ -343,7 +337,6 @@ const productsRepository = {
         } else {
           imagesDetails = productDetails.product_withoutVariantDetails.images;
         }
-        console.log(imagesDetails);
         if (deletedImagesArrayOnEditing && deletedImagesArrayOnEditing.length > 0) {
           for (let i = 0; i < deletedImagesArrayOnEditing.length; i++) {
             for (let j = 0; j < imagesDetails.length; j++) {
@@ -368,7 +361,6 @@ const productsRepository = {
         const productUpdate = await Products.findByIdAndUpdate({ _id: productID }, { $set: productDetails }, { new: true });
         resolve(productUpdate);
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     }),
@@ -386,7 +378,7 @@ const productsRepository = {
     }
     return res;
   },
-  getProductsAdmin: () =>
+  getProductsAdmin: (pageIndex, limit) =>
     new Promise(async (resolve, reject) => {
       try {
         const productDetail = await Products.aggregate([
@@ -417,7 +409,11 @@ const productsRepository = {
           },
           { $project: returnDataService.returnDataProductListForAdmin() },
           { $sort: { product_updatedAt: -1 } },
+          { $skip: pageIndex * limit },
+          { $limit: limit },
         ]);
+
+        const productTotalSize = await Products.countDocuments();
 
         productDetail.forEach((element) => {
           if (element.product_withoutVariantDetails == null) {
@@ -432,9 +428,8 @@ const productsRepository = {
             element.totalQuantity = element.product_withoutVariantDetails.qty;
           }
         });
-        resolve(productDetail);
+        resolve({ productDetail: productDetail, productTotalSize: productTotalSize });
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     }),

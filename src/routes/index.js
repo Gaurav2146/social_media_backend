@@ -10,6 +10,7 @@ const shipping = require('./shippingDetail-route');
 const contract = require('./contract-route');
 const ipfs = require('./ipfs-route');
 const order = require('./order-route');
+const subscription = require('./subscription-route');
 
 module.exports = {
   admin,
@@ -24,4 +25,5 @@ module.exports = {
   contract,
   ipfs,
   order,
+  subscription,
 };

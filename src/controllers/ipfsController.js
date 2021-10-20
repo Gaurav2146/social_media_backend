@@ -1,10 +1,10 @@
+const request = require('request');
+
 const { BadRequest, InternalServerError } = require('http-errors');
 
 const isHttpError = require('http-errors');
 
 const https = require('https');
-
-const request = require('request');
 
 const projectId = '1z5U6e17vOGlZCt3Te6KpfFuxVW';
 
@@ -61,10 +61,10 @@ const ipfsController = {
       response.status(400);
     }
   },
-  saveDetailsToIPFS: async function (req, res, next) {
+  saveDetailsToIPFS: async function (req, res) {
     try {
       const file = req.files[0];
-      const { productID, productName } = req.body;
+      const { productID, productName, fileType } = req.body;
       const ipfsNFTHash = await ipfsService.uploadToIPFS(file);
       if (ipfsNFTHash) {
         const document = {
@@ -88,12 +88,13 @@ const ipfsController = {
             nft_image: {
               imageHash: ipfsNFTHash,
               JSONHash: ipfsJSONHash,
+              fileType: fileType,
             },
             product_stepperStatus: true,
           };
           request.post(
-            // ` http://api.fancy.lapits.com/product/updateProduct`,
-            ` http://localhost:3210/product/updateProduct`,
+            ` http://api.fancy.lapits.com/product/updateProduct`,
+            // ` http://localhost:3210/product/updateProduct`,
             { json: { productID: productID, productObject: updatedObject } },
             (error, response, body) => {
               if (error) {

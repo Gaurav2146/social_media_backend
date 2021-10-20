@@ -17,6 +17,7 @@ const mailer = async function (email, subject, template, options) {
 
         ejs.renderFile(template, options, (error, result) => {
           if (error) {
+            console.log(error);
             reject(error);
           } else {
             transporter
