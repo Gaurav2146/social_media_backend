@@ -122,6 +122,18 @@ const TokenRepository = {
       }
     });
   },
+
+  getFilteredTokensForAdmin: (TokenName) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const token_data = await Token.find({ TokenName: { $regex: TokenName, $options: 'i' } }).sort({ TokenName: 1 });
+        resolve(token_data);
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    });
+  },
 };
 
 module.exports = TokenRepository;

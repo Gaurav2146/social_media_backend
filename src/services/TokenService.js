@@ -66,6 +66,15 @@ class TokenService {
       throw error;
     }
   };
+
+  getFilteredTokensForAdmin = async (TokenName) => {
+    try {
+      const token = await this.tokenRepository.getFilteredTokensForAdmin(TokenName);
+      return token;
+    } catch (error) {
+      throw error;
+    }
+  };
 }
 
 module.exports = TokenService;
