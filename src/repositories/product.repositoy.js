@@ -13,7 +13,6 @@ const productsRepository = {
         const productDetail = await Products.create(productObject);
         resolve(productDetail);
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     }),
@@ -148,7 +147,6 @@ const productsRepository = {
         }
         resolve(productDetail);
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     }),
@@ -211,7 +209,6 @@ const productsRepository = {
         });
         resolve({ productDetail: productDetail, productTotalSize: productTotalSize });
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     }),
@@ -222,7 +219,6 @@ const productsRepository = {
         const productDetail = await Products.findByIdAndUpdate({ _id: productID }, { $set: productObject }, { new: true });
         resolve(productDetail);
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     }),
@@ -233,7 +229,6 @@ const productsRepository = {
         const productDetail = await Products.findByIdAndDelete({ _id: productID });
         resolve(productDetail);
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     }),
@@ -244,7 +239,6 @@ const productsRepository = {
         const productCreate = await Products.create(productObject);
         resolve(productCreate);
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     }),
@@ -283,7 +277,6 @@ const productsRepository = {
         const productUpdate = await Products.findByIdAndUpdate({ _id: productID }, { $set: productObject }, { new: true });
         resolve(productUpdate);
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     }),
@@ -330,7 +323,6 @@ const productsRepository = {
         }
         resolve(productUpdate);
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     }),
@@ -345,7 +337,6 @@ const productsRepository = {
         } else {
           imagesDetails = productDetails.product_withoutVariantDetails.images;
         }
-        console.log(imagesDetails);
         if (deletedImagesArrayOnEditing && deletedImagesArrayOnEditing.length > 0) {
           for (let i = 0; i < deletedImagesArrayOnEditing.length; i++) {
             for (let j = 0; j < imagesDetails.length; j++) {
@@ -370,7 +361,6 @@ const productsRepository = {
         const productUpdate = await Products.findByIdAndUpdate({ _id: productID }, { $set: productDetails }, { new: true });
         resolve(productUpdate);
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     }),
@@ -440,7 +430,6 @@ const productsRepository = {
         });
         resolve({ productDetail: productDetail, productTotalSize: productTotalSize });
       } catch (error) {
-        console.log(error);
         reject(error);
       }
     }),
