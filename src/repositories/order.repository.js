@@ -23,7 +23,7 @@ const orderRepository = {
         // Aquiring Lock On current Order Id
         lock.acquire(
           order_id_to_put_lock,
-          async function (done) {
+          async (done) => {
             try {
               let order_count = await OrderCounter.find();
               console.log(order_count, 'order_count');
@@ -57,7 +57,7 @@ const orderRepository = {
               done(new Error('error'));
             }
           },
-          function (err, ret) {
+          (err, ret) => {
             if (err) {
               console.log(err);
               reject(err);

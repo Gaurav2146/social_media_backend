@@ -1,3 +1,4 @@
+/* eslint-disable no-async-promise-executor */
 const jwt = require('jsonwebtoken');
 const adminRepository = require('../repositories/admin.repository');
 const crytojs = require('../lib/crypto');
@@ -53,6 +54,7 @@ class AdminService {
             }
           });
         } else {
+          // eslint-disable-next-line prefer-promise-reject-errors
           reject('Please Check Your email id or Password');
         }
       } catch (e) {
@@ -95,6 +97,7 @@ class AdminService {
     });
   }
 
+  // eslint-disable-next-line camelcase
   resetPassword(jwt_token, password) {
     return new Promise(async (resolve, reject) => {
       try {
