@@ -24,7 +24,6 @@ const productCtlr = {
     try {
       const { productID, data, removeImagesProductDetails } = req.body;
       const response = await productService.addProductStepTwo(productID, data, removeImagesProductDetails);
-      console.log(response);
       return res.status(200).json({ success: true, data: response });
     } catch (e) {
       if (isHttpError(e)) {
@@ -37,9 +36,7 @@ const productCtlr = {
   createProductStepThree: async function (req, res, next) {
     try {
       const { productID, color, typeOfProduct } = req.body;
-      console.log(req.body);
       const productVariantImages = req.files;
-      console.log(req.files);
       const response = await productService.addProductStepThree(productID, color, productVariantImages, typeOfProduct);
       return res.status(200).json({ success: true, data: response });
     } catch (e) {
@@ -52,14 +49,11 @@ const productCtlr = {
   },
   updateImagesForVariants: async function (req, res, next) {
     try {
-      console.log(req.body);
-      console.log(req.files);
       const { productID, color, typeOfProduct } = req.body;
       const variantIndex = parseInt(req.body.variantIndex, 10);
       const imagesDeletedArray = JSON.parse(req.body.deletedImagesArrayOnEditing);
       // imagesDeletedArray = JSON.parse(imagesDeletedArray);
       const imagesAddedArray = req.files;
-      console.log(imagesAddedArray);
       const response = await productService.updateImagesForVariants(
         productID,
         color,

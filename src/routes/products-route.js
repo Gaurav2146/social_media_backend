@@ -134,7 +134,6 @@ router.post('/updateImagesForVariants', uploadImages.fileUploader, productCltr.u
  */
 router.post('/updateNFTImage', uploadImages.nftFileUploader, productCltr.updateNFTImage);
 
-
 /**
  * update Product Quantity
  * @route Post /product/updateProductQuantity
