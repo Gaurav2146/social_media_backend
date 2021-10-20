@@ -46,6 +46,24 @@ router.post('/getAllTokens', auth, tokenCtl.getAllTokens);
 router.post('/getTokenDetail', tokenCtl.getTokenDetail);
 
 /**
+ * get token detail from database
+ * @route POST /token/getFilteredTokens
+ * @group API - Endpoints to get All Tokens Detail
+ * @returns {confirmation message} 200
+ * @returns {Error}  default - Unexpected error
+ */
+router.post('/getFilteredTokens', tokenCtl.getFilteredTokens);
+
+/**
+ * get token detail from database
+ * @route POST /token/getFilteredTokens
+ * @group API - Endpoints to get All Tokens Detail
+ * @returns {confirmation message} 200
+ * @returns {Error}  default - Unexpected error
+ */
+router.post('/getFilteredTokensForAdmin', tokenCtl.getFilteredTokensForAdmin);
+
+/**
  * get Token By Id from database
  * @route GET /token/getTokenById
  * @group API - Endpoints to get Token By Id
