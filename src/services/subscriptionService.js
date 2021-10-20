@@ -18,10 +18,10 @@ class SubscriptionService {
     });
   }
 
-  getAllSubscriptions() {
+  getAllSubscriptions(pageIndex, limit) {
     return new Promise((resolve, reject) => {
       try {
-        const response = this.subscriptionRepository.getSubscriptions();
+        const response = this.subscriptionRepository.getSubscriptions(pageIndex, limit);
         resolve(response);
       } catch (e) {
         reject(e);

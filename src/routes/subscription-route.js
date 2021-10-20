@@ -24,6 +24,6 @@ router.post('/addSubscriptionDetail', subscriptionCltr.addSubscriptionDetail);
  * @returns {object} 200 - all subscription fetched
  * @returns {Error}  default - Unexpected error
  */
-router.get('/getAllSubscriptions', subscriptionCltr.getAllSubscriptions);
+router.post('/getAllSubscriptions', subscriptionCltr.getAllSubscriptions);
 
 module.exports = router;
