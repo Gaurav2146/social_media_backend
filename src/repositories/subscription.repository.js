@@ -17,11 +17,15 @@ const tagsRepository = {
       }
     }),
 
-  getSubscriptions: () =>
+  getSubscriptions: (pageIndex, limit) =>
     new Promise(async (resolve, reject) => {
       try {
-        const subscriptionDetail = await Subscription.find().sort({ updatedAt: -1 });
-        resolve(subscriptionDetail);
+        const subscriptionDetail = await Subscription.find()
+          .sort({ updatedAt: -1 })
+          .skip(pageIndex * limit)
+          .limit(limit);
+        const subscriptionCount = await Subscription.countDocuments();
+        resolve({ subscriptionDetail: subscriptionDetail, subscriptionCount: subscriptionCount });
       } catch (error) {
         reject(error);
       }

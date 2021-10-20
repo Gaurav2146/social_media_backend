@@ -29,8 +29,16 @@ const subscriptionCtlr = {
   },
   getAllSubscriptions: async function (req, res, next) {
     try {
-      const response = await subscriptionService.getAllSubscriptions();
-      return res.status(200).json({ success: true, data: response, msg: 'All Subscriptions Fetched' });
+      let { pageIndex, limit } = req.body;
+      pageIndex -= 1;
+      limit = parseInt(limit, 10);
+      const response = await subscriptionService.getAllSubscriptions(pageIndex, limit);
+      return res.status(200).json({
+        success: true,
+        data: response.subscriptionDetail,
+        totalSize: response.subscriptionCount,
+        msg: 'All Subscriptions Fetched',
+      });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);
