@@ -1,5 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 const mongoose = require('mongoose');
+
 const orderSchema = new mongoose.Schema({
   product_ID: {
     type: mongoose.Schema.ObjectId,
@@ -12,6 +13,11 @@ const orderSchema = new mongoose.Schema({
     trim: true,
   },
   eth_transaction_hash: {
+    type: String,
+    required: true,
+    trim: true,
+  },
+  mint_hash: {
     type: String,
     required: true,
     trim: true,

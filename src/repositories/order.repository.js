@@ -1,9 +1,12 @@
-const Order = require('../model/order');
-const Products = require('../model/product');
+const AsyncLock = require('async-lock');
+// eslint-disable-next-line no-unused-vars
 const mongoose = require('mongoose');
+const Order = require('../model/order');
+// eslint-disable-next-line no-unused-vars
+const Products = require('../model/product');
 const OrderCounter = require('../model/orderIdCounter');
-var AsyncLock = require('async-lock');
-var lock = new AsyncLock();
+
+const lock = new AsyncLock();
 const orderRepository = {
   createOrder: (obj) => {
     return new Promise(async (resolve, reject) => {
@@ -31,7 +34,7 @@ const orderRepository = {
                 let detail = await order_counter.save();
                 console.log(detail, 'detail');
               } else {
-                let dummy = '000000';
+                const dummy = '000000';
                 order_id = order_count[0].orderIdCounter;
                 let no_of_zeroes = 0;
                 for (let i = 0; i < order_id.length; i++) {
@@ -42,11 +45,11 @@ const orderRepository = {
                 }
                 let order_no = Number(order_id.substring(no_of_zeroes));
                 order_no++;
-                let string_order_no = dummy.substring(0, 6 - order_no.toString().length) + order_no.toString();
+                const string_order_no = dummy.substring(0, 6 - order_no.toString().length) + order_no.toString();
                 await OrderCounter.findOneAndUpdate({ orderIdCounter: string_order_no });
               }
               obj['orderId'] = order_id;
-              let order = await Order.create(obj);
+              const order = await Order.create(obj);
 
               done(null, order);
             } catch (error) {

@@ -3,23 +3,23 @@ module.exports = [
     inputs: [
       {
         internalType: 'string',
-        name: 'name',
+        name: '_name',
         type: 'string',
       },
       {
         internalType: 'string',
-        name: 'symbol',
+        name: '_symbol',
         type: 'string',
       },
       {
-        internalType: 'uint256',
-        name: 'maxNftSupply',
-        type: 'uint256',
+        internalType: 'string',
+        name: '_uriPrefix',
+        type: 'string',
       },
       {
-        internalType: 'uint256',
-        name: 'saleStart',
-        type: 'uint256',
+        internalType: 'string',
+        name: '_contractUri',
+        type: 'string',
       },
     ],
     stateMutability: 'nonpayable',
@@ -31,32 +31,7 @@ module.exports = [
       {
         indexed: true,
         internalType: 'address',
-        name: 'owner',
-        type: 'address',
-      },
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'approved',
-        type: 'address',
-      },
-      {
-        indexed: true,
-        internalType: 'uint256',
-        name: 'tokenId',
-        type: 'uint256',
-      },
-    ],
-    name: 'Approval',
-    type: 'event',
-  },
-  {
-    anonymous: false,
-    inputs: [
-      {
-        indexed: true,
-        internalType: 'address',
-        name: 'owner',
+        name: 'account',
         type: 'address',
       },
       {
@@ -100,6 +75,12 @@ module.exports = [
       {
         indexed: true,
         internalType: 'address',
+        name: 'operator',
+        type: 'address',
+      },
+      {
+        indexed: true,
+        internalType: 'address',
         name: 'from',
         type: 'address',
       },
@@ -110,91 +91,101 @@ module.exports = [
         type: 'address',
       },
       {
-        indexed: true,
-        internalType: 'uint256',
-        name: 'tokenId',
-        type: 'uint256',
+        indexed: false,
+        internalType: 'uint256[]',
+        name: 'ids',
+        type: 'uint256[]',
+      },
+      {
+        indexed: false,
+        internalType: 'uint256[]',
+        name: 'values',
+        type: 'uint256[]',
       },
     ],
-    name: 'Transfer',
+    name: 'TransferBatch',
     type: 'event',
   },
   {
-    inputs: [],
-    name: 'BAYC_PROVENANCE',
-    outputs: [
-      {
-        internalType: 'string',
-        name: '',
-        type: 'string',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'MAX_APES',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'REVEAL_TIMESTAMP',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'apePrice',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
+    anonymous: false,
     inputs: [
       {
+        indexed: true,
+        internalType: 'address',
+        name: 'operator',
+        type: 'address',
+      },
+      {
+        indexed: true,
+        internalType: 'address',
+        name: 'from',
+        type: 'address',
+      },
+      {
+        indexed: true,
         internalType: 'address',
         name: 'to',
         type: 'address',
       },
       {
+        indexed: false,
         internalType: 'uint256',
-        name: 'tokenId',
+        name: 'id',
+        type: 'uint256',
+      },
+      {
+        indexed: false,
+        internalType: 'uint256',
+        name: 'value',
         type: 'uint256',
       },
     ],
-    name: 'approve',
-    outputs: [],
-    stateMutability: 'nonpayable',
+    name: 'TransferSingle',
+    type: 'event',
+  },
+  {
+    anonymous: false,
+    inputs: [
+      {
+        indexed: false,
+        internalType: 'string',
+        name: 'value',
+        type: 'string',
+      },
+      {
+        indexed: true,
+        internalType: 'uint256',
+        name: 'id',
+        type: 'uint256',
+      },
+    ],
+    name: 'URI',
+    type: 'event',
+  },
+  {
+    inputs: [],
+    name: '_totalSupply',
+    outputs: [
+      {
+        internalType: 'uint256',
+        name: '',
+        type: 'uint256',
+      },
+    ],
+    stateMutability: 'view',
     type: 'function',
   },
   {
     inputs: [
       {
         internalType: 'address',
-        name: 'owner',
+        name: 'account',
         type: 'address',
+      },
+      {
+        internalType: 'uint256',
+        name: 'id',
+        type: 'uint256',
       },
     ],
     name: 'balanceOf',
@@ -209,8 +200,32 @@ module.exports = [
     type: 'function',
   },
   {
+    inputs: [
+      {
+        internalType: 'address[]',
+        name: 'accounts',
+        type: 'address[]',
+      },
+      {
+        internalType: 'uint256[]',
+        name: 'ids',
+        type: 'uint256[]',
+      },
+    ],
+    name: 'balanceOfBatch',
+    outputs: [
+      {
+        internalType: 'uint256[]',
+        name: '',
+        type: 'uint256[]',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
     inputs: [],
-    name: 'baseURI',
+    name: 'contractURI',
     outputs: [
       {
         internalType: 'string',
@@ -223,27 +238,7 @@ module.exports = [
   },
   {
     inputs: [],
-    name: 'emergencySetStartingIndexBlock',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'flipSaleState',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'tokenId',
-        type: 'uint256',
-      },
-    ],
-    name: 'getApproved',
+    name: 'getManagerAddress',
     outputs: [
       {
         internalType: 'address',
@@ -255,10 +250,23 @@ module.exports = [
     type: 'function',
   },
   {
+    inputs: [],
+    name: 'getURI',
+    outputs: [
+      {
+        internalType: 'string',
+        name: '',
+        type: 'string',
+      },
+    ],
+    stateMutability: 'view',
+    type: 'function',
+  },
+  {
     inputs: [
       {
         internalType: 'address',
-        name: 'owner',
+        name: 'account',
         type: 'address',
       },
       {
@@ -279,29 +287,49 @@ module.exports = [
     type: 'function',
   },
   {
-    inputs: [],
-    name: 'maxApePurchase',
-    outputs: [
+    inputs: [
       {
         internalType: 'uint256',
-        name: '',
+        name: 'quantity',
         type: 'uint256',
       },
+      {
+        internalType: 'string',
+        name: '_URI',
+        type: 'string',
+      },
+      {
+        internalType: 'string',
+        name: '_skuName',
+        type: 'string',
+      },
     ],
-    stateMutability: 'view',
+    name: 'mint',
+    outputs: [],
+    stateMutability: 'nonpayable',
     type: 'function',
   },
   {
     inputs: [
       {
-        internalType: 'uint256',
-        name: 'numberOfTokens',
-        type: 'uint256',
+        internalType: 'uint256[]',
+        name: 'quantity',
+        type: 'uint256[]',
+      },
+      {
+        internalType: 'string[]',
+        name: 'URIs',
+        type: 'string[]',
+      },
+      {
+        internalType: 'string[]',
+        name: '_skuName',
+        type: 'string[]',
       },
     ],
-    name: 'mintApe',
+    name: 'mintBatch',
     outputs: [],
-    stateMutability: 'payable',
+    stateMutability: 'nonpayable',
     type: 'function',
   },
   {
@@ -331,25 +359,6 @@ module.exports = [
     type: 'function',
   },
   {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'tokenId',
-        type: 'uint256',
-      },
-    ],
-    name: 'ownerOf',
-    outputs: [
-      {
-        internalType: 'address',
-        name: '',
-        type: 'address',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
     inputs: [],
     name: 'renounceOwnership',
     outputs: [],
@@ -357,13 +366,6 @@ module.exports = [
     type: 'function',
   },
   {
-    inputs: [],
-    name: 'reserveApes',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
     inputs: [
       {
         internalType: 'address',
@@ -376,12 +378,22 @@ module.exports = [
         type: 'address',
       },
       {
-        internalType: 'uint256',
-        name: 'tokenId',
-        type: 'uint256',
+        internalType: 'uint256[]',
+        name: 'ids',
+        type: 'uint256[]',
+      },
+      {
+        internalType: 'uint256[]',
+        name: 'amounts',
+        type: 'uint256[]',
+      },
+      {
+        internalType: 'bytes',
+        name: 'data',
+        type: 'bytes',
       },
     ],
-    name: 'safeTransferFrom',
+    name: 'safeBatchTransferFrom',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
@@ -400,31 +412,23 @@ module.exports = [
       },
       {
         internalType: 'uint256',
-        name: 'tokenId',
+        name: 'id',
+        type: 'uint256',
+      },
+      {
+        internalType: 'uint256',
+        name: 'amount',
         type: 'uint256',
       },
       {
         internalType: 'bytes',
-        name: '_data',
+        name: 'data',
         type: 'bytes',
       },
     ],
     name: 'safeTransferFrom',
     outputs: [],
     stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'saleIsActive',
-    outputs: [
-      {
-        internalType: 'bool',
-        name: '',
-        type: 'bool',
-      },
-    ],
-    stateMutability: 'view',
     type: 'function',
   },
   {
@@ -449,11 +453,24 @@ module.exports = [
     inputs: [
       {
         internalType: 'string',
-        name: 'baseURI',
+        name: '_contractUri',
         type: 'string',
       },
     ],
-    name: 'setBaseURI',
+    name: 'setContractURI',
+    outputs: [],
+    stateMutability: 'nonpayable',
+    type: 'function',
+  },
+  {
+    inputs: [
+      {
+        internalType: 'address',
+        name: '_managerAddress',
+        type: 'address',
+      },
+    ],
+    name: 'setManagerAddress',
     outputs: [],
     stateMutability: 'nonpayable',
     type: 'function',
@@ -462,59 +479,13 @@ module.exports = [
     inputs: [
       {
         internalType: 'string',
-        name: 'provenanceHash',
+        name: '_tokenURIPrefix',
         type: 'string',
       },
     ],
-    name: 'setProvenanceHash',
+    name: 'setTokenURIPrefix',
     outputs: [],
     stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'revealTimeStamp',
-        type: 'uint256',
-      },
-    ],
-    name: 'setRevealTimestamp',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'setStartingIndex',
-    outputs: [],
-    stateMutability: 'nonpayable',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'startingIndex',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'startingIndexBlock',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
     type: 'function',
   },
   {
@@ -552,68 +523,12 @@ module.exports = [
   {
     inputs: [
       {
-        internalType: 'uint256',
-        name: 'index',
-        type: 'uint256',
-      },
-    ],
-    name: 'tokenByIndex',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'owner',
-        type: 'address',
-      },
-      {
-        internalType: 'uint256',
-        name: 'index',
-        type: 'uint256',
-      },
-    ],
-    name: 'tokenOfOwnerByIndex',
-    outputs: [
-      {
-        internalType: 'uint256',
-        name: '',
-        type: 'uint256',
-      },
-    ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'uint256',
-        name: 'tokenId',
-        type: 'uint256',
-      },
-    ],
-    name: 'tokenURI',
-    outputs: [
-      {
         internalType: 'string',
         name: '',
         type: 'string',
       },
     ],
-    stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [],
-    name: 'totalSupply',
+    name: 'tokenIdOfSku',
     outputs: [
       {
         internalType: 'uint256',
@@ -622,29 +537,6 @@ module.exports = [
       },
     ],
     stateMutability: 'view',
-    type: 'function',
-  },
-  {
-    inputs: [
-      {
-        internalType: 'address',
-        name: 'from',
-        type: 'address',
-      },
-      {
-        internalType: 'address',
-        name: 'to',
-        type: 'address',
-      },
-      {
-        internalType: 'uint256',
-        name: 'tokenId',
-        type: 'uint256',
-      },
-    ],
-    name: 'transferFrom',
-    outputs: [],
-    stateMutability: 'nonpayable',
     type: 'function',
   },
   {
@@ -661,10 +553,22 @@ module.exports = [
     type: 'function',
   },
   {
-    inputs: [],
-    name: 'withdraw',
-    outputs: [],
-    stateMutability: 'nonpayable',
+    inputs: [
+      {
+        internalType: 'uint256',
+        name: 'id',
+        type: 'uint256',
+      },
+    ],
+    name: 'uri',
+    outputs: [
+      {
+        internalType: 'string',
+        name: '',
+        type: 'string',
+      },
+    ],
+    stateMutability: 'view',
     type: 'function',
   },
 ];

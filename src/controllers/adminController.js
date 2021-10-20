@@ -1,9 +1,11 @@
 const { BadRequest } = require('http-errors');
 const isHttpError = require('http-errors');
 const AdminService = require('../services/adminService');
+
 const adminService = new AdminService();
 
 const adminCtl = {
+  // eslint-disable-next-line consistent-return
   registration: async function (req, res, next) {
     try {
       const { email, name, password } = req.body;
@@ -28,6 +30,7 @@ const adminCtl = {
     }
   },
 
+  // eslint-disable-next-line consistent-return
   isAdminAvailable: async function (req, res, next) {
     try {
       const isAvailable = await adminService.isAdminAvailable();
@@ -46,6 +49,7 @@ const adminCtl = {
 
   adminLogin: async function (req, res) {
     try {
+      // eslint-disable-next-line prefer-const
       let { email, password } = req.body;
       email = email.toLowerCase();
       adminService
@@ -82,7 +86,7 @@ const adminCtl = {
 
   verifyPasswordResetLink: async function (req, res) {
     try {
-      let { jwt } = req.query;
+      const { jwt } = req.query;
       adminService
         .verifyPasswordResetLink(jwt)
         .then((data) => {
@@ -100,7 +104,7 @@ const adminCtl = {
 
   resetPassword: async function (req, res) {
     try {
-      let { jwt, password } = req.body;
+      const { jwt, password } = req.body;
       adminService
         .resetPassword(jwt, password)
         .then((data) => {
