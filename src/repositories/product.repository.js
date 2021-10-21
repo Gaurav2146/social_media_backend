@@ -190,10 +190,10 @@ const productsRepository = {
             },
           },
           { $project: returnDataService.returnDataProductListForAdmin() },
+          { $match: query },
           { $sort: { product_updatedAt: -1 } },
           { $skip: pageIndex * limit },
           { $limit: limit },
-          { $match: query },
         ]);
         const productTotalSize = await Products.find(query).countDocuments();
         productDetail.forEach((element) => {

@@ -135,6 +135,7 @@ const productCtlr = {
       if (productSearchValue === null || productSearchValue === undefined) {
         return;
       }
+      console.log(productSearchValue);
       const response = await productService.getAllFilteredProducts(productSearchValue, pageIndex, limit);
       return res
         .status(200)
