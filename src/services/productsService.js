@@ -1,6 +1,6 @@
 /* eslint-disable no-async-promise-executor */
 /* eslint-disable no-param-reassign */
-const productRepository = require('../repositories/product.repositoy');
+const productRepository = require('../repositories/product.repository');
 
 const deleteImagesFile = require('../route_middleware/deleteImages');
 
