@@ -1,67 +1,26 @@
-/* eslint-disable no-param-reassign */
-/* eslint-disable no-async-promise-executor */
 const Brands = require('../model/brand');
 
 const brandsRepository = {
-  saveBrand: (brandObject) =>
-    new Promise(async (resolve, reject) => {
-      try {
-        const brandDetail = await Brands.create(brandObject);
-        resolve(brandDetail);
-      } catch (error) {
-        reject(error);
-      }
-    }),
+  saveBrand: (brandObject) => Brands.create(brandObject),
 
-  getBrands: () =>
-    new Promise(async (resolve, reject) => {
-      try {
-        const brandDetail = await Brands.find().sort({ brand_updatedAt: -1 });
-        resolve(brandDetail);
-      } catch (error) {
-        reject(error);
-      }
-    }),
+  getBrands: () => Brands.find().sort({ brand_updatedAt: -1 }),
 
   filterBrandData: (searchvalue) =>
-    new Promise(async (resolve, reject) => {
-      try {
-        const brandDetail = await Brands.aggregate([
-          { $match: { brand_name: { $regex: searchvalue, $options: 'i' } } },
-          { $sort: { brand_updatedAt: -1 } },
-          {
-            $project: {
-              brand_name: 1,
-              brand_createdAt: 1,
-              brand_updatedAt: 1,
-            },
-          },
-        ]);
-        resolve(brandDetail);
-      } catch (error) {
-        reject(error);
-      }
-    }),
+    Brands.aggregate([
+      { $match: { brand_name: { $regex: searchvalue, $options: 'i' } } },
+      { $sort: { brand_updatedAt: -1 } },
+      {
+        $project: {
+          brand_name: 1,
+          brand_createdAt: 1,
+          brand_updatedAt: 1,
+        },
+      },
+    ]),
 
-  editBrandDetails: (brandID, brandObject) =>
-    new Promise(async (resolve, reject) => {
-      try {
-        const brandDetail = await Brands.findByIdAndUpdate({ _id: brandID }, { $set: brandObject }, { new: true });
-        resolve(brandDetail);
-      } catch (error) {
-        reject(error);
-      }
-    }),
+  editBrandDetails: (brandID, brandObject) => Brands.findByIdAndUpdate({ _id: brandID }, { $set: brandObject }, { new: true }),
 
-  deleteBrand: (brandID) =>
-    new Promise(async (resolve, reject) => {
-      try {
-        const brandDetail = await Brands.findByIdAndDelete({ _id: brandID });
-        resolve(brandDetail);
-      } catch (error) {
-        reject(error);
-      }
-    }),
+  deleteBrand: (brandID) => Brands.findByIdAndDelete({ _id: brandID }),
 };
 
 module.exports = brandsRepository;

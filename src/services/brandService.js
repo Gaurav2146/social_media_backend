@@ -1,5 +1,3 @@
-/* eslint-disable no-async-promise-executor */
-/* eslint-disable no-param-reassign */
 const brandRepository = require('../repositories/brand.repository');
 
 class brandsService {
@@ -7,59 +5,24 @@ class brandsService {
     this.brandRepository = brandRepository;
   }
 
-  addNewBrand(brandObject) {
-    return new Promise((resolve, reject) => {
-      try {
-        const response = this.brandRepository.saveBrand(brandObject);
-        resolve(response);
-      } catch (e) {
-        reject(e);
-      }
-    });
+  async addNewBrand(brandObject) {
+    return this.brandRepository.saveBrand(brandObject);
   }
 
   getAllBrands() {
-    return new Promise((resolve, reject) => {
-      try {
-        const response = this.brandRepository.getBrands();
-        resolve(response);
-      } catch (e) {
-        reject(e);
-      }
-    });
+    return this.brandRepository.getBrands();
   }
 
   updateBrand(brandID, updatedObj) {
-    return new Promise((resolve, reject) => {
-      try {
-        const response = this.brandRepository.editBrandDetails(brandID, updatedObj);
-        resolve(response);
-      } catch (e) {
-        reject(e);
-      }
-    });
+    return this.brandRepository.editBrandDetails(brandID, updatedObj);
   }
 
   removeBrand(brandID) {
-    return new Promise((resolve, reject) => {
-      try {
-        const response = this.brandRepository.deleteBrand(brandID);
-        resolve(response);
-      } catch (e) {
-        reject(e);
-      }
-    });
+    return this.brandRepository.deleteBrand(brandID);
   }
 
   getAllFilteredBrands(searchString) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const response = await this.brandRepository.filterBrandData(searchString);
-        resolve(response);
-      } catch (e) {
-        reject(e);
-      }
-    });
+    return this.brandRepository.filterBrandData(searchString);
   }
 }
 module.exports = brandsService;
