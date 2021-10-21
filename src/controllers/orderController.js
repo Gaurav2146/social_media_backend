@@ -21,6 +21,21 @@ const orderCtl = {
     }
   },
 
+  updateOrder: async function (req, res, next) {
+    try {
+      const { id, eth_transaction_hash } = req.body;
+      console.log(req.body, 'updateOrder');
+      const order_detail = await order_service.updateOrder(id, eth_transaction_hash);
+      res.status(200).json({ success: true, order_detail: order_detail });
+    } catch (e) {
+      if (isHttpError(e)) {
+        next(e);
+      } else {
+        return res.status(400).json({ message: 'something went wrong!' });
+      }
+    }
+  },
+
   updateShippingDetailId: async function (req, res, next) {
     try {
       const { orderId, ShippingDetailId } = req.body;

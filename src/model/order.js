@@ -14,8 +14,8 @@ const orderSchema = new mongoose.Schema({
   },
   eth_transaction_hash: {
     type: String,
-    required: true,
     trim: true,
+    default: '',
   },
   mint_hash: {
     type: String,

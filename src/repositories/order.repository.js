@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 const AsyncLock = require('async-lock');
 // eslint-disable-next-line no-unused-vars
 const mongoose = require('mongoose');
@@ -8,10 +9,12 @@ const OrderCounter = require('../model/orderIdCounter');
 
 const lock = new AsyncLock();
 const orderRepository = {
-  createOrder: (obj) => {
-    return new Promise(async (resolve, reject) => {
+  createOrder: (obj) =>
+    // eslint-disable-next-line no-async-promise-executor
+    new Promise(async (resolve, reject) => {
       try {
-        let curr_order_id_to_put_lock = await OrderCounter.find();
+        // eslint-disable-next-line camelcase
+        const curr_order_id_to_put_lock = await OrderCounter.find();
         console.log(curr_order_id_to_put_lock, 'curr_order_id_to_put_lock');
         let order_id_to_put_lock;
         if (curr_order_id_to_put_lock.length === 0) {
@@ -25,13 +28,13 @@ const orderRepository = {
           order_id_to_put_lock,
           async (done) => {
             try {
-              let order_count = await OrderCounter.find();
+              const order_count = await OrderCounter.find();
               console.log(order_count, 'order_count');
               let order_id;
               if (order_count.length === 0) {
                 order_id = '000001';
-                let order_counter = new OrderCounter({ orderIdCounter: '000002' });
-                let detail = await order_counter.save();
+                const order_counter = new OrderCounter({ orderIdCounter: '000002' });
+                const detail = await order_counter.save();
                 console.log(detail, 'detail');
               } else {
                 const dummy = '000000';
@@ -48,7 +51,8 @@ const orderRepository = {
                 const string_order_no = dummy.substring(0, 6 - order_no.toString().length) + order_no.toString();
                 await OrderCounter.findOneAndUpdate({ orderIdCounter: string_order_no });
               }
-              obj['orderId'] = order_id;
+              // eslint-disable-next-line no-param-reassign
+              obj.orderId = order_id;
               const order = await Order.create(obj);
 
               done(null, order);
@@ -70,25 +74,37 @@ const orderRepository = {
         console.log(error);
         reject(error);
       }
-    });
-  },
+    }),
 
-  updateShippingDetailId: ({ orderId, ShippingDetailId }) => {
-    return new Promise(async (resolve, reject) => {
+  updateShippingDetailId: ({ orderId, ShippingDetailId }) =>
+    // eslint-disable-next-line no-async-promise-executor
+    new Promise(async (resolve, reject) => {
       try {
-        let order = await Order.findByIdAndUpdate({ _id: orderId }, { $set: { shipping_Detail_Id: ShippingDetailId } }, { new: true });
+        const order = await Order.findByIdAndUpdate({ _id: orderId }, { $set: { shipping_Detail_Id: ShippingDetailId } }, { new: true });
         resolve(order);
       } catch (error) {
         console.log(error);
         reject(error);
       }
-    });
-  },
+    }),
 
-  getPendingOrders: (id) => {
-    return new Promise(async (resolve, reject) => {
+  updateOrder: (id, eth_transaction_hash) =>
+    // eslint-disable-next-line no-async-promise-executor
+    new Promise(async (resolve, reject) => {
       try {
-        let order = await Order.aggregate([
+        const order = await Order.findByIdAndUpdate({ _id: id }, { $set: { eth_transaction_hash: eth_transaction_hash } }, { new: true });
+        resolve(order);
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    }),
+
+  getPendingOrders: (id) =>
+    // eslint-disable-next-line no-async-promise-executor
+    new Promise(async (resolve, reject) => {
+      try {
+        const order = await Order.aggregate([
           { $match: { shipping_Detail_Id: null } },
           { $match: { Wallet_ID: id } },
           {
@@ -106,14 +122,14 @@ const orderRepository = {
         console.log(error);
         reject(error);
       }
-    });
-  },
+    }),
 
-  getAllOrders: (id, search) => {
-    return new Promise(async (resolve, reject) => {
+  getAllOrders: (id, search) =>
+    // eslint-disable-next-line no-async-promise-executor
+    new Promise(async (resolve, reject) => {
       try {
         if (id) {
-          let order = await Order.aggregate([
+          const order = await Order.aggregate([
             { $match: { Wallet_ID: id } },
             {
               $lookup: {
@@ -136,7 +152,8 @@ const orderRepository = {
           ]);
           resolve(order);
         } else {
-          let filter_for_order_with_shipping_details = [
+          // eslint-disable-next-line camelcase
+          const filter_for_order_with_shipping_details = [
             {
               $lookup: {
                 from: 'products',
@@ -158,7 +175,7 @@ const orderRepository = {
           ];
 
           if (search) {
-            let filter = {
+            const filter = {
               $match: {
                 orderId: { $regex: search, $options: '-i' },
                 Wallet_ID: { $regex: search, $options: '-i' },
@@ -168,9 +185,11 @@ const orderRepository = {
             filter_for_order_with_shipping_details.unshift(filter);
           }
 
-          let order_with_shipping_details = await Order.aggregate(filter_for_order_with_shipping_details);
+          // eslint-disable-next-line camelcase
+          const order_with_shipping_details = await Order.aggregate(filter_for_order_with_shipping_details);
 
-          let filter_for_order_without_shipping_details = [
+          // eslint-disable-next-line camelcase
+          const filter_for_order_without_shipping_details = [
             {
               $lookup: {
                 from: 'products',
@@ -185,7 +204,7 @@ const orderRepository = {
 
           if (search) {
             if (search) {
-              let filter = {
+              const filter = {
                 $match: {
                   $or: [
                     { orderId: { $regex: search, $options: '-i' } },
@@ -206,9 +225,11 @@ const orderRepository = {
             }
           }
 
-          let order_without_shipping_details = await Order.aggregate(filter_for_order_without_shipping_details);
+          // eslint-disable-next-line camelcase
+          const order_without_shipping_details = await Order.aggregate(filter_for_order_without_shipping_details);
 
-          let order = [...order_with_shipping_details, ...order_without_shipping_details];
+          // eslint-disable-next-line camelcase
+          const order = [...order_with_shipping_details, ...order_without_shipping_details];
 
           resolve(order);
         }
@@ -216,8 +237,7 @@ const orderRepository = {
         console.log(error);
         reject(error);
       }
-    });
-  },
+    }),
 };
 
 module.exports = orderRepository;

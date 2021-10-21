@@ -18,6 +18,18 @@ class orderService {
     });
   }
 
+  // eslint-disable-next-line camelcase
+  updateOrder(id, eth_transaction_hash) {
+    return new Promise((resolve, reject) => {
+      try {
+        const response = this.orderRepository.updateOrder(id, eth_transaction_hash);
+        resolve(response);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
   updateShippingDetailId({ orderId, ShippingDetailId }) {
     return new Promise((resolve, reject) => {
       try {
