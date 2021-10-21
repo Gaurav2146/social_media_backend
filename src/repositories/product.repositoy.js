@@ -1,3 +1,5 @@
+/* eslint-disable camelcase */
+/* eslint-disable prefer-const */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-loop-func */
 /* eslint-disable no-param-reassign */
@@ -370,6 +372,7 @@ const productsRepository = {
     let res = [];
     for (let i = 0; i < array.length; i++) {
       if (map.has(array[i]._id.toString())) {
+        // eslint-disable-next-line no-continue
         continue;
       } else {
         res.push(array[i]);
@@ -434,26 +437,35 @@ const productsRepository = {
       }
     }),
 
-  updateProductQuantity: (obj) => {
-    return new Promise(async (resolve, reject) => {
+  updateProductQuantity: (obj) =>
+    new Promise(async (resolve, reject) => {
       try {
         console.log(obj, 'updateProductQuantity');
+        // eslint-disable-next-line camelcase
         let { product_info, Product_id, new_qty, product_withoutVariantDetails } = obj;
 
+        // eslint-disable-next-line camelcase
         if (!product_withoutVariantDetails) {
-          let new_quantity = Number(product_info.qty) - Number(new_qty);
+          // eslint-disable-next-line camelcase
           let product_colorAndSizeDetails = await Products.findById({ _id: Product_id }, { product_colorAndSizeDetails: 1, _id: 0 });
           console.log(product_colorAndSizeDetails.product_colorAndSizeDetails, 'product_colorAndSizeDetails');
+          // eslint-disable-next-line camelcase
           let product_details = product_colorAndSizeDetails.product_colorAndSizeDetails;
           for (let i = 0; i < product_details.length; i++) {
+            // eslint-disable-next-line eqeqeq
             if (product_details[i]._id == product_info.top_level_id) {
               for (let j = 0; j < product_details[i].sizeInfo.length; j++) {
+                // eslint-disable-next-line eqeqeq
                 if (product_details[i].sizeInfo[j]._id == product_info.size_detail_id) {
-                  product_details[i].sizeInfo[j].qty = new_quantity;
+                  // eslint-disable-next-line camelcase
+                  let new_quantity = Number(product_details[i].sizeInfo[j].remaining_qty) - Number(new_qty);
+                  // eslint-disable-next-line camelcase
+                  product_details[i].sizeInfo[j].remaining_qty = new_quantity;
                 }
               }
             }
           }
+          // eslint-disable-next-line camelcase
           let updated_detail = await Products.findByIdAndUpdate(
             { _id: Product_id },
             { $set: { product_colorAndSizeDetails: product_details } },
@@ -461,14 +473,18 @@ const productsRepository = {
           );
           resolve(updated_detail);
         } else {
+          // eslint-disable-next-line camelcase
+          // eslint-disable-next-line no-shadow
           let product_withoutVariantDetails = await Products.findById({ _id: Product_id }, { product_withoutVariantDetails: 1, _id: 0 });
           console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
           console.log(product_withoutVariantDetails.product_withoutVariantDetails, 'product_withoutVariantDetails');
           console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%');
+          // eslint-disable-next-line camelcase
           let product_details = product_withoutVariantDetails.product_withoutVariantDetails;
-          let prev_qty = product_details.qty;
+          let prev_qty = product_details.remaining_qty;
           let new_quantity = Number(prev_qty) - Number(new_qty);
-          product_details['qty'] = new_quantity;
+          product_details.remaining_qty = new_quantity;
+          // eslint-disable-next-line camelcase
           let updated_detail = await Products.findByIdAndUpdate(
             { _id: Product_id },
             { $set: { product_withoutVariantDetails: product_details } },
@@ -480,8 +496,7 @@ const productsRepository = {
         console.log(error);
         reject(error);
       }
-    });
-  },
+    }),
 };
 
 module.exports = productsRepository;
