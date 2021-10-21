@@ -358,7 +358,9 @@ const productsRepository = {
         } else {
           productDetails.product_withoutVariantDetails.images = imagesDetails;
         }
-        productDetails.product_stepperLastStepVisited = 3;
+        if (productDetails.product_stepperLastStepVisited === 2) {
+          productDetails.product_stepperLastStepVisited = 3;
+        }
         productDetails.product_updatedAt = Date.now();
         const productUpdate = await Products.findByIdAndUpdate({ _id: productID }, { $set: productDetails }, { new: true });
         resolve(productUpdate);
