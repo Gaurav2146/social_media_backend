@@ -1,5 +1,5 @@
-/* eslint-disable no-undef */
-/* eslint-disable consistent-return */
+const { InternalServerError } = require('http-errors');
+
 const isHttpError = require('http-errors');
 
 const ProductsService = require('../services/productsService');
@@ -11,12 +11,12 @@ const productCtlr = {
     try {
       const productObject = req.body;
       const response = await productService.addProductStepOne(productObject);
-      return res.status(200).json({ success: true, data: response });
+      res.status(200).json({ success: true, data: response });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);
       } else {
-        return res.status(400).json({ success: false, message: 'something went wrong!' });
+        next(new InternalServerError('something went wrong!'));
       }
     }
   },
@@ -24,12 +24,12 @@ const productCtlr = {
     try {
       const { productID, data, removeImagesProductDetails } = req.body;
       const response = await productService.addProductStepTwo(productID, data, removeImagesProductDetails);
-      return res.status(200).json({ success: true, data: response });
+      res.status(200).json({ success: true, data: response });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);
       } else {
-        return res.status(400).json({ success: false, message: 'something went wrong!' });
+        next(new InternalServerError('something went wrong!'));
       }
     }
   },
@@ -38,12 +38,12 @@ const productCtlr = {
       const { productID, color, typeOfProduct } = req.body;
       const productVariantImages = req.files;
       const response = await productService.addProductStepThree(productID, color, productVariantImages, typeOfProduct);
-      return res.status(200).json({ success: true, data: response });
+      res.status(200).json({ success: true, data: response });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);
       } else {
-        return res.status(400).json({ success: false, message: 'something went wrong!' });
+        next(new InternalServerError('something went wrong!'));
       }
     }
   },
@@ -62,12 +62,12 @@ const productCtlr = {
         imagesDeletedArray,
         typeOfProduct,
       );
-      return res.status(200).json({ success: true, data: response });
+      res.status(200).json({ success: true, data: response });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);
       } else {
-        return res.status(400).json({ success: false, message: 'something went wrong!' });
+        next(new InternalServerError('something went wrong!'));
       }
     }
   },
@@ -76,12 +76,12 @@ const productCtlr = {
       const { productID } = req.body;
       const nftImage = req.file;
       const response = await productService.addNFTImage(productID, nftImage);
-      return res.status(200).json({ success: true, data: response });
+      res.status(200).json({ success: true, data: response });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);
       } else {
-        return res.status(400).json({ success: false, message: 'something went wrong!' });
+        next(new InternalServerError('something went wrong!'));
       }
     }
   },
@@ -90,12 +90,12 @@ const productCtlr = {
       const { productID, nftDeleteImage } = req.body;
       const nftImage = req.file;
       const response = await productService.updateNFTImage(productID, nftImage, nftDeleteImage);
-      return res.status(200).json({ success: true, data: response });
+      res.status(200).json({ success: true, data: response });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);
       } else {
-        return res.status(400).json({ success: false, message: 'something went wrong!' });
+        next(new InternalServerError('something went wrong!'));
       }
     }
   },
@@ -103,12 +103,12 @@ const productCtlr = {
     try {
       const { productID, productObject } = req.body;
       const response = await productService.updateProduct(productID, productObject);
-      return res.status(200).json({ success: true, data: response });
+      res.status(200).json({ success: true, data: response });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);
       } else {
-        return res.status(400).json({ message: 'something went wrong!' });
+        next(new InternalServerError('something went wrong!'));
       }
     }
   },
@@ -116,13 +116,13 @@ const productCtlr = {
     try {
       const { skip, limit, search, filterType, collection } = req.query;
       const response = await productService.getAllProducts(skip, limit, search, filterType, collection);
-      let { productDetail, totalProducts } = response;
-      return res.status(200).json({ success: true, data: productDetail, totalProducts: totalProducts, msg: 'All Products Fetched' });
+      const { productDetail, totalProducts } = response;
+      res.status(200).json({ success: true, data: productDetail, totalProducts: totalProducts, msg: 'All Products Fetched' });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);
       } else {
-        return res.status(400).json({ message: 'something went wrong!' });
+        next(new InternalServerError('something went wrong!'));
       }
     }
   },
@@ -136,14 +136,14 @@ const productCtlr = {
         return;
       }
       const response = await productService.getAllFilteredProducts(productSearchValue, pageIndex, limit);
-      return res
+      res
         .status(200)
         .json({ success: true, data: response.productDetail, totalSize: response.productTotalSize, msg: 'All Products Fetched' });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);
       } else {
-        return res.status(400).json({ message: 'something went wrong!' });
+        next(new InternalServerError('something went wrong!'));
       }
     }
   },
@@ -151,12 +151,12 @@ const productCtlr = {
     try {
       const { productID } = req.body;
       const response = await productService.getProductInfo(productID);
-      return res.status(200).json({ success: true, data: response[0], msg: 'Selected Product Info Fetched' });
+      res.status(200).json({ success: true, data: response[0], msg: 'Selected Product Info Fetched' });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);
       } else {
-        return res.status(400).json({ message: 'something went wrong!' });
+        next(new InternalServerError('something went wrong!'));
       }
     }
   },
@@ -169,7 +169,7 @@ const productCtlr = {
       if (isHttpError(e)) {
         next(e);
       } else {
-        return res.status(400).json({ message: 'something went wrong!' });
+        next(new InternalServerError('something went wrong!'));
       }
     }
   },
@@ -186,21 +186,21 @@ const productCtlr = {
       if (isHttpError(e)) {
         next(e);
       } else {
-        return res.status(400).json({ message: 'something went wrong!' });
+        next(new InternalServerError('something went wrong!'));
       }
     }
   },
 
   updateProductQuantity: async function (req, res, next) {
     try {
-      let obj = req.body;
+      const obj = req.body;
       const response = await productService.updateProductQuantity(obj);
       res.status(200).json({ success: true, data: response });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);
       } else {
-        return res.status(400).json({ message: 'something went wrong!' });
+        next(new InternalServerError('something went wrong!'));
       }
     }
   },
