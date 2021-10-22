@@ -31,21 +31,17 @@ const productsRepository = {
                 sizeInfo: [],
               },
             },
-
             {
               $group: {
                 _id: '$_id',
                 sizeInfo: {
                   $push: {
-                    // product_withoutVariantDetails: [{ sizeInfo: ['$product_withoutVariantDetails'] }],product_colorAndSizeDetails: ['$product_colorAndSizeDetails' , [{ sizeInfo: ['$product_withoutVariantDetails'] }]],
-                    product_colorAndSizeDetails: ['$product_colorAndSizeDetails' , [{ sizeInfo: ['$product_withoutVariantDetails'] }]],
+                    product_colorAndSizeDetails: ['$product_colorAndSizeDetails', [{ sizeInfo: ['$product_withoutVariantDetails'] }]],
                   },
                 },
               },
             },
-             { $unwind: '$sizeInfo' },
-
-            // { $unwind: '$product_colorAndSizeDetails' },
+            { $unwind: '$sizeInfo' },
             {
               $addFields: {
                 product_colorAndSizeDetails: '$sizeInfo.product_colorAndSizeDetails',
@@ -116,7 +112,7 @@ const productsRepository = {
         }
       } catch (error) {
         // eslint-disable-next-line prettier/prettier
-        console.log(error , 'error');
+        console.log(error, 'error');
         reject(error);
       }
     }),
