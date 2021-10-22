@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable camelcase */
 /* eslint-disable prefer-const */
 /* eslint-disable no-await-in-loop */
@@ -25,14 +26,45 @@ const productsRepository = {
         if (filterType) {
           let filter = [
             { $match: { product_status: 'active' } },
+            {
+              $addFields: {
+                sizeInfo: [],
+              },
+            },
+
+            {
+              $group: {
+                _id: '$_id',
+                sizeInfo: {
+                  $push: {
+                    // product_withoutVariantDetails: [{ sizeInfo: ['$product_withoutVariantDetails'] }],product_colorAndSizeDetails: ['$product_colorAndSizeDetails' , [{ sizeInfo: ['$product_withoutVariantDetails'] }]],
+                    product_colorAndSizeDetails: ['$product_colorAndSizeDetails' , [{ sizeInfo: ['$product_withoutVariantDetails'] }]],
+                  },
+                },
+              },
+            },
+             { $unwind: '$sizeInfo' },
+
+            // { $unwind: '$product_colorAndSizeDetails' },
+            {
+              $addFields: {
+                product_colorAndSizeDetails: '$sizeInfo.product_colorAndSizeDetails',
+              },
+            },
+            { $unwind: '$product_colorAndSizeDetails' },
             { $unwind: '$product_colorAndSizeDetails' },
             {
               $addFields: {
-                sizeInfo: '$product_colorAndSizeDetails.sizeInfo',
+                final_product_colorAndSizeDetails: '$product_colorAndSizeDetails.sizeInfo',
               },
             },
-            { $unwind: '$sizeInfo' },
-            { $group: { _id: '$_id', maxPrice: { $max: '$sizeInfo.price' } } },
+            { $unwind: '$final_product_colorAndSizeDetails' },
+            {
+              $group: {
+                _id: '$_id',
+                maxPrice: { $max: '$final_product_colorAndSizeDetails.price' },
+              },
+            },
           ];
 
           if (collection) {
@@ -83,6 +115,8 @@ const productsRepository = {
           resolve({ productDetail, totalProducts });
         }
       } catch (error) {
+        // eslint-disable-next-line prettier/prettier
+        console.log(error , 'error');
         reject(error);
       }
     }),
