@@ -19,10 +19,10 @@ class orderService {
   }
 
   // eslint-disable-next-line camelcase
-  updateOrder(id, eth_transaction_hash) {
+  updateOrder(id, mint_hash) {
     return new Promise((resolve, reject) => {
       try {
-        const response = this.orderRepository.updateOrder(id, eth_transaction_hash);
+        const response = this.orderRepository.updateOrder(id, mint_hash);
         resolve(response);
       } catch (e) {
         reject(e);

@@ -23,9 +23,9 @@ const orderCtl = {
 
   updateOrder: async function (req, res, next) {
     try {
-      const { id, eth_transaction_hash } = req.body;
+      const { id, mint_hash } = req.body;
       console.log(req.body, 'updateOrder');
-      const order_detail = await order_service.updateOrder(id, eth_transaction_hash);
+      const order_detail = await order_service.updateOrder(id, mint_hash);
       res.status(200).json({ success: true, order_detail: order_detail });
     } catch (e) {
       if (isHttpError(e)) {

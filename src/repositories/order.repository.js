@@ -88,11 +88,11 @@ const orderRepository = {
       }
     }),
 
-  updateOrder: (id, eth_transaction_hash) =>
+  updateOrder: (id, mint_hash) =>
     // eslint-disable-next-line no-async-promise-executor
     new Promise(async (resolve, reject) => {
       try {
-        const order = await Order.findByIdAndUpdate({ _id: id }, { $set: { eth_transaction_hash: eth_transaction_hash } }, { new: true });
+        const order = await Order.findByIdAndUpdate({ _id: id }, { $set: { mint_hash: mint_hash } }, { new: true });
         resolve(order);
       } catch (error) {
         console.log(error);

@@ -15,12 +15,12 @@ const orderSchema = new mongoose.Schema({
   eth_transaction_hash: {
     type: String,
     trim: true,
-    default: '',
+    required: true,
   },
   mint_hash: {
     type: String,
-    required: true,
     trim: true,
+    default: '',
   },
   Wallet_ID: {
     type: String,
