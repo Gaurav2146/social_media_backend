@@ -1,6 +1,6 @@
 /* eslint-disable no-async-promise-executor */
 /* eslint-disable no-param-reassign */
-const productRepository = require('../repositories/product.repositoy');
+const productRepository = require('../repositories/product.repository');
 
 const deleteImagesFile = require('../route_middleware/deleteImages');
 
@@ -93,7 +93,9 @@ class productsService {
         }
         await deleteImagesFile.deleteSelectedFiles(deletedImageArray);
         productObject.updatedAt = Date.now();
-        productObject.product_stepperLastStepVisited = 2;
+        if (productObject.product_stepperLastStepVisited === 1) {
+          productObject.product_stepperLastStepVisited = 2;
+        }
         const response = await this.productRepository.createProductStepTwo(productID, productObject, removeImagesProductDetails);
         resolve(response);
       } catch (e) {
