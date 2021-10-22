@@ -81,9 +81,9 @@ const productsRepository = {
           if (search) {
             filter.unshift({ $match: { product_name: { $regex: search, $options: '-i' } } });
           }
-          let filter_for_document_count = {};
+          let filter_for_document_count = { product_status: 'active'};
           if (search) {
-            filter_for_document_count = { product_name: { $regex: search, $options: '-i' } };
+            filter_for_document_count = {  product_status: 'active' , product_name: { $regex: search, $options: '-i' } };
           }
           let totalProducts = await Products.find(filter_for_document_count).countDocuments();
           let productDetail = await Products.aggregate(filter).skip(Number(skip)).limit(Number(limit));
