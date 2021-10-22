@@ -149,7 +149,7 @@ const orderRepository = {
               },
             },
             { $unwind: '$shippingDetail' },
-          ]);
+          ]).sort({ createdAt: -1 });
           resolve(order);
         } else {
           // eslint-disable-next-line camelcase
@@ -186,7 +186,7 @@ const orderRepository = {
           }
 
           // eslint-disable-next-line camelcase
-          const order_with_shipping_details = await Order.aggregate(filter_for_order_with_shipping_details);
+          const order_with_shipping_details = await Order.aggregate(filter_for_order_with_shipping_details).sort({ createdAt: -1 });
 
           // eslint-disable-next-line camelcase
           const filter_for_order_without_shipping_details = [
@@ -226,7 +226,7 @@ const orderRepository = {
           }
 
           // eslint-disable-next-line camelcase
-          const order_without_shipping_details = await Order.aggregate(filter_for_order_without_shipping_details);
+          const order_without_shipping_details = await Order.aggregate(filter_for_order_without_shipping_details).sort({ createdAt: -1 });
 
           // eslint-disable-next-line camelcase
           const order = [...order_with_shipping_details, ...order_without_shipping_details];
