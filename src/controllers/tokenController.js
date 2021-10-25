@@ -11,8 +11,13 @@ const tokenCtl = {
   saveToken: async function (req, res, next) {
     try {
       const tokenObj = req.body;
+      console.log(tokenObj);
       const token = await tokenService.saveToken(tokenObj);
-      res.status(200).json({ success: true, token_data: token });
+      if (token.existingToken) {
+        res.status(200).json({ success: true, token_data: null, msg: 'Token Already Exists!' });
+      } else {
+        res.status(200).json({ success: true, token_data: token.token, msg: 'Token Added Successfully!' });
+      }
     } catch (e) {
       if (isHttpError(e)) {
         next(e);
