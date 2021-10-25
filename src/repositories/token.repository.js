@@ -4,8 +4,14 @@ const TokenRepository = {
   saveToken: (tokenObj) => {
     return new Promise(async (resolve, reject) => {
       try {
-        let token = await Token.create(tokenObj);
-        resolve(token);
+        const existingToken = await Token.findOne({ TokenName: tokenObj.TokenName });
+        console.log('existingToken', existingToken);
+        if (!existingToken) {
+          let token = await Token.create(tokenObj);
+          resolve({ token: token });
+        } else {
+          resolve({ existingToken: existingToken });
+        }
       } catch (error) {
         console.log(error);
         reject(error);
