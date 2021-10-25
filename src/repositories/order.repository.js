@@ -237,9 +237,9 @@ const orderRepository = {
             return Number(date1) - Number(date2);
           });
 
-          all_order = all_order.slice(page_size * page_index, page_size * page_index + page_size);
-
           const total_order_count = all_order.length;
+
+          all_order = all_order.slice(page_size * page_index, page_size * page_index + page_size);
 
           resolve([all_order, total_order_count]);
         }
