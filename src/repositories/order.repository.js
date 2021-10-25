@@ -233,9 +233,7 @@ const orderRepository = {
 
           order.sort((a, b) => {
             const date1 = Date.parse(b.createdAt);
-
             const date2 = Date.parse(a.createdAt);
-
             return Number(date1) - Number(date2);
           });
 
