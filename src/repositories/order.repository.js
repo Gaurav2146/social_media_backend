@@ -241,6 +241,16 @@ const orderRepository = {
 
           const total_order_count = all_orders.length;
 
+          const start_index = page_index * page_size;
+
+          const end_index = Math.min(page_index * page_size + page_size, total_order_count);
+
+          console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
+
+          console.log('Start Index', start_index, 'End Index', end_index);
+
+          console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
+
           all_orders = all_orders.slice(page_size * page_index, page_size * page_index + page_size);
 
           resolve({ all_orders, total_order_count });
