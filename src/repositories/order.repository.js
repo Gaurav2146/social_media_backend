@@ -247,6 +247,8 @@ const orderRepository = {
 
           console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
 
+          console.log(page_index * page_size + page_size, 'page_index * page_size + page_size');
+
           console.log('Start Index', start_index, 'End Index', end_index);
 
           console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
