@@ -116,7 +116,7 @@ const orderRepository = {
             },
           },
           { $unwind: '$productDetail' },
-        ]);
+        ]).sort({ createdAt: -1 });
         resolve({ order });
       } catch (error) {
         console.log(error);
