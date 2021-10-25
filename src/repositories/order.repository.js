@@ -243,7 +243,7 @@ const orderRepository = {
 
           const start_index = page_index * page_size;
 
-          const end_index = Math.min(page_index * page_size + page_size, total_order_count);
+          const end_index = Math.min(Number(page_index) * Number(page_size) + Number(page_size), total_order_count);
 
           console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
 
