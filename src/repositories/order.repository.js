@@ -247,13 +247,11 @@ const orderRepository = {
 
           console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
 
-          console.log(page_index * page_size + page_size, 'page_index * page_size + page_size');
-
           console.log('Start Index', start_index, 'End Index', end_index);
 
           console.log('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
 
-          all_orders = all_orders.slice(page_size * page_index, page_size * page_index + page_size);
+          all_orders = all_orders.slice(start_index, end_index);
 
           resolve({ all_orders, total_order_count });
         }
