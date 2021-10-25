@@ -67,10 +67,11 @@ const orderCtl = {
 
   getAllOrders: async function (req, res, next) {
     try {
-      const { id, search } = req.query;
+      // eslint-disable-next-line prettier/prettier
+      const { id, search  , page_index , page_size } = req.query;
       // eslint-disable-next-line camelcase
-      const all_orders = await order_service.getAllOrders(id, search);
-      res.status(200).json({ success: true, all_orders: all_orders });
+      const [all_orders, total_order_count] = await order_service.getAllOrders(id, search, page_index, page_size);
+      res.status(200).json({ success: true, all_orders: all_orders, total_order_count: total_order_count });
     } catch (e) {
       if (isHttpError(e)) {
         next(e);

@@ -124,7 +124,7 @@ const orderRepository = {
       }
     }),
 
-  getAllOrders: (id, search) =>
+  getAllOrders: (id, search, page_index, page_size) =>
     // eslint-disable-next-line no-async-promise-executor
     new Promise(async (resolve, reject) => {
       try {
@@ -229,15 +229,19 @@ const orderRepository = {
           const order_without_shipping_details = await Order.aggregate(filter_for_order_without_shipping_details).sort({ createdAt: -1 });
 
           // eslint-disable-next-line camelcase
-          const order = [...order_with_shipping_details, ...order_without_shipping_details];
+          let all_order = [...order_with_shipping_details, ...order_without_shipping_details];
 
-          order.sort((a, b) => {
+          all_order.sort((a, b) => {
             const date1 = Date.parse(b.createdAt);
             const date2 = Date.parse(a.createdAt);
             return Number(date1) - Number(date2);
           });
 
-          resolve(order);
+          all_order = all_order.slice(page_size * page_index, page_size * page_index + page_size);
+
+          const total_order_count = all_order.length;
+
+          resolve([all_order, total_order_count]);
         }
       } catch (error) {
         console.log(error);

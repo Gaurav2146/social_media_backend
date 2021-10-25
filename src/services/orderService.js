@@ -52,10 +52,11 @@ class orderService {
     });
   }
 
-  getAllOrders(id, search) {
+  // eslint-disable-next-line camelcase
+  getAllOrders(id, search, page_index, page_size) {
     return new Promise((resolve, reject) => {
       try {
-        const response = this.orderRepository.getAllOrders(id, search);
+        const response = this.orderRepository.getAllOrders(id, search, page_index, page_size);
         resolve(response);
       } catch (e) {
         reject(e);
