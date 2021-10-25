@@ -129,7 +129,7 @@ const orderRepository = {
     new Promise(async (resolve, reject) => {
       try {
         if (id) {
-          const order = await Order.aggregate([
+          const all_orders = await Order.aggregate([
             { $match: { Wallet_ID: id } },
             {
               $lookup: {
@@ -150,7 +150,9 @@ const orderRepository = {
             },
             { $unwind: '$shippingDetail' },
           ]).sort({ createdAt: -1 });
-          resolve(order);
+          // resolve(order);
+          const total_order_count = 10;
+          resolve({ all_orders, total_order_count });
         } else {
           // eslint-disable-next-line camelcase
           const filter_for_order_with_shipping_details = [
@@ -229,19 +231,19 @@ const orderRepository = {
           const order_without_shipping_details = await Order.aggregate(filter_for_order_without_shipping_details).sort({ createdAt: -1 });
 
           // eslint-disable-next-line camelcase
-          let all_order = [...order_with_shipping_details, ...order_without_shipping_details];
+          let all_orders = [...order_with_shipping_details, ...order_without_shipping_details];
 
-          all_order.sort((a, b) => {
+          all_orders.sort((a, b) => {
             const date1 = Date.parse(b.createdAt);
             const date2 = Date.parse(a.createdAt);
             return Number(date1) - Number(date2);
           });
 
-          const total_order_count = all_order.length;
+          const total_order_count = all_orders.length;
 
-          all_order = all_order.slice(page_size * page_index, page_size * page_index + page_size);
+          all_orders = all_orders.slice(page_size * page_index, page_size * page_index + page_size);
 
-          resolve([all_order, total_order_count]);
+          resolve({ all_orders, total_order_count });
         }
       } catch (error) {
         console.log(error);
