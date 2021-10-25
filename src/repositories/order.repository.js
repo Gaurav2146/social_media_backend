@@ -231,6 +231,14 @@ const orderRepository = {
           // eslint-disable-next-line camelcase
           const order = [...order_with_shipping_details, ...order_without_shipping_details];
 
+          order.sort((a, b) => {
+            const date1 = Date.parse(b.createdAt);
+
+            const date2 = Date.parse(a.createdAt);
+
+            return Number(date1) - Number(date2);
+          });
+
           resolve(order);
         }
       } catch (error) {
