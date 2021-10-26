@@ -32,7 +32,7 @@ const orderSchema = new mongoose.Schema({
     required: true,
   },
   total_payment_amount: {
-    type: Number,
+    type: String,
     required: true,
   },
   product_color: {
