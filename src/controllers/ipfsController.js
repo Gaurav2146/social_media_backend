@@ -95,6 +95,7 @@ const ipfsController = {
           };
           request.post(
             process.env.SERVER_ROUTE,
+            // ` http://localhost:3210/product/updateProduct`,
             { json: { productID: productID, productObject: updatedObject } },
             (error, response, body) => {
               if (error) {
