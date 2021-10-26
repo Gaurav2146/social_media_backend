@@ -21,19 +21,6 @@ const smartContractCtl = {
     }
   },
 
-  getOurContractInstance: async function (req, res, next) {
-    try {
-      // eslint-disable-next-line camelcase
-      const contract = await smartContractService.getOurContractInstance();
-      res.status(200).json({ success: true, contract: contract });
-    } catch (e) {
-      if (isHttpError(e)) {
-        next(e);
-      } else {
-        return res.status(400).json({ message: 'something went wrong!' });
-      }
-    }
-  },
 };
 
 module.exports = smartContractCtl;

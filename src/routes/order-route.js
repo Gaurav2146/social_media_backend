@@ -55,4 +55,15 @@ router.get('/getPendingOrders', orderCtl.getPendingOrders);
  */
 router.get('/getAllOrders', orderCtl.getAllOrders);
 
+
+
+/**
+ * update Order Payment Amount in database
+ * @route GET /order/updateOrderPaymentAmount
+ * @group Upload API - Endpoints update Order Payment Amount
+ * @returns {array of object} 200
+ * @returns {Error}  default - Unexpected error
+ */
+router.get('/updateOrderPaymentAmount', orderCtl.updateOrderPaymentAmount);
+
 module.exports = router;

@@ -80,6 +80,20 @@ const orderCtl = {
       }
     }
   },
+
+  updateOrderPaymentAmount: async function (req, res, next) {
+    try {
+      const { orderId, PaymentAmount } = req.query;
+      const UpdatedOrder = await order_service.updateOrderPaymentAmount(orderId, PaymentAmount);
+      res.status(200).json({ success: true, Order: UpdatedOrder });
+    } catch (e) {
+      if (isHttpError(e)) {
+        next(e);
+      } else {
+        return res.status(400).json({ message: 'something went wrong!' });
+      }
+    }
+  },
 };
 
 module.exports = orderCtl;

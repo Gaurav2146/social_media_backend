@@ -63,5 +63,17 @@ class orderService {
       }
     });
   }
+
+  updateOrderPaymentAmount(orderId, PaymentAmount) {
+    return new Promise((resolve, reject) => {
+      try {
+        const response = this.orderRepository.updateOrderPaymentAmount(orderId, PaymentAmount);
+        resolve(response);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
 }
 module.exports = orderService;
