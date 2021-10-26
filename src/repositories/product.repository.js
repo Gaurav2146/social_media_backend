@@ -24,11 +24,39 @@ const productsRepository = {
     new Promise(async (resolve, reject) => {
       try {
         if (filterType) {
-          let filter = [{
-              $match: {
-                product_status: 'active'
-              }
+          let filter = [
+            { $match: { product_status: 'active' } },
+            // {
+            //   $lookup: {
+            //     from: 'tags',
+            //     let: { res_tagID: '$product_tags' },
+            //     pipeline: [{ $match: { $expr: { $eq: ['$$res_tagID', '$_id'] } } }],
+            //     as: 'tagDetails',
+            //   },
+            // },
+            // { $unwind : '$tagDetails' },
+            {
+              $lookup: {
+                from: 'brands',
+                let: { brand_ID: '$product_brand' },
+                pipeline: [{ $match: { $expr: { $eq: ['$$brand_ID', '$_id'] } } }],
+                as: 'brandDetails',
+              },
             },
+            { $unwind : '$brandDetails' },
+
+            // {
+            //   $addFields: {
+            //     TAG: "$tagDetails.tag_name",
+            //   },
+            // },
+
+            {
+              $addFields: {
+                BRAND: "$brandDetails.brand_name",
+              },
+            },
+
             {
               $addFields: {
                 sizeInfo: [],
@@ -102,14 +130,7 @@ const productsRepository = {
             });
           }
           if (search) {
-            filter.unshift({
-              $match: {
-                product_name: {
-                  $regex: search,
-                  $options: '-i'
-                }
-              }
-            });
+            filter.splice( 4 , 0 , { $match: { $or: [ { product_name : { $regex: search, $options: '-i' }}  , { BRAND: { $regex: search, $options: '-i' }} ] } } );
           }
           let filter_for_document_count = {
             product_status: 'active'
