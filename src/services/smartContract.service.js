@@ -21,17 +21,6 @@ class SmartContractService {
     }
   };
 
-    // To get a new Contract Instance from Contract ABI & Contract Address
-    getOurContractInstance = async () => {
-      try {
-        const contract = await new web3http.eth.Contract(fancyContractAbi, '0x1E6e452b37f7db74d58B54aCaEcFEC53c15680f9');
-        return contract;
-      } catch (error) {
-        console.log('Error in Contract Fetching: ', error);
-        throw error;
-      }
-    };
-
   // To get address balance from blockchain
   getAddressBalance = async (address, contract_address, Tokensymbol) => {
     try {

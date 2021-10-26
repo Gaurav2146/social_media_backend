@@ -30,6 +30,5 @@ router.get('/getBalance', smartContractCtl.getBalance);
  */
 router.get('/getBalance', smartContractCtl.getBalance);
 
-router.get('/getOurContractInstance', smartContractCtl.getOurContractInstance);
 
 module.exports = router;

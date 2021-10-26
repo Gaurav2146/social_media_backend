@@ -31,6 +31,10 @@ const orderSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  total_payment_amount: {
+    type: Number,
+    required: true,
+  },
   product_color: {
     type: String,
     required: true,

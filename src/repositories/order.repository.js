@@ -260,6 +260,18 @@ const orderRepository = {
         reject(error);
       }
     }),
+
+  updateOrderPaymentAmount: (orderId, PaymentAmount) =>
+    // eslint-disable-next-line no-async-promise-executor
+    new Promise(async (resolve, reject) => {
+      try {
+        const order = await Order.findByIdAndUpdate({ _id: orderId }, { $set: { total_payment_amount: PaymentAmount } });
+        resolve({ order });
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    }),
 };
 
 module.exports = orderRepository;

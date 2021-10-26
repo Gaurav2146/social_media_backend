@@ -43,6 +43,7 @@ const ipfsController = {
             'Content-Type': 'multipart/form-data',
             'Content-Length': data1.length,
           },
+          // eslint-disable-next-line no-useless-concat
           auth: '1z5U6e17vOGlZCt3Te6KpfFuxVW' + ':' + 'b81f455dedc260e5a1fb3f17510ec0be',
         };
         const req = https.request(options, (res) => {
