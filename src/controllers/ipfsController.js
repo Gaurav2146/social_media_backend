@@ -94,13 +94,12 @@ const ipfsController = {
           };
           request.post(
             process.env.SERVER_ROUTE,
-            // ` http://localhost:3210/product/updateProduct`,
             { json: { productID: productID, productObject: updatedObject } },
             (error, response, body) => {
               if (error) {
                 return res.status(400).json({ success: false, error: error });
               }
-              return res.status(200).json({ success: true, data: body });
+              return res.status(200).json({ success: true, data: body.data });
             },
           );
         }
