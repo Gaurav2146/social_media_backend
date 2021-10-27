@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
 
 const subscriptionAddSchema = new mongoose.Schema({
-  email: { type: String },
+  email: {
+    type: String,
+    lowercase: true,
+  },
   createdAt: {
     type: Date,
     default: Date.now,
