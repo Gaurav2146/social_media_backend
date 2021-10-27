@@ -8,6 +8,8 @@
 const mongoose = require('mongoose');
 const Products = require('../model/product');
 const returnDataService = require('../services/returnDataService');
+const AddTags = require('../model/tags');
+const AddBrands = require('../model/brand');
 
 const productsRepository = {
   saveProduct: (productObject) =>
@@ -132,18 +134,44 @@ const productsRepository = {
           resolve({ productDetail: product, totalProducts: totalProducts });
         } else {
           let filter = { product_status: 'active' };
+          
           if (search) {
-            filter = { product_status: 'active', product_name: { $regex: search, $options: '-i' } };
-          }
-          if (collection) {
+            let Tag = await AddTags.find( { tag_name: { $regex: search, $options: '-i' } } , { _id : 1 } );
+            let Brand = await AddBrands.find( { brand_name: { $regex: search, $options: '-i' } } , { _id : 1 } );
+            console.log( Tag , 'Tag' , Brand , 'Brand' );
             filter = {
               product_status: 'active',
-              product_name: { $regex: search, $options: '-i' },
+              $or: [
+                { product_name: { $regex: search, $options: '-i' } },
+                { product_tags: { $in: Tag } },
+                { product_brand: { $in: Brand } },
+              ],
+            };
+
+            if(collection)
+            {
+              filter = {
+                product_status: 'active',
+                $or: [
+                  { product_name: { $regex: search, $options: '-i' } },
+                  { product_tags: { $in: Tag } },
+                  { product_brand: { $in: Brand } },
+                ],
+                product_collectionName: { $in: [collection] },
+              };
+            }
+
+          }
+         
+          if (collection && !search) {
+            filter = {
+              product_status: 'active',
               product_collectionName: { $in: [collection] },
             };
           }
           const totalProducts = await Products.find(filter).countDocuments();
           const productDetail = await Products.find(filter).skip(Number(skip)).limit(Number(limit));
+          console.log( productDetail , 'productDetail' );
           resolve({ productDetail, totalProducts });
         }
       } catch (error) {
