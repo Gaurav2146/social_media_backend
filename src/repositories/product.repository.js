@@ -8,6 +8,8 @@
 const mongoose = require('mongoose');
 const Products = require('../model/product');
 const returnDataService = require('../services/returnDataService');
+const AddTags = require('../model/tags');
+const AddBrands = require('../model/brand');
 
 const productsRepository = {
   saveProduct: (productObject) =>
@@ -26,15 +28,15 @@ const productsRepository = {
         if (filterType) {
           let filter = [
             { $match: { product_status: 'active' } },
-            // {
-            //   $lookup: {
-            //     from: 'tags',
-            //     let: { res_tagID: '$product_tags' },
-            //     pipeline: [{ $match: { $expr: { $eq: ['$$res_tagID', '$_id'] } } }],
-            //     as: 'tagDetails',
-            //   },
-            // },
-            // { $unwind : '$tagDetails' },
+            {
+              $lookup: {
+                from: 'tags',
+                let: { res_tagID: '$product_tags' },
+                pipeline: [{ $match: { $expr: { $in: ['$_id', '$$res_tagID'] } } }],
+                as: 'tagDetails',
+              },
+            },
+            { $unwind: '$tagDetails' },
             {
               $lookup: {
                 from: 'brands',
@@ -43,20 +45,17 @@ const productsRepository = {
                 as: 'brandDetails',
               },
             },
-            { $unwind : '$brandDetails' },
-
-            // {
-            //   $addFields: {
-            //     TAG: "$tagDetails.tag_name",
-            //   },
-            // },
-
+            { $unwind: '$brandDetails' },
             {
               $addFields: {
-                BRAND: "$brandDetails.brand_name",
+                TAG: '$tagDetails.tag_name',
               },
             },
-
+            {
+              $addFields: {
+                BRAND: '$brandDetails.brand_name',
+              },
+            },
             {
               $addFields: {
                 sizeInfo: [],
@@ -130,19 +129,19 @@ const productsRepository = {
             });
           }
           if (search) {
-            filter.splice( 4 , 0 , { $match: { $or: [ { product_name : { $regex: search, $options: '-i' }}  , { BRAND: { $regex: search, $options: '-i' }} ] } } );
+            filter.splice(7, 0, {
+              $match: {
+                $or: [
+                  { product_name: { $regex: search, $options: '-i' } },
+                  { BRAND: { $regex: search, $options: '-i' } },
+                  { TAG: { $regex: search, $options: '-i' } },
+                ],
+              },
+            });
           }
-          let filter_for_document_count = {
-            product_status: 'active'
-          };
+          let filter_for_document_count = { product_status: 'active' };
           if (search) {
-            filter_for_document_count = {
-              product_status: 'active',
-              product_name: {
-                $regex: search,
-                $options: '-i'
-              }
-            };
+            filter_for_document_count = { product_status: 'active', product_name: { $regex: search, $options: '-i' } };
           }
           let totalProducts = await Products.find(filter_for_document_count).countDocuments();
           let productDetail = await Products.aggregate(filter).skip(Number(skip)).limit(Number(limit));
@@ -159,36 +158,46 @@ const productsRepository = {
             totalProducts: totalProducts
           });
         } else {
-          let filter = {
-            product_status: 'active'
-          };
+          let filter = { product_status: 'active' };
+          
           if (search) {
+            let Tag = await AddTags.find( { tag_name: { $regex: search, $options: '-i' } } , { _id : 1 } );
+            let Brand = await AddBrands.find( { brand_name: { $regex: search, $options: '-i' } } , { _id : 1 } );
+            console.log( Tag , 'Tag' , Brand , 'Brand' );
             filter = {
               product_status: 'active',
-              product_name: {
-                $regex: search,
-                $options: '-i'
-              }
+              $or: [
+                { product_name: { $regex: search, $options: '-i' } },
+                { product_tags: { $in: Tag } },
+                { product_brand: { $in: Brand } },
+              ],
             };
+
+            if(collection)
+            {
+              filter = {
+                product_status: 'active',
+                $or: [
+                  { product_name: { $regex: search, $options: '-i' } },
+                  { product_tags: { $in: Tag } },
+                  { product_brand: { $in: Brand } },
+                ],
+                product_collectionName: { $in: [collection] },
+              };
+            }
+
           }
-          if (collection) {
+         
+          if (collection && !search) {
             filter = {
               product_status: 'active',
-              product_name: {
-                $regex: search,
-                $options: '-i'
-              },
-              product_collectionName: {
-                $in: [collection]
-              },
+              product_collectionName: { $in: [collection] },
             };
           }
           const totalProducts = await Products.find(filter).countDocuments();
           const productDetail = await Products.find(filter).skip(Number(skip)).limit(Number(limit));
-          resolve({
-            productDetail,
-            totalProducts
-          });
+          console.log( productDetail , 'productDetail' );
+          resolve({ productDetail, totalProducts });
         }
       } catch (error) {
         // eslint-disable-next-line prettier/prettier
