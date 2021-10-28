@@ -67,6 +67,7 @@ const ipfsController = {
       const file = req.files[0];
       const { productID, productName, fileType } = req.body;
       const ipfsNFTHash = await ipfsService.uploadToIPFS(file);
+      console.log(ipfsNFTHash);
       if (ipfsNFTHash) {
         const document = {
           name: productName,
@@ -104,9 +105,11 @@ const ipfsController = {
             },
           );
         }
+      } else {
+        return res.status(400);
       }
     } catch (error) {
-      res.status(400);
+      return res.status(400).json({ success: false, error: error });
     }
   },
 };

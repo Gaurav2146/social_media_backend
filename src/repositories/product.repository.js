@@ -26,26 +26,49 @@ const productsRepository = {
     new Promise(async (resolve, reject) => {
       try {
         if (filterType) {
-          let filter = [
-            { $match: { product_status: 'active' } },
+          let filter = [{
+              $match: {
+                product_status: 'active'
+              }
+            },
             {
               $lookup: {
                 from: 'tags',
-                let: { res_tagID: '$product_tags' },
-                pipeline: [{ $match: { $expr: { $in: ['$_id', '$$res_tagID'] } } }],
+                let: {
+                  res_tagID: '$product_tags'
+                },
+                pipeline: [{
+                  $match: {
+                    $expr: {
+                      $in: ['$_id', '$$res_tagID']
+                    }
+                  }
+                }],
                 as: 'tagDetails',
               },
             },
-            { $unwind: '$tagDetails' },
+            {
+              $unwind: '$tagDetails'
+            },
             {
               $lookup: {
                 from: 'brands',
-                let: { brand_ID: '$product_brand' },
-                pipeline: [{ $match: { $expr: { $eq: ['$$brand_ID', '$_id'] } } }],
+                let: {
+                  brand_ID: '$product_brand'
+                },
+                pipeline: [{
+                  $match: {
+                    $expr: {
+                      $eq: ['$$brand_ID', '$_id']
+                    }
+                  }
+                }],
                 as: 'brandDetails',
               },
             },
-            { $unwind: '$brandDetails' },
+            {
+              $unwind: '$brandDetails'
+            },
             {
               $addFields: {
                 TAG: '$tagDetails.tag_name',
@@ -131,17 +154,39 @@ const productsRepository = {
           if (search) {
             filter.splice(7, 0, {
               $match: {
-                $or: [
-                  { product_name: { $regex: search, $options: '-i' } },
-                  { BRAND: { $regex: search, $options: '-i' } },
-                  { TAG: { $regex: search, $options: '-i' } },
+                $or: [{
+                    product_name: {
+                      $regex: search,
+                      $options: '-i'
+                    }
+                  },
+                  {
+                    BRAND: {
+                      $regex: search,
+                      $options: '-i'
+                    }
+                  },
+                  {
+                    TAG: {
+                      $regex: search,
+                      $options: '-i'
+                    }
+                  },
                 ],
               },
             });
           }
-          let filter_for_document_count = { product_status: 'active' };
+          let filter_for_document_count = {
+            product_status: 'active'
+          };
           if (search) {
-            filter_for_document_count = { product_status: 'active', product_name: { $regex: search, $options: '-i' } };
+            filter_for_document_count = {
+              product_status: 'active',
+              product_name: {
+                $regex: search,
+                $options: '-i'
+              }
+            };
           }
           let totalProducts = await Products.find(filter_for_document_count).countDocuments();
           let productDetail = await Products.aggregate(filter).skip(Number(skip)).limit(Number(limit));
@@ -158,46 +203,92 @@ const productsRepository = {
             totalProducts: totalProducts
           });
         } else {
-          let filter = { product_status: 'active' };
-          
+          let filter = {
+            product_status: 'active'
+          };
+
           if (search) {
-            let Tag = await AddTags.find( { tag_name: { $regex: search, $options: '-i' } } , { _id : 1 } );
-            let Brand = await AddBrands.find( { brand_name: { $regex: search, $options: '-i' } } , { _id : 1 } );
-            console.log( Tag , 'Tag' , Brand , 'Brand' );
+            let Tag = await AddTags.find({
+              tag_name: {
+                $regex: search,
+                $options: '-i'
+              }
+            }, {
+              _id: 1
+            });
+            let Brand = await AddBrands.find({
+              brand_name: {
+                $regex: search,
+                $options: '-i'
+              }
+            }, {
+              _id: 1
+            });
+            console.log(Tag, 'Tag', Brand, 'Brand');
             filter = {
               product_status: 'active',
-              $or: [
-                { product_name: { $regex: search, $options: '-i' } },
-                { product_tags: { $in: Tag } },
-                { product_brand: { $in: Brand } },
+              $or: [{
+                  product_name: {
+                    $regex: search,
+                    $options: '-i'
+                  }
+                },
+                {
+                  product_tags: {
+                    $in: Tag
+                  }
+                },
+                {
+                  product_brand: {
+                    $in: Brand
+                  }
+                },
               ],
             };
 
-            if(collection)
-            {
+            if (collection) {
               filter = {
                 product_status: 'active',
-                $or: [
-                  { product_name: { $regex: search, $options: '-i' } },
-                  { product_tags: { $in: Tag } },
-                  { product_brand: { $in: Brand } },
+                $or: [{
+                    product_name: {
+                      $regex: search,
+                      $options: '-i'
+                    }
+                  },
+                  {
+                    product_tags: {
+                      $in: Tag
+                    }
+                  },
+                  {
+                    product_brand: {
+                      $in: Brand
+                    }
+                  },
                 ],
-                product_collectionName: { $in: [collection] },
+                product_collectionName: {
+                  $in: [collection]
+                },
               };
             }
 
           }
-         
+
           if (collection && !search) {
             filter = {
               product_status: 'active',
-              product_collectionName: { $in: [collection] },
+              product_collectionName: {
+                $in: [collection]
+              },
             };
           }
           const totalProducts = await Products.find(filter).countDocuments();
           const productDetail = await Products.find(filter).skip(Number(skip)).limit(Number(limit));
-          console.log( productDetail , 'productDetail' );
-          resolve({ productDetail, totalProducts });
+          console.log(productDetail, 'productDetail');
+          resolve({
+            productDetail,
+            totalProducts
+          });
         }
       } catch (error) {
         // eslint-disable-next-line prettier/prettier
@@ -522,9 +613,13 @@ const productsRepository = {
             _id: productID
           });
           for (let i = 0; i < colorImagesDetails.length; i++) {
+            console.log(colorImagesDetails[i])
             for (let j = 0; j < productDetails.product_colorAndSizeDetails.length; j++) {
+              console.log(productDetails.product_colorAndSizeDetails[i])
               if (productDetails.product_colorAndSizeDetails[j].colorDetails.color === colorImagesDetails[i].colorDetails.color) {
-                productObject.product_colorAndSizeDetails[j].images = [];
+                if (productObject.product_colorAndSizeDetails[j]) {
+                  productObject.product_colorAndSizeDetails[j].images = [];
+                }
               }
             }
           }
