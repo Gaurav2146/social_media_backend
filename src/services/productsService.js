@@ -97,7 +97,6 @@ class productsService {
         if (productObject.product_stepperLastStepVisited === 1) {
           productObject.product_stepperLastStepVisited = 2;
         }
-        console.log(productObject);
         const response = await this.productRepository.createProductStepTwo(productID, productObject, removeImagesProductDetails);
         resolve(response);
       } catch (e) {
