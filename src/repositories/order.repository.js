@@ -49,7 +49,7 @@ const orderRepository = {
                 let order_no = Number(order_id.substring(no_of_zeroes));
                 order_no++;
                 const string_order_no = dummy.substring(0, 6 - order_no.toString().length) + order_no.toString();
-                await OrderCounter.findOneAndUpdate({ orderIdCounter: string_order_no });
+                await OrderCounter.findOneAndUpdate({}, { $set: { orderIdCounter: string_order_no } });
               }
               // eslint-disable-next-line no-param-reassign
               obj.orderId = order_id;
