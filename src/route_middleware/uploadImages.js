@@ -60,7 +60,7 @@ const nftUpload = multer({
 });
 
 exports.fileUploader = async (req, res, next) => {
-  const uploadImage = await upload.array('productImages', 10);
+  const uploadImage = await upload.array('productImages', 50);
   // eslint-disable-next-line consistent-return
   uploadImage(req, res, (err) => {
     if (err instanceof multer.MulterError) {
