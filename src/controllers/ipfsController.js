@@ -67,6 +67,9 @@ const ipfsController = {
       const file = req.files[0];
       const { productID, productName, fileType } = req.body;
       const ipfsNFTHash = await ipfsService.uploadToIPFS(file);
+
+      console.log(ipfsNFTHash, 'ipfsNFTHash');
+
       if (ipfsNFTHash) {
         const document = {
           name: productName,
@@ -83,6 +86,7 @@ const ipfsController = {
           ],
         };
         const ipfsJSONHash = await ipfsService.uploadJSONFileToIPFS(document);
+        console.log(ipfsJSONHash, 'ipfsJSONHash');
         if (ipfsJSONHash) {
           const updatedObject = {
             product_updatedAt: Date.now(),
@@ -104,6 +108,8 @@ const ipfsController = {
             },
           );
         }
+      } else {
+        res.status(400);
       }
     } catch (error) {
       res.status(400);
