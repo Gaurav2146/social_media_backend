@@ -34,7 +34,7 @@ const subscriptionCtlr = {
       return res.status(200).json({
         success: true,
         data: response.subscriptionDetail,
-        totalSize: response.subscriptionCount,
+        totalSize: response.subscriptionCount,       
         msg: 'All Subscriptions Fetched',
       });
     } catch (e) {
