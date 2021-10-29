@@ -67,13 +67,9 @@ const ipfsController = {
       const file = req.files[0];
       const { productID, productName, fileType } = req.body;
       const ipfsNFTHash = await ipfsService.uploadToIPFS(file);
-<<<<<<< HEAD
 
       console.log(ipfsNFTHash, 'ipfsNFTHash');
-
-=======
-      console.log(ipfsNFTHash);
->>>>>>> 4e68fa1638e70ba5d1ac161dd4f864f15043f4b5
+      
       if (ipfsNFTHash) {
         const document = {
           name: productName,
