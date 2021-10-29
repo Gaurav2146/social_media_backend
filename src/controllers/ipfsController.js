@@ -109,11 +109,7 @@ const ipfsController = {
           );
         }
       } else {
-<<<<<<< HEAD
-        res.status(400);
-=======
         return res.status(400);
->>>>>>> 4e68fa1638e70ba5d1ac161dd4f864f15043f4b5
       }
     } catch (error) {
       return res.status(400).json({ success: false, error: error });
