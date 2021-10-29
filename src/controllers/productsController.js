@@ -27,6 +27,7 @@ const productCtlr = {
       const response = await productService.addProductStepTwo(productID, data, removeImagesProductDetails);
       res.status(200).json({ success: true, data: response });
     } catch (e) {
+      console.log(e);
       if (isHttpError(e)) {
         next(e);
       } else {
