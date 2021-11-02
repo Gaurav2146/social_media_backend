@@ -68,6 +68,9 @@ const productAddSchema = new mongoose.Schema({
     type: Number,
     default: 1,
   },
+  product_otherDetails: {
+    type: String,
+  },
   nft_image: {
     imageHash: { type: String },
     JSONHash: { type: String },

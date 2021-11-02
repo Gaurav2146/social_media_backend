@@ -22,10 +22,7 @@ const subscriptionCtlr = {
         return res.status(200).json({ success: true, data: response, msg: 'Subscription Added!' });
       }
     } catch (e) {
-      if (!isHttpError(e)) {
-        return res.status(400).json({ success: false, msg: 'Something Went wrong!' });
-      }
-      next(e);
+      return res.status(400).json({ msg: 'Something Went wrong!', error: e });
     }
   },
   getAllSubscriptions: async function (req, res, next) {
@@ -41,11 +38,7 @@ const subscriptionCtlr = {
         msg: 'All Subscriptions Fetched',
       });
     } catch (e) {
-      if (isHttpError(e)) {
-        next(e);
-      } else {
-        return res.status(400).json({ message: 'something went wrong!' });
-      }
+      return res.status(400).json({ msg: 'Something Went wrong!', error: e });
     }
   },
 };
