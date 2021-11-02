@@ -16,6 +16,7 @@ exports.returnDataProductListForAdmin = () => {
   return {
     product_name: '$data.product_name',
     product_brand: '$data.product_brand',
+    product_otherDetails: '$data.product_otherDetails',
     product_tags: '$data.product_tags',
     product_description: '$data.product_description',
     product_withoutVariantDetails: '$data.product_withoutVariantDetails',
@@ -37,6 +38,7 @@ exports.returnDataProductListForAdmin = () => {
 exports.returnDataProductDetail = () => {
   return {
     product_name: '$data.product_name',
+    product_otherDetails: '$data.product_otherDetails',
     product_weight: '$data.product_weight',
     product_weightUnit: '$data.product_weightUnit',
     product_description: '$data.product_description',
