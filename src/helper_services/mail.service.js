@@ -9,18 +9,12 @@ const mailer = async function (email, subject, template, options) {
       try {
         const transporter = nodemailer.createTransport({
           service: 'gmail',
-          pool: true,
           host: process.env.SMTP_HOST,
           port: process.env.SMTP_PORT,
           auth: {
             user: process.env.SMTP_EMAIL,
             pass: process.env.SMTP_PASSWORD,
           },
-          tls: {
-            // do not fail on invalid certs
-            rejectUnauthorized: true,
-          },
-          secure: false,
           logger: true, // log to console
           debug: true, // include SMTP traffic in the logs
         });
