@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+
 const ejs = require('ejs');
 
 // eslint-disable-next-line consistent-return
@@ -8,6 +9,8 @@ const mailer = async function (email, subject, template, options) {
       try {
         const transporter = nodemailer.createTransport({
           service: 'gmail',
+          host: process.env.SMTP_HOST,
+          port: process.env.SMTP_PORT,
           auth: {
             user: process.env.SMTP_EMAIL,
             pass: process.env.SMTP_PASSWORD,
@@ -18,18 +21,23 @@ const mailer = async function (email, subject, template, options) {
 
         ejs.renderFile(template, options, (error, result) => {
           if (error) {
-            console.log(error);
+            console.log('errorrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr', error);
             reject(error);
           } else {
             transporter
-              .sendMail({ to: email, subject: subject, from: process.env.SMTP_EMAIL, html: result })
+              .sendMail({
+                to: email,
+                subject: subject,
+                from: process.env.SMTP_EMAIL,
+                html: result,
+              })
               .then((info) => {
                 console.log('message sent successfully');
                 resolve('Password Reset Link Sent To Your Email');
               })
               // eslint-disable-next-line no-shadow
               .catch((error) => {
-                console.log(error);
+                console.log('errorrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr', error);
                 reject(error);
               });
           }
