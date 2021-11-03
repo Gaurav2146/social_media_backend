@@ -62,6 +62,7 @@ const ipfsController = {
       response.status(400);
     }
   },
+  // eslint-disable-next-line consistent-return
   saveDetailsToIPFS: async function (req, res) {
     try {
       const file = req.files[0];
@@ -69,7 +70,7 @@ const ipfsController = {
       const ipfsNFTHash = await ipfsService.uploadToIPFS(file);
 
       console.log(ipfsNFTHash, 'ipfsNFTHash');
-      
+
       if (ipfsNFTHash) {
         const document = {
           name: productName,
