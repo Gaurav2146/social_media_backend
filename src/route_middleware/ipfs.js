@@ -22,7 +22,7 @@ const storagePicture = multer.diskStorage({
     if (file.fileSize) {
       return cb(new Error());
     }
-    if (!file.originalname.toLowerCase().match(/\.(jpg|png|gif|jpeg|svg|pdf|docx|mov)$/)) {
+    if (!file.originalname.toLowerCase().match(/\.(png|jpg|svg|gif|mp4|webm|mp3|wav|ogg)$/)) {
       const err = new Error();
 
       err.code = 'filetype'; // to check on file type
@@ -44,7 +44,10 @@ const storagePicture = multer.diskStorage({
 
 const upload = multer({
   storage: storagePicture,
-  // limits: { fileSize: 1 * 1024 * 1024 }, // Max file size: 1MB
+  limits: {
+    fileSize: 1024 * 1024 * 40, // we are allowing only 40 MB files
+  },
+  abortOnLimit: true,
 }).any();
 
 const pictureUpload = async (req, res, next) => {
@@ -54,15 +57,17 @@ const pictureUpload = async (req, res, next) => {
     if (err) {
       if (err.code === 'filetype') {
         return res.status(400).json({
-          msg: 'File type is invalid. Only accepted .png/.jpg/.jpeg/.svg/.gif/.pdf/.docx/.mov .',
+          msg: 'File type is invalid. Only accepted .png/.jpg/.svg/.gif/.mp4/.webm/.mp3/.wav/.ogg .',
         });
       } else if (err.code === 'LIMIT_FILE_SIZE') {
         return res.status(400).json({
-          msg: 'File should be less then 1MB .',
+          msg: 'File should be less then 40MB .',
         });
       } else {
         console.error(err);
-        return res.status(400).json({ msg: 'File was not able to be uploaded' });
+        return res.status(400).json({
+          msg: 'File was not able to be uploaded',
+        });
       }
     } else {
       next();
@@ -70,4 +75,6 @@ const pictureUpload = async (req, res, next) => {
   });
 };
 
-module.exports = { pictureUpload };
+module.exports = {
+  pictureUpload,
+};
