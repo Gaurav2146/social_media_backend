@@ -8,14 +8,12 @@ const subscriptionService = new SubscriptionService();
 const mailer = require('../helper_services/mail.service');
 
 const subscriptionCtlr = {
-  addSubscriptionDetail: async function (req, res, next) {
+  addSubscriptionDetail: async function (req, res) {
     try {
-      let {
-        email
-      } = req.body;
+      let { email } = req.body;
       email = email.toLowerCase();
       const response = await subscriptionService.saveNewSubscription({
-        email: email
+        email: email,
       });
       if (response.type === 'existingEmail') {
         return res.status(200).json({
@@ -38,16 +36,13 @@ const subscriptionCtlr = {
     } catch (e) {
       return res.status(400).json({
         msg: 'Something Went wrong!',
-        error: e
+        error: e,
       });
     }
   },
-  getAllSubscriptions: async function (req, res, next) {
+  getAllSubscriptions: async function (req, res) {
     try {
-      let {
-        pageIndex,
-        limit
-      } = req.body;
+      let { pageIndex, limit } = req.body;
       pageIndex -= 1;
       limit = parseInt(limit, 10);
       const response = await subscriptionService.getAllSubscriptions(pageIndex, limit);
@@ -60,7 +55,7 @@ const subscriptionCtlr = {
     } catch (e) {
       return res.status(400).json({
         msg: 'Something Went wrong!',
-        error: e
+        error: e,
       });
     }
   },
