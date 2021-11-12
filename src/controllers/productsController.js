@@ -22,9 +22,9 @@ const productCtlr = {
   },
   createProductStepTwo: async function (req, res, next) {
     try {
-      const { productID, data, removeImagesProductDetails } = req.body;
+      const { productID, data } = req.body;
       console.log(req.body);
-      const response = await productService.addProductStepTwo(productID, data, removeImagesProductDetails);
+      const response = await productService.addProductStepTwo(productID, data);
       res.status(200).json({ success: true, data: response });
     } catch (e) {
       console.log(e);

@@ -32,7 +32,6 @@ class IpfsService {
   async uploadJSONFileToIPFS(document) {
     if (document) {
       try {
-        console.log('document');
         const parseJson = JSON.parse(JSON.stringify(document));
         fs.writeFileSync('data.json', JSON.stringify(parseJson), { encoding: 'utf8', flag: 'w' }, (error) => {
           if (error) throw error;
@@ -40,7 +39,6 @@ class IpfsService {
         const filepath = path.join('data.json');
         const fileadded = await ipfs.add(globSource(filepath, { recursive: true }));
         const hash = fileadded.cid.toString();
-        console.log(hash);
         return `https://ipfs.io/ipfs/${hash}`;
       } catch (err) {
         console.log('check----err.message---------------', err.message);
