@@ -79,19 +79,19 @@ class productsService {
   addProductStepTwo(productID, productObject, removeImagesProductDetails) {
     return new Promise(async (resolve, reject) => {
       try {
-        const deletedImageArray = [];
-        const deleteImagesFromDatabase = [];
-        if (removeImagesProductDetails && removeImagesProductDetails.length > 0) {
-          removeImagesProductDetails.forEach((element) => {
-            if (element.images && element.images.length > 0) {
-              element.images.forEach((image) => {
-                deletedImageArray.push({ Key: image.key });
-                deleteImagesFromDatabase.push({ key: image.key });
-              });
-            }
-          });
-        }
-        await deleteImagesFile.deleteSelectedFiles(deletedImageArray);
+        // const deletedImageArray = [];
+        // const deleteImagesFromDatabase = [];
+        // if (removeImagesProductDetails && removeImagesProductDetails.length > 0) {
+        //   removeImagesProductDetails.forEach((element) => {
+        //     if (element.images && element.images.length > 0) {
+        //       element.images.forEach((image) => {
+        //         deletedImageArray.push({ Key: image.key });
+        //         deleteImagesFromDatabase.push({ key: image.key });
+        //       });
+        //     }
+        //   });
+        // }
+        // await deleteImagesFile.deleteSelectedFiles(deletedImageArray);
         productObject.updatedAt = Date.now();
         console.log(productObject);
         if (productObject.product_stepperLastStepVisited === 1) {
