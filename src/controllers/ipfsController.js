@@ -21,47 +21,7 @@ const ipfsService = new IPFSService();
 const product = require('../model/product');
 
 const ipfsController = {
-  saveDataToIPFS: async function (reqest, response, next) {
-    const formData = new FormData();
-    try {
-      fs.readFile('/home/gaurav/Documents/FANCY/FANCY_BACKEND/api.fancy/public/Demo.txt', 'utf8', (err, data) => {
-        console.log(__dirname);
-        if (err) {
-          console.log(err);
-          response.status(400);
-        }
-        formData.append('file', data);
-        // formData.append('path', 'https://ipfs.infura.io/ipfs/Demo.txt');
-        const data1 = JSON.stringify(formData);
-        console.log(data);
-        const options = {
-          host: 'ipfs.infura.io',
-          port: 5001,
-          path: '/api/v0/add',
-          method: 'POST',
-          headers: {
-            'Content-Type': 'multipart/form-data',
-            'Content-Length': data1.length,
-          },
-          // eslint-disable-next-line no-useless-concat
-          auth: '1z5U6e17vOGlZCt3Te6KpfFuxVW' + ':' + 'b81f455dedc260e5a1fb3f17510ec0be',
-        };
-        const req = https.request(options, (res) => {
-          let body = '';
-          res.on('data', (chunk) => {
-            body += chunk;
-          });
-          res.on('end', () => {
-            console.log('response body====', body);
-          });
-        });
-        req.end();
-        response.status(200);
-      });
-    } catch (error) {
-      response.status(400);
-    }
-  },
+
   // eslint-disable-next-line consistent-return
   saveDetailsToIPFS: async function (req, res) {
     try {
@@ -75,7 +35,7 @@ const ipfsController = {
           description: productName,
           animation_url: ipfsNFTHash,
           image: ipfsNFTHash,
-          external_url: 'http://fancy.lapits.com',
+          external_url: process.env.EXTERNAL_URL,
           attributes: [
             {
               key: 'alt_text',
