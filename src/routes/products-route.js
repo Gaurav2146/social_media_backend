@@ -36,7 +36,7 @@ router.post('/updateProduct', productCltr.updateProduct);
  * @returns {object} 200 - Product Deleted
  * @returns {Error}  default - Unexpected error
  */
-router.post('/deleteProduct', productCltr.deleteProduct);
+// router.post('/deleteProduct', productCltr.updateProduct);
 
 // Get route to get all products
 

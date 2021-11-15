@@ -96,7 +96,7 @@ exports.fileUploader = async (req, res, next) => {
     if (err) {
       if (err.code === 'filetype') {
         return res.status(400).json({
-          msg: 'File type is invalid. Only accepted .png/.jpg/.svg/.gif/.jpeg',
+          msg: 'File type is invalid. Only accepted .png/.jpg/.jfif/.gif/.jpeg',
         });
       }
     }

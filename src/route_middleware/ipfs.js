@@ -57,7 +57,7 @@ const pictureUpload = async (req, res, next) => {
     if (err) {
       if (err.code === 'filetype') {
         return res.status(400).json({
-          msg: 'File type is invalid. Only accepted .png/.jpg/.svg/.gif/.mp4/.webm/.mp3/.wav/.ogg/.json .',
+          msg: 'File type is invalid. Only accepted .png/.jpg/.svg/.gif/.mp4/.webm/.mp3/.wav/.ogg',
         });
       } else if (err.code === 'LIMIT_FILE_SIZE') {
         return res.status(400).json({
