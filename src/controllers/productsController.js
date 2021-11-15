@@ -206,6 +206,20 @@ const productCtlr = {
       }
     }
   },
+
+  getProductDetailsById: async function (req, res, next) {
+    try {
+      const { productId } = req.query;
+      const response = await productService.getProductDetailsById(productId);
+      res.status(200).json({ success: true, data: response });
+    } catch (e) {
+      if (isHttpError(e)) {
+        next(e);
+      } else {
+        next(new InternalServerError('something went wrong!'));
+      }
+    }
+  },
 };
 
 module.exports = productCtlr;
