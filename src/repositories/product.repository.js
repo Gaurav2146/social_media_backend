@@ -605,25 +605,25 @@ const productsRepository = {
       }
     }),
 
-  createProductStepTwo: (productID, productObject, colorImagesDetails) =>
+  createProductStepTwo: (productID, productObject) =>
     new Promise(async (resolve, reject) => {
       try {
-        if (colorImagesDetails && colorImagesDetails.length > 0) {
-          const productDetails = await Products.findOne({
-            _id: productID
-          });
-          for (let i = 0; i < colorImagesDetails.length; i++) {
-            console.log(colorImagesDetails[i])
-            for (let j = 0; j < productDetails.product_colorAndSizeDetails.length; j++) {
-              console.log(productDetails.product_colorAndSizeDetails[i])
-              if (productDetails.product_colorAndSizeDetails[j].colorDetails.color === colorImagesDetails[i].colorDetails.color) {
-                if (productObject.product_colorAndSizeDetails[j]) {
-                  productObject.product_colorAndSizeDetails[j].images = [];
-                }
-              }
-            }
-          }
-        }
+        // if (colorImagesDetails && colorImagesDetails.length > 0) {
+        //   const productDetails = await Products.findOne({
+        //     _id: productID
+        //   });
+        //   for (let i = 0; i < colorImagesDetails.length; i++) {
+        //     console.log(colorImagesDetails[i])
+        //     for (let j = 0; j < productDetails.product_colorAndSizeDetails.length; j++) {
+        //       console.log(productDetails.product_colorAndSizeDetails[i])
+        //       if (productDetails.product_colorAndSizeDetails[j].colorDetails.color === colorImagesDetails[i].colorDetails.color) {
+        //         if (productObject.product_colorAndSizeDetails[j]) {
+        //           productObject.product_colorAndSizeDetails[j].images = [];
+        //         }
+        //       }
+        //     }
+        //   }
+        // }
 
         const productUpdate = await Products.findByIdAndUpdate({
           _id: productID
