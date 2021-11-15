@@ -63,6 +63,7 @@ const ipfsController = {
             { json: { productID: productID, productObject: updatedObject } },
             (error, response, body) => {
               if (error) {
+                console.log(error)
                 return res.status(400).json({ success: false, error: error });
               }
               return res.status(200).json({ success: true, data: body.data });
@@ -73,6 +74,7 @@ const ipfsController = {
         return res.status(400);
       }
     } catch (error) {
+      console.log(error);
       return res.status(400).json({ success: false, error: error });
     }
   },
