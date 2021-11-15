@@ -48,6 +48,11 @@ const productAddSchema = new mongoose.Schema({
     enum: ['active', 'inactive'],
     default: 'inactive',
   },
+  product_deleteStatus: {
+    type: String,
+    enum: ['activated', 'inactivated'],
+    default: 'activated',
+  },
   product_stepperStatus: {
     type: Boolean,
     default: false,

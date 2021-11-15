@@ -455,7 +455,13 @@ const productsRepository = {
             },
           ],
         };
-        const productDetail = await Products.aggregate([{
+        const productDetail = await Products.aggregate([
+          {
+            $match: {
+              product_deleteStatus: 'activated'
+            }
+          },
+          {
             $lookup: {
               from: 'brands',
               let: {
@@ -755,6 +761,11 @@ const productsRepository = {
     new Promise(async (resolve, reject) => {
       try {
         const productDetail = await Products.aggregate([{
+            $match: {
+              product_deleteStatus: 'activated'
+            }
+          },
+          {
             $unwind: {
               path: '$product_collectionName',
               preserveNullAndEmptyArrays: true
