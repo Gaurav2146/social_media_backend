@@ -958,6 +958,19 @@ const productsRepository = {
         reject(error);
       }
     }),
+
+
+    getProductDetailsById : (productID) =>
+    new Promise(async (resolve, reject) => {
+      try {
+        const productDetail = await Products.findById({ _id: productID });
+        resolve(productDetail);
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    })
+
 };
 
 module.exports = productsRepository;

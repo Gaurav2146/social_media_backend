@@ -227,6 +227,17 @@ class productsService {
       }
     });
   }
+
+  getProductDetailsById(productId) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const response = await this.productRepository.getProductDetailsById(productId);
+        resolve(response);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
 }
 
 module.exports = productsService;

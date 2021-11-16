@@ -41,7 +41,7 @@ router.post('/updateProduct', productCltr.updateProduct);
 // Get route to get all products
 
 /**
- * delete product
+ * get Products
  * @route Get /product/getProducts
  * @group get API - Endpoints related to get all products.
  * @returns {object} 200 - All Products Fetched
@@ -142,5 +142,15 @@ router.post('/updateNFTImage', uploadImages.nftFileUploader, productCltr.updateN
  * @returns {Error}  default - Unexpected error
  */
 router.post('/updateProductQuantity', productCltr.updateProductQuantity);
+
+/**
+ * get ProductDetail By Id
+ * @route Get /product/getProductDetailsById
+ * @group get API - Endpoints related to get Product Detail By Id
+ * @returns {object} 200 - All Products Fetched
+ * @returns {Error}  default - Unexpected error
+ */
+ router.get('/getProductDetailsById', productCltr.getProductDetailsById);
+
 
 module.exports = router;
