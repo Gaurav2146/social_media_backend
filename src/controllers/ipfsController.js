@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const request = require('request');
 
 const { BadRequest, InternalServerError } = require('http-errors');
@@ -21,7 +22,6 @@ const ipfsService = new IPFSService();
 const product = require('../model/product');
 
 const ipfsController = {
-
   // eslint-disable-next-line consistent-return
   saveDetailsToIPFS: async function (req, res) {
     try {
@@ -60,7 +60,7 @@ const ipfsController = {
             { json: { productID: productID, productObject: updatedObject } },
             (error, response, body) => {
               if (error) {
-                console.log(error)
+                console.log(error);
                 return res.status(400).json({ success: false, error: error });
               }
               return res.status(200).json({ success: true, data: body.data });
@@ -73,6 +73,30 @@ const ipfsController = {
     } catch (error) {
       console.log(error);
       return res.status(400).json({ success: false, error: error });
+    }
+  },
+
+  uploadJSONFileToIPFS: async function (req, res) {
+    try {
+      const { productName, ipfsNFTHash } = req.body;
+      const document = {
+        name: productName,
+        description: productName,
+        animation_url: ipfsNFTHash,
+        image: ipfsNFTHash,
+        external_url: process.env.EXTERNAL_URL,
+        attributes: [
+          {
+            key: 'alt_text',
+            trait_type: 'alt_text',
+            value: productName,
+          },
+        ],
+      };
+      const ipfsJSONHash = await ipfsService.uploadJSONFileToIPFS(document);
+      res.status(200).json({ success: false, ipfsJSONHash: ipfsJSONHash });
+    } catch (error) {
+      res.status(400).json({ success: false });
     }
   },
 };
