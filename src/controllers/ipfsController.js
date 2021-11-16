@@ -76,9 +76,10 @@ const ipfsController = {
     }
   },
 
+  // eslint-disable-next-line consistent-return
   uploadJSONFileToIPFS: async function (req, res) {
     try {
-      const { productName, ipfsNFTHash } = req.body;
+      const { productID, productName, ipfsNFTHash, fileType } = req.body;
       const document = {
         name: productName,
         description: productName,
@@ -94,7 +95,30 @@ const ipfsController = {
         ],
       };
       const ipfsJSONHash = await ipfsService.uploadJSONFileToIPFS(document);
-      res.status(200).json({ success: false, ipfsJSONHash: ipfsJSONHash });
+      if (ipfsJSONHash) {
+        const updatedObject = {
+          product_updatedAt: Date.now(),
+          nft_image: {
+            imageHash: ipfsNFTHash,
+            JSONHash: ipfsJSONHash,
+            fileType: fileType,
+          },
+          product_stepperStatus: true,
+        };
+        request.post(
+          process.env.SERVER_ROUTE,
+          { json: { productID: productID, productObject: updatedObject } },
+          (error, response, body) => {
+            if (error) {
+              console.log(error);
+              return res.status(400).json({ success: false, error: error });
+            }
+            return res.status(200).json({ success: true, data: body.data, ipfsJSONHash: ipfsJSONHash });
+          },
+        );
+      } else {
+        return res.status(400);
+      }
     } catch (error) {
       res.status(400).json({ success: false });
     }
