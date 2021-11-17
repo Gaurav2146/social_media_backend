@@ -22,7 +22,7 @@ const productsRepository = {
       }
     }),
 
-  getProducts: (skip = 0, limit = 10, search = '', filterType = '', collection) =>
+  getProducts: (skip = 0, limit = 10, search = '', filterType = '', collection , collectionName) =>
     new Promise(async (resolve, reject) => {
       try {
         if (filterType) {
@@ -188,7 +188,9 @@ const productsRepository = {
               }
             };
           }
-          let totalProducts = await Products.find(filter_for_document_count).countDocuments();
+          // let totalProducts = await Products.find(filter_for_document_count).countDocuments();
+          let totalProducts = await Products.aggregate(filter).skip(Number(skip));
+          let count_of_products = totalProducts.length;
           let productDetail = await Products.aggregate(filter).skip(Number(skip)).limit(Number(limit));
           console.log(productDetail, 'productDetail');
           let product = [];
@@ -200,7 +202,7 @@ const productsRepository = {
           }
           resolve({
             productDetail: product,
-            totalProducts: totalProducts
+            totalProducts: count_of_products
           });
         } else {
           let filter = {
