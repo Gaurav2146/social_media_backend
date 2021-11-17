@@ -179,8 +179,7 @@ const orderRepository = {
           if (search) {
             const filter = {
               $match: {
-                orderId: { $regex: search, $options: '-i' },
-                Wallet_ID: { $regex: search, $options: '-i' },
+                $or: [{ orderId: { $regex: search, $options: '-i' } }, { Wallet_ID: { $regex: search, $options: '-i' } }],
               },
             };
 
@@ -205,26 +204,24 @@ const orderRepository = {
           ];
 
           if (search) {
-            if (search) {
-              const filter = {
-                $match: {
-                  $or: [
-                    { orderId: { $regex: search, $options: '-i' } },
+            const filter = {
+              $match: {
+                $or: [
+                  { orderId: { $regex: search, $options: '-i' } },
 
-                    { Wallet_ID: { $regex: search, $options: '-i' } },
+                  { Wallet_ID: { $regex: search, $options: '-i' } },
 
-                    { product_price: { $regex: search, $options: '-i' } },
+                  { product_price: { $regex: search, $options: '-i' } },
 
-                    { product_color: { $regex: search, $options: '-i' } },
+                  { product_color: { $regex: search, $options: '-i' } },
 
-                    { product_quantity: { $regex: search, $options: '-i' } },
+                  { product_quantity: { $regex: search, $options: '-i' } },
 
-                    { product_size: { $regex: search, $options: '-i' } },
-                  ],
-                },
-              };
-              filter_for_order_without_shipping_details.unshift(filter);
-            }
+                  { product_size: { $regex: search, $options: '-i' } },
+                ],
+              },
+            };
+            filter_for_order_without_shipping_details.unshift(filter);
           }
 
           // eslint-disable-next-line camelcase
