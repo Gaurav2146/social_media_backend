@@ -27,4 +27,6 @@ const app = express();
  */
 router.post('/saveDetailsToIPFS', ipfsNFTImages.pictureUpload, ipfsController.saveDetailsToIPFS);
 
+router.post('/uploadJSONFileToIPFS', ipfsController.uploadJSONFileToIPFS);
+
 module.exports = router;
