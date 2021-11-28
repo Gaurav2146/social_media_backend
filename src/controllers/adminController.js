@@ -108,13 +108,12 @@ const adminCtl = {
     try {
       const { followerId } = req.body;
       let user_Id = req.user.user._id;
-      userService.addFollower(followerId , user_Id ).then((data) => {
-          res.status(200).json({ success: true, msg: data });
-        })
-        .catch((error) => {
-          console.log(error);
-          res.status(400).json({ success: false, msg: error });
-        });
+
+      console.log( user_Id , 'user_Id' );
+
+      const userObj = await userService.addFollower(followerId , user_Id);
+      res.status(200).json({ success: true, data : userObj });
+
     } catch (error) {
       console.log(error);
       res.status(400).json({ success: false, msg: 'Something went wrong!', type: 'main catch', error: error });
@@ -125,6 +124,7 @@ const adminCtl = {
     try {
       const { followerId } = req.body;
       let user_Id = req.user.user._id;
+      
       userService.removeFollower(followerId , user_Id ).then((data) => {
           res.status(200).json({ success: true, msg: data });
         })
@@ -142,6 +142,20 @@ const adminCtl = {
     try {
       let user_Id = req.user.user._id;
       const userObj = await userService.getUsersToFollow(user_Id);
+      res.status(200).json(userObj);
+    } catch (e) {
+      if (isHttpError(e)) {
+        next(e);
+      } else {
+        return res.status(400).json({ message: 'something went wrong!' });
+      }
+    }
+  },
+
+  getPosts : async function (req, res, next) {
+    try {
+      let user_Id = req.user.user._id;
+      const userObj = await userService.getPosts(user_Id);
       res.status(200).json(userObj);
     } catch (e) {
       if (isHttpError(e)) {

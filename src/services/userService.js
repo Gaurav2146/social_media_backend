@@ -146,6 +146,18 @@ class UserService {
     });
   }
 
+  getPosts(user_Id)
+  {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const detail = await this.userRepository.getPosts( user_Id );
+        resolve(detail);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
 }
 
 module.exports = UserService;

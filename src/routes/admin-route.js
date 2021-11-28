@@ -87,5 +87,14 @@ router.post('/removeFollower', auth , adminCtl.removeFollower);
 router.get('/getUsersToFollow', auth , adminCtl.getUsersToFollow);
 
 
+/**
+ * Get Posts
+ * @route GET  /users/getPosts
+ * @group Upload API - Endpoint to get Posts.
+ * @returns {object} 200 - On Success
+ * @returns {Error}  default - Unexpected error
+ */
+router.get('/getPosts', auth , adminCtl.getPosts);
+
 
 module.exports = router;

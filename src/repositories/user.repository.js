@@ -1,5 +1,6 @@
 const User = require('../model/user');
 const mongoose = require('mongoose');
+const Tweet = require('../model/tweet');
 
 const userRepository = {
   saveUser: (userObj) => {
@@ -66,6 +67,9 @@ const userRepository = {
   addFollower : ( followerId , user_Id ) => {
     return new Promise(async (resolve, reject) => {
       try {
+        console.log( '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6' );
+        console.log( followerId , 'followerId' , user_Id , 'user_Id'  );
+        console.log( '^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^6' );
         let user = await User.findByIdAndUpdate({ _id : user_Id } , { $push : { following  : followerId } });
         let following_user = await User.findByIdAndUpdate({ _id : followerId } , { $push : { followers  : user_Id } });
         resolve({user , following_user});
@@ -145,13 +149,48 @@ const userRepository = {
         ])
 
         resolve(users_to_follow);
-        
+
       } catch (error) {
         console.log(error);
         reject(error);
       }
     });
   },
+
+  getPosts : ( user_id ) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+      let userId = mongoose.Types.ObjectId(user_id)
+ 
+      let user = await User.findById({ _id : userId } , { following : 1 });    
+      let following = user.following;
+      following.push( userId );
+
+        let Tweets = await Tweet.aggregate([
+          {
+            $addFields: {
+              "isAllowed": {
+                $in: [
+                  "$user_Id",
+                  following
+                ]
+              }
+            },
+          },
+          {
+            "$match": {
+              isAllowed: true
+            }
+          }
+        ])
+        // console.log( Tweets , 'Tweets' );
+        resolve(Tweets);
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    });
+  }
  
 };
 
