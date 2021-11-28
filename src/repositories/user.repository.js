@@ -145,7 +145,7 @@ const userRepository = {
         ])
 
         resolve(users_to_follow);
-
+        
       } catch (error) {
         console.log(error);
         reject(error);
