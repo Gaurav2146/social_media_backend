@@ -166,6 +166,15 @@ const userRepository = {
       let following = user.following;
       following.push( userId );
 
+      for(let i=0 ; i < following.length ; i++ )
+      {
+        if(following[i])
+        {
+          following[i] = mongoose.Types.ObjectId(following[i]);
+        }
+        
+      }
+
         let Tweets = await Tweet.aggregate([
           {
             $addFields: {
