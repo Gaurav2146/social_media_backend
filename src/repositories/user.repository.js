@@ -181,7 +181,16 @@ const userRepository = {
             "$match": {
               isAllowed: true
             }
-          }
+          },
+          {
+            $lookup:
+              {
+                from: "users",
+                localField: "user_Id",
+                foreignField: "_id",
+                as: "user_detail"
+              }
+         }
         ])
         // console.log( Tweets , 'Tweets' );
         resolve(Tweets);
