@@ -1,4 +1,5 @@
 const User = require('../model/user');
+const mongoose = require('mongoose');
 
 const userRepository = {
   saveUser: (userObj) => {
@@ -104,10 +105,12 @@ const userRepository = {
       }
     });
   },
+
   getUsersToFollow : ( userId ) => {
     return new Promise(async (resolve, reject) => {
       try {
-      
+      let arr =  [ mongoose.Types.ObjectId(userId) ];
+
       let users_to_follow =  await  User.aggregate([
           {
             $addFields: {
@@ -120,8 +123,23 @@ const userRepository = {
             }
           },
           {
+            $addFields: {
+              "isHimseft": {
+                $in: [
+                  "$_id" ,
+                  arr
+                ]
+              }
+            }
+          },
+          {
             "$match": {
               isFollower: false
+            }
+          },
+          {
+            "$match": {
+              isHimseft: false
             }
           }
         ])

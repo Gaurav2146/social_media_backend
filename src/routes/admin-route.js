@@ -84,7 +84,7 @@ router.post('/removeFollower', auth , adminCtl.removeFollower);
  * @returns {object} 200 - On Success
  * @returns {Error}  default - Unexpected error
  */
-router.get('/getUsersToFollow', adminCtl.getUsersToFollow);
+router.get('/getUsersToFollow', auth , adminCtl.getUsersToFollow);
 
 
 
