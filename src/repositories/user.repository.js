@@ -1,11 +1,11 @@
-const Admin = require('../model/admin');
+const User = require('../model/user');
 
-const adminRepository = {
+const userRepository = {
   saveUser: (userObj) => {
     return new Promise(async (resolve, reject) => {
       try {
-        let admin = await Admin.create(userObj);
-        resolve(admin);
+        let user = await User.create(userObj);
+        resolve(user);
       } catch (error) {
         console.log(error);
         reject(error);
@@ -16,8 +16,8 @@ const adminRepository = {
   login: (userObj) => {
     return new Promise(async (resolve, reject) => {
       try {
-        let admin = await Admin.findOne(userObj, { password: 0 });
-        resolve(admin);
+        let user = await User.findOne(userObj, { password: 0 });
+        resolve(user);
       } catch (error) {
         console.log(error);
         reject(error);
@@ -25,23 +25,12 @@ const adminRepository = {
     });
   },
 
-  isAdminAvailable: () => {
-    return new Promise(async (resolve, reject) => {
-      try {
-        let admin = await Admin.find();
-        resolve(admin);
-      } catch (error) {
-        console.log(error);
-        reject(error);
-      }
-    });
-  },
 
   getAdminByEmail: (email) => {
     return new Promise(async (resolve, reject) => {
       try {
-        let admin = await Admin.findOne({ email: email });
-        resolve(admin);
+        let user = await User.findOne({ email: email });
+        resolve(user);
       } catch (error) {
         console.log(error);
         reject(error);
@@ -52,8 +41,8 @@ const adminRepository = {
   getAdmin: () => {
     return new Promise(async (resolve, reject) => {
       try {
-        let admin = await Admin.findOne({});
-        resolve(admin);
+        let user = await User.findOne({});
+        resolve(user);
       } catch (error) {
         console.log(error);
         reject(error);
@@ -64,14 +53,28 @@ const adminRepository = {
   updatePassword: (password) => {
     return new Promise(async (resolve, reject) => {
       try {
-        let admin = await Admin.findOneAndUpdate({ password: password });
-        resolve(admin);
+        let user = await User.findOneAndUpdate({ password: password });
+        resolve(user);
       } catch (error) {
         console.log(error);
         reject(error);
       }
     });
   },
+
+  addFollower : ( followerId , user_Id ) => {
+    return new Promise(async (resolve, reject) => {
+      try {
+        let user = await User.findByIdAndUpdate({ _id : user_Id } , { $push : { following  : followerId } });
+        let following_user = await User.findByIdAndUpdate({ _id : followerId } , { $push : { followers  : user_Id } });
+        resolve({user , following_user});
+      } catch (error) {
+        console.log(error);
+        reject(error);
+      }
+    });
+  },
+
 };
 
-module.exports = adminRepository;
+module.exports = userRepository;

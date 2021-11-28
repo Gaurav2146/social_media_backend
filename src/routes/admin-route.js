@@ -19,14 +19,6 @@ const auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256']
  */
 router.post('/registration', adminCtl.registration);
 
-/**
- * get users from database
- * @route GET /admin/isAdminAvailable
- * @group Upload API - Endpoints related to check initial setuo done or not
- * @returns {boolean} 200 - true or false
- * @returns {Error}  default - Unexpected error
- */
-router.get('/isAdminAvailable', adminCtl.isAdminAvailable);
 
 /**
  * login
@@ -35,7 +27,7 @@ router.get('/isAdminAvailable', adminCtl.isAdminAvailable);
  * @returns {object} 200 - On Successful Login
  * @returns {Error}  default - Unexpected error
  */
-router.post('/adminLogin', adminCtl.adminLogin);
+router.post('/login', adminCtl.adminLogin);
 
 /**
  * sendPasswordResetLink
@@ -63,5 +55,15 @@ router.get('/verifyPasswordResetLink', adminCtl.verifyPasswordResetLink);
  * @returns {Error}  default - Unexpected error
  */
 router.post('/resetPassword', adminCtl.resetPassword);
+
+
+/**
+ * addFollower
+ * @route POST  /user/addFollower
+ * @group Upload API - Endpoint to add Follower
+ * @returns {object} 200 - On Success
+ * @returns {Error}  default - Unexpected error
+ */
+router.post('/addFollower', auth , adminCtl.addFollower);
 
 module.exports = router;

@@ -6,14 +6,24 @@ const helmet = require('helmet');
 
 require('dotenv').config({ path: path.join(__dirname, '.env') });
 
+// app.use( bodyParser.json({limit: '50mb'}) );
+// app.use(bodyParser.urlencoded({
+//   limit: '50mb',
+//   extended: true,
+//   parameterLimit:50000
+// }));
+
+const app = express();
+
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb' , extended: true, parameterLimit:50000}));
+
 const { cors, errorHandler } = require('./middleware');
 
 // eslint-disable-next-line node/no-unpublished-require
 require('./src/db/connection');
 
 const indexRouter = require('./src/index');
-
-const app = express();
 
 // some middlewares for security concerns
 app.use(helmet());
@@ -28,6 +38,8 @@ cors(app);
 // if (process.env.NODE_ENV !== 'dev') {
 //   csrf(app);
 // }
+
+
 
 // set static path
 app.use(express.static(path.join(__dirname, 'public')));

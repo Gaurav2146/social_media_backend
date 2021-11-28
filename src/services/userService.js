@@ -1,12 +1,12 @@
 /* eslint-disable no-async-promise-executor */
 const jwt = require('jsonwebtoken');
-const adminRepository = require('../repositories/admin.repository');
+const userRepository = require('../repositories/user.repository');
 const crytojs = require('../lib/crypto');
 const mailer = require('../helper_services/mail.service');
 
-class AdminService {
+class UserService {
   constructor() {
-    this.adminRepository = adminRepository;
+    this.userRepository = userRepository;
   }
 
   register(obj) {
@@ -20,7 +20,7 @@ class AdminService {
         };
         const encrypt = crytojs.passencrypt(password.toString());
         userObj.password = encrypt;
-        const resp = await this.adminRepository.saveUser(userObj);
+        const resp = await this.userRepository.saveUser(userObj);
         resolve(resp);
       } catch (e) {
         reject(e);
@@ -28,23 +28,13 @@ class AdminService {
     });
   }
 
-  isAdminAvailable() {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const isAvailable = await this.adminRepository.isAdminAvailable();
-        resolve(isAvailable);
-      } catch (e) {
-        reject(e);
-      }
-    });
-  }
 
   adminLogin(obj) {
     return new Promise(async (resolve, reject) => {
       try {
         const { email, password } = obj;
         const encrypt = crytojs.passencrypt(password.toString());
-        const user = await this.adminRepository.getAdminByEmail(email);
+        const user = await this.userRepository.getAdminByEmail(email);
         if (encrypt === user.password) {
           jwt.sign({ user }, process.env.JWT_SECRET, { expiresIn: 60 * 60 * 24 }, async (err, token) => {
             if (err) {
@@ -66,7 +56,7 @@ class AdminService {
   sendPasswordResetLink() {
     return new Promise(async (resolve, reject) => {
       try {
-        const admin_detail = await this.adminRepository.getAdmin();
+        const admin_detail = await this.userRepository.getAdmin();
         console.log(admin_detail.email, ' admin_detail in case of forgot password ');
         let admin_jwt = jwt.sign({ email: admin_detail.email }, admin_detail.password, { expiresIn: 60 * 60 * 24 });
 
@@ -84,7 +74,7 @@ class AdminService {
   verifyPasswordResetLink(token) {
     return new Promise(async (resolve, reject) => {
       try {
-        const admin_detail = await this.adminRepository.getAdmin();
+        const admin_detail = await this.userRepository.getAdmin();
         let detail = jwt.verify(token, admin_detail.password);
         if (admin_detail.email === detail.email) {
           resolve('Verified Successfully');
@@ -101,11 +91,11 @@ class AdminService {
   resetPassword(jwt_token, password) {
     return new Promise(async (resolve, reject) => {
       try {
-        const admin_detail = await this.adminRepository.getAdmin();
+        const admin_detail = await this.userRepository.getAdmin();
         let detail = jwt.verify(jwt_token, admin_detail.password);
         if (admin_detail.email === detail.email) {
           let encrypted_password = crytojs.passencrypt(password.toString());
-          const detail = await this.adminRepository.updatePassword(encrypted_password);
+          const detail = await this.userRepository.updatePassword(encrypted_password);
           resolve(detail);
         } else {
           reject('Verification Failed');
@@ -115,6 +105,22 @@ class AdminService {
       }
     });
   }
+
+
+  
+
+   // eslint-disable-next-line camelcase
+   addFollower(followerId , user_Id ) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const detail = await this.userRepository.addFollower( followerId , user_Id );
+        resolve(detail);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
 }
 
-module.exports = AdminService;
+module.exports = UserService;

@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 const mongoose = require('mongoose');
 
-const AdminSchema = new mongoose.Schema({
+const UserSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
@@ -16,15 +16,13 @@ const AdminSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  email_verified: {
-    type: Boolean,
-    required: true,
-    default: false,
+  followers: {
+    type: Array,
+    default: [],
   },
-  status: {
-    type: String,
-    trim: true,
-    default: 'Inactive',
+  following: {
+    type: Array,
+    default: [],
   },
   createdAt: {
     type: Date,
@@ -32,6 +30,6 @@ const AdminSchema = new mongoose.Schema({
   },
 });
 
-const Admin = mongoose.model('Admin', AdminSchema);
+const User = mongoose.model('User', UserSchema);
 
-module.exports = Admin;
+module.exports = User;
