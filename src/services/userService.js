@@ -121,6 +121,31 @@ class UserService {
     });
   }
 
+   // eslint-disable-next-line camelcase
+   removeFollower(followerId , user_Id ) {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const detail = await this.userRepository.removeFollower( followerId , user_Id );
+        resolve(detail);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
+
+  getUsersToFollow(userId)
+  {
+    return new Promise(async (resolve, reject) => {
+      try {
+        const detail = await this.userRepository.getUsersToFollow( userId );
+        resolve(detail);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  }
+
 }
 
 module.exports = UserService;

@@ -66,4 +66,26 @@ router.post('/resetPassword', adminCtl.resetPassword);
  */
 router.post('/addFollower', auth , adminCtl.addFollower);
 
+
+/**
+ * addFollower
+ * @route POST  /user/addFollower
+ * @group Upload API - Endpoint to add Follower
+ * @returns {object} 200 - On Success
+ * @returns {Error}  default - Unexpected error
+ */
+router.post('/removeFollower', auth , adminCtl.removeFollower);
+
+
+/**
+ * Get Users To Follow
+ * @route GET  /users/getUsersToFollow
+ * @group Upload API - Endpoint to get Users To Follow.
+ * @returns {object} 200 - On Success
+ * @returns {Error}  default - Unexpected error
+ */
+router.get('/getUsersToFollow', adminCtl.getUsersToFollow);
+
+
+
 module.exports = router;

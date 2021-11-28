@@ -121,6 +121,37 @@ const adminCtl = {
     }
   },
 
+  removeFollower :  async function (req, res) {
+    try {
+      const { followerId } = req.body;
+      let user_Id = req.user.user._id;
+      userService.removeFollower(followerId , user_Id ).then((data) => {
+          res.status(200).json({ success: true, msg: data });
+        })
+        .catch((error) => {
+          console.log(error);
+          res.status(400).json({ success: false, msg: error });
+        });
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ success: false, msg: 'Something went wrong!', type: 'main catch', error: error });
+    }
+  },
+
+  getUsersToFollow : async function (req, res, next) {
+    try {
+      let user_Id = req.user.user._id;
+      const userObj = await userService.getUsersToFollow(user_Id);
+      res.status(200).json(userObj);
+    } catch (e) {
+      if (isHttpError(e)) {
+        next(e);
+      } else {
+        return res.status(400).json({ message: 'something went wrong!' });
+      }
+    }
+  },
+
 };
 
 module.exports = adminCtl;
