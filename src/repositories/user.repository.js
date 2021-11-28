@@ -199,6 +199,9 @@ const userRepository = {
                 foreignField: "_id",
                 as: "user_detail"
               }
+         },
+         {
+           $sort : { "createdAt" : -1  }
          }
         ])
         // console.log( Tweets , 'Tweets' );

@@ -2,7 +2,7 @@
 const express = require('express');
 const jwt = require('express-jwt');
 const router = express.Router();
-const adminCtl = require('../controllers/adminController');
+const userCtl = require('../controllers/userController');
 const app = express();
 
 const auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256'], userProperty: 'user' }), async (req, res, next) => {
@@ -17,7 +17,7 @@ const auth = app.use(jwt({ secret: process.env.JWT_SECRET, algorithms: ['HS256']
  * @returns {object} 200 - on successful registration
  * @returns {Error}  default - Unexpected error
  */
-router.post('/registration', adminCtl.registration);
+router.post('/registration', userCtl.registration);
 
 
 /**
@@ -27,7 +27,7 @@ router.post('/registration', adminCtl.registration);
  * @returns {object} 200 - On Successful Login
  * @returns {Error}  default - Unexpected error
  */
-router.post('/login', adminCtl.adminLogin);
+router.post('/login', userCtl.Login);
 
 /**
  * sendPasswordResetLink
@@ -36,7 +36,7 @@ router.post('/login', adminCtl.adminLogin);
  * @returns {object} 200 - On Success
  * @returns {Error}  default - Unexpected error
  */
-router.get('/sendPasswordResetLink', adminCtl.sendPasswordResetLink);
+router.get('/sendPasswordResetLink', userCtl.sendPasswordResetLink);
 
 /**
  * verifyPasswordResetLink
@@ -45,7 +45,7 @@ router.get('/sendPasswordResetLink', adminCtl.sendPasswordResetLink);
  * @returns {object} 200 - On Success
  * @returns {Error}  default - Unexpected error
  */
-router.get('/verifyPasswordResetLink', adminCtl.verifyPasswordResetLink);
+router.get('/verifyPasswordResetLink', userCtl.verifyPasswordResetLink);
 
 /**
  * resetPassword
@@ -54,7 +54,7 @@ router.get('/verifyPasswordResetLink', adminCtl.verifyPasswordResetLink);
  * @returns {object} 200 - On Success
  * @returns {Error}  default - Unexpected error
  */
-router.post('/resetPassword', adminCtl.resetPassword);
+router.post('/resetPassword', userCtl.resetPassword);
 
 
 /**
@@ -64,17 +64,17 @@ router.post('/resetPassword', adminCtl.resetPassword);
  * @returns {object} 200 - On Success
  * @returns {Error}  default - Unexpected error
  */
-router.post('/addFollower', auth , adminCtl.addFollower);
+router.post('/addFollower', auth , userCtl.addFollower);
 
 
 /**
  * addFollower
- * @route POST  /user/addFollower
- * @group Upload API - Endpoint to add Follower
+ * @route POST  /user/removeFollower
+ * @group Upload API - Endpoint to remove Follower
  * @returns {object} 200 - On Success
  * @returns {Error}  default - Unexpected error
  */
-router.post('/removeFollower', auth , adminCtl.removeFollower);
+router.post('/removeFollower', auth , userCtl.removeFollower);
 
 
 /**
@@ -84,7 +84,7 @@ router.post('/removeFollower', auth , adminCtl.removeFollower);
  * @returns {object} 200 - On Success
  * @returns {Error}  default - Unexpected error
  */
-router.get('/getUsersToFollow', auth , adminCtl.getUsersToFollow);
+router.get('/getUsersToFollow', auth , userCtl.getUsersToFollow);
 
 
 /**
@@ -94,7 +94,7 @@ router.get('/getUsersToFollow', auth , adminCtl.getUsersToFollow);
  * @returns {object} 200 - On Success
  * @returns {Error}  default - Unexpected error
  */
-router.get('/getPosts', auth , adminCtl.getPosts);
+router.get('/getPosts', auth , userCtl.getPosts);
 
 
 module.exports = router;

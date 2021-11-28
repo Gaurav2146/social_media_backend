@@ -4,7 +4,7 @@ const UserService = require('../services/userService');
 
 const userService = new UserService();
 
-const adminCtl = {
+const userCtl = {
   // eslint-disable-next-line consistent-return
   registration: async function (req, res, next) {
     try {
@@ -31,7 +31,7 @@ const adminCtl = {
   },
 
 
-  adminLogin: async function (req, res) {
+  Login: async function (req, res) {
     try {
       // eslint-disable-next-line prefer-const
       let { email, password } = req.body;
@@ -168,4 +168,4 @@ const adminCtl = {
 
 };
 
-module.exports = adminCtl;
+module.exports = userCtl;
